@@ -1,6 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 const Gallery = () => {
@@ -10,32 +11,28 @@ const Gallery = () => {
       id: 1,
       title: "Salon d'extérieur",
       category: 'Extérieur',
-      image:
-        'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80',
+      image: '/images/IMG-20251201-WA0005.jpg',
       span: 'lg:col-span-2 lg:row-span-2',
     },
     {
       id: 2,
       title: 'Table basse géométrique',
       category: 'Tables',
-      image:
-        'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80',
+      image: '/images/IMG-20251201-WA0016.jpg',
       span: 'lg:col-span-1 lg:row-span-1',
     },
     {
       id: 3,
       title: 'Jardinière à étages',
       category: 'Jardin',
-      image:
-        'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80',
+      image: '/images/IMG-20251201-WA0009.jpg',
       span: 'lg:col-span-1 lg:row-span-1',
     },
     {
       id: 4,
       title: 'Meuble TV rustique',
       category: 'Intérieur',
-      image:
-        'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80',
+      image: '/images/IMG-20251201-WA0013.jpg',
       span: 'lg:col-span-1 lg:row-span-2',
     },
     {
@@ -59,7 +56,7 @@ const Gallery = () => {
           <Badge variant={'highlight'} size="lg" className="mb-4">
             Nos Créations
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             Galerie de Réalisations
           </h2>
           <p className="text-lg text-muted-foreground">
@@ -80,7 +77,7 @@ const Gallery = () => {
                 alt={item.title}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute inset-0 bg-linear-to-t from-primary/80 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                 <span className="inline-block px-3 py-1 bg-highlight text-highlight-foreground text-xs font-semibold rounded-full mb-2">
                   {item.category}

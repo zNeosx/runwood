@@ -27,7 +27,7 @@ const Navigation = () => {
   const navLinks = [
     { name: 'Accueil', href: '/' },
     { name: 'Galerie', href: '/galerie' },
-    { name: 'Vidéos', href: '/videos' },
+    { name: 'Mon Livre', href: '/ebook' },
     { name: 'Contact', href: '/contact' },
   ];
 
@@ -54,8 +54,7 @@ const Navigation = () => {
                 key={link.name}
                 href={link.href}
                 className={cn(
-                  'text-white hover:text-accent transition-colors duration-200 font-medium',
-                  scrolled && 'text-foreground'
+                  'text-white hover:text-highlight transition-colors duration-200 font-medium'
                 )}
               >
                 {link.name}

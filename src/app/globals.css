@@ -49,40 +49,46 @@
   --radius: 0.75rem;
 
   /* Core palette */
-  --background: oklch(0.983 0.014 95.3);
-  --foreground: oklch(0.356 0.042 53.7);
+  /* --background: oklch(0.983 0.014 95.3); */
+  /* --background: oklch(0.2035 0.0101 67.21); */
+  --background: oklch(19.125% 0.00002 271.152);
+  --foreground: oklch(0.9588 0.0127 86.83);
 
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.356 0.042 53.7);
+  --card: oklch(0.2647 0.022 78.8);
+  --card-foreground: oklch(0.9588 0.0127 86.83);
 
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.356 0.042 53.7);
+  --popover: oklch(0.22 0.018 48);
+  --popover-foreground: oklch(0.9588 0.0127 86.83);
 
-  --primary: oklch(0.492 0.044 53.7);
-  --primary-foreground: oklch(0.983 0.014 95.3);
+  --primary: oklch(49.055% 0.04419 53.569);
+  /* --primary: oklch(0.5595 0.0662 75.61); */
+  --primary-foreground: oklch(0.9588 0.0127 86.83);
 
-  --secondary: oklch(0.915 0.022 81.5);
-  --secondary-foreground: oklch(0.492 0.044 53.7);
+  --secondary: oklch(0.3254 0.0257 69.17);
+  --secondary-foreground: oklch(0.73 0.0348 74.67);
 
-  --muted: oklch(0.956 0.014 95.3);
-  --muted-foreground: oklch(0.552 0.028 53.9);
+  --muted: oklch(0.22 0.018 48);
+  /* --muted-foreground: oklch(0.73 0.0348 74.67); */
+  /* --muted-foreground: oklch(86.105% 0.02547 81.083); */
+  --muted-foreground: oklch(86.105% 0.02547 81.083);
 
   /* Accent olive */
-  --accent: oklch(0.672 0.071 132);
-  --accent-foreground: oklch(0.983 0.014 95.3);
+  --accent: oklch(0.5441 0.0756 135.64);
+  --accent-foreground: oklch(0.9588 0.0127 86.83);
 
   /* Highlight mustard */
   --highlight: oklch(0.81 0.171 89.4);
-  --highlight-foreground: oklch(0.356 0.042 53.7);
+  /* --highlight: oklch(0.7541 0.0853 67.1); */
+  --highlight-foreground: oklch(0.15 0.012 40);
 
   /* Destructive */
-  --destructive: oklch(0.637 0.237 28.6);
-  --destructive-foreground: oklch(0.983 0.014 95.3);
+  --destructive: oklch(0.6532 0.1016 43.6);
+  --destructive-foreground: oklch(0.9588 0.0127 86.83);
 
   /* UI tokens */
-  --border: oklch(0.905 0.016 81.5);
-  --input: oklch(0.945 0.011 81.5);
-  --ring: oklch(0.492 0.044 53.7);
+  --border: oklch(0.25 0.02 50);
+  --input: oklch(0.22 0.018 48);
+  --ring: oklch(0.54 0.07 65);
 
   /* Wood tones */
   --wood-light: oklch(0.755 0.074 78.2);

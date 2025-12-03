@@ -1,10 +1,19 @@
 import { Button } from '@/components/ui/button';
+import { sanityFetch } from '@/sanity/lib/live';
 import { ArrowRight, PlayCircle } from 'lucide-react';
-import Image from 'next/image';
+import { groq } from 'next-sanity';
 import Link from 'next/link';
-import React from 'react';
+import type { Hero as HeroType } from '../../../sanity.types';
 
-const Hero = () => {
+const HERO_QUERY = groq`*[_type == "hero"][0]{ _id, title, description, image }`;
+
+const Hero = async () => {
+  const { data } = await sanityFetch({
+    query: HERO_QUERY,
+  });
+
+  const heroData = data as HeroType;
+  console.log('hero', heroData);
   return (
     <section
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
@@ -12,24 +21,32 @@ const Hero = () => {
     >
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
-        <Image
-          src={'/images/hero-workshop.jpg'}
+        {/* <Image
+          src={urlFor(heroData.image as SanityImageSource).url()}
           alt="Atelier RunWood"
           className="w-full h-full object-cover"
           fill
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/60 via-primary/50 to-primary/70" />
+        /> */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-contain"
+        >
+          <source src={'/videos/VID-20251201-WA0001.mp4'} type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-background/20" />
       </div>
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 py-32 text-center">
         <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
-          <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight text-balance">
-            Transformez le Bois en Œuvres Uniques
+          <h1 className="text-5xl md:text-7xl font-bold text-foreground leading-tight text-balance">
+            {heroData.title}
           </h1>
-          <p className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto text-balance">
-            Meubles artisanaux créés à la main à partir de palettes recyclées.
-            Authenticité, durabilité et savoir-faire français.
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto text-balance">
+            {heroData.description}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
             <Button

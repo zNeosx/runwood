@@ -1,3 +1,4 @@
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Hammer, Leaf, Heart } from 'lucide-react';
 import Image from 'next/image';
@@ -24,7 +25,7 @@ const About = () => {
   ];
 
   return (
-    <section className="py-24 bg-muted">
+    <section className="py-24">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Image */}
@@ -39,10 +40,10 @@ const About = () => {
 
           {/* Content */}
           <div className="space-y-6 animate-fade-in">
-            <div className="inline-block px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-semibold">
+            <Badge variant={'accent'} size={'lg'}>
               À Propos
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-primary">
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground">
               L&apos;Art du Bois Recyclé
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
@@ -56,11 +57,11 @@ const About = () => {
             <div className="grid gap-6 pt-4">
               {values.map((value) => (
                 <div key={value.title} className="flex gap-4 items-start group">
-                  <div className="shrink-0 w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
-                    <value.icon className="w-6 h-6 text-accent" />
+                  <div className="shrink-0 w-12 h-12 rounded-xl bg-accent/70 flex items-center justify-center group-hover:bg-accent/80 transition-colors">
+                    <value.icon className="w-6 h-6 text-foreground" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg text-primary mb-1">
+                    <h3 className="font-semibold text-lg text-foreground mb-1">
                       {value.title}
                     </h3>
                     <p className="text-muted-foreground">{value.description}</p>
