@@ -3,10 +3,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { stripe } from '@/lib/stripe';
 import { Home } from 'lucide-react';
-import { SearchParams } from 'next/dist/server/request/search-params';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import Stripe from 'stripe';
+
+type SearchParams = Promise<{ session_id?: string }>;
 
 export default async function Success({
   searchParams,
