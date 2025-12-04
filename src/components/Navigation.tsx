@@ -11,9 +11,11 @@ import {
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,10 +43,21 @@ const Navigation = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
+          {/* <Link href="/" className="flex items-center space-x-2">
             <div className="text-2xl font-bold text-primary">
               Run<span className="text-accent">Wood</span>
             </div>
+          </Link> */}
+          <Link
+            href="/"
+            className="relative flex items-center space-x-2 size-20"
+          >
+            <Image
+              src="/images/logo.png"
+              alt="logo"
+              fill
+              className="object-cover"
+            />
           </Link>
 
           {/* Desktop Navigation */}
@@ -66,7 +79,7 @@ const Navigation = () => {
           </div>
 
           {/* Mobile Navigation */}
-          <Sheet>
+          <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild className="md:hidden">
               <Button variant="ghost" size="icon">
                 <Menu className="h-6 w-6" />
@@ -79,13 +92,16 @@ const Navigation = () => {
                   <Link
                     key={link.name}
                     href={link.href}
+                    onClick={() => setOpen(false)}
                     className="text-lg font-medium text-foreground hover:text-accent transition-colors"
                   >
                     {link.name}
                   </Link>
                 ))}
                 <Button variant="default" asChild className="mt-4">
-                  <Link href="/contact">Devis Gratuit</Link>
+                  <Link href="/contact" onClick={() => setOpen(false)}>
+                    Devis Gratuit
+                  </Link>
                 </Button>
               </div>
             </SheetContent>

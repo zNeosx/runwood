@@ -17,7 +17,7 @@ const EbookPage = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="py-6 px-4 border-b border-border/50">
+      <header className="py-4 px-4 border-b border-border/50">
         <div className="container mx-auto">
           <Link
             href="/"
@@ -30,7 +30,7 @@ const EbookPage = () => {
       </header>
 
       {/* Main Content */}
-      <section className="py-24 relative overflow-hidden">
+      <section className="py-16 relative overflow-hidden">
         {/* Decorative Elements */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-highlight/10 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
@@ -102,7 +102,7 @@ const EbookPage = () => {
 
             {/* Image */}
             <div className="relative animate-scale-in flex items-center justify-center">
-              <div className="relative z-10 hover-lift w-full aspect-[4/5] max-w-md lg:max-w-lg rounded-2xl">
+              <div className="relative z-10 hover-lift w-full aspect-4/5 max-w-md lg:max-w-lg rounded-2xl">
                 <Image
                   src={'/images/ebook.jpg'}
                   alt="E-book RunWood"

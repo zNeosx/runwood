@@ -1,19 +1,19 @@
 import { Button } from '@/components/ui/button';
-import { sanityFetch } from '@/sanity/lib/live';
 import { ArrowRight, PlayCircle } from 'lucide-react';
 import { groq } from 'next-sanity';
 import Link from 'next/link';
 import type { Hero as HeroType } from '../../../sanity.types';
+import { sanityFetch } from '@/sanity/lib/fetch';
 
-const HERO_QUERY = groq`*[_type == "hero"][0]{ _id, title, description, image }`;
+const HERO_QUERY = groq`*[_type == "hero"][0]{ title, description }`;
 
 const Hero = async () => {
-  const { data } = await sanityFetch({
+  const heroData: HeroType = await sanityFetch({
     query: HERO_QUERY,
+    tags: ['hero'],
+    revalidate: 3600,
   });
 
-  const heroData = data as HeroType;
-  console.log('hero', heroData);
   return (
     <section
       className="relative min-h-screen flex items-center justify-center overflow-hidden"

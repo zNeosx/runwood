@@ -86,9 +86,7 @@ const Galerie = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navigation />
-
-      <main className="flex-1 pt-20">
+      <main className="flex-1">
         {/* Header */}
         <section className="py-16">
           <div className="container mx-auto px-4">
