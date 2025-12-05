@@ -2,6 +2,13 @@ import type { Photo } from 'react-photo-album';
 
 const breakpoints = [1080, 640, 384, 256, 128, 96, 64, 48];
 
+export const NAV_LINKS = [
+  { name: 'Accueil', href: '/' },
+  { name: 'Galerie', href: '/galerie' },
+  { name: 'Mon Livre', href: '/ebook' },
+  { name: 'Contact', href: '/contact' },
+];
+
 function imageLink(
   path: string,
   width: number,

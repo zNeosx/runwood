@@ -39,7 +39,7 @@ const Testimonials = () => {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16 animate-fade-in">
-          <Badge variant={'accent'} size="lg" className="mb-4">
+          <Badge variant={'primaryLight'} size="lg" className="mb-4">
             Témoignages
           </Badge>
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">

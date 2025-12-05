@@ -1,46 +1,102 @@
+import { MasonryGrid } from '@/components/masonry';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 
 const Gallery = () => {
   // Placeholder gallery items - will be replaced with actual images
+  // const galleryItems = [
+  //   {
+  //     id: 1,
+  //     title: "Salon d'extérieur",
+  //     category: 'Extérieur',
+  //     image: '/images/IMG-20251201-WA0005.jpg',
+  //     span: 'lg:col-span-2 lg:row-span-2',
+  //   },
+  //   {
+  //     id: 2,
+  //     title: 'Table basse géométrique',
+  //     category: 'Tables',
+  //     image: '/images/IMG-20251201-WA0016.jpg',
+  //     span: 'lg:col-span-1 lg:row-span-1',
+  //   },
+  //   {
+  //     id: 3,
+  //     title: 'Jardinière à étages',
+  //     category: 'Jardin',
+  //     image: '/images/IMG-20251201-WA0009.jpg',
+  //     span: 'lg:col-span-1 lg:row-span-1',
+  //   },
+  //   {
+  //     id: 4,
+  //     title: 'Meuble TV rustique',
+  //     category: 'Intérieur',
+  //     image: '/images/IMG-20251201-WA0013.jpg',
+  //     span: 'lg:col-span-1 lg:row-span-2',
+  //   },
+  //   {
+  //     id: 5,
+  //     title: "Banc d'entrée",
+  //     category: 'Mobilier',
+  //     image:
+  //       'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=800&q=80',
+  //     span: 'lg:col-span-2 lg:row-span-1',
+  //   },
+  // ];
   const galleryItems = [
     {
-      id: 1,
+      id: '1',
       title: "Salon d'extérieur",
       category: 'Extérieur',
-      image: '/images/IMG-20251201-WA0005.jpg',
+      src: '/images/IMG-20251205-WA0002.jpg',
+      url: '#',
+      height: 300,
       span: 'lg:col-span-2 lg:row-span-2',
     },
     {
-      id: 2,
+      id: '2',
       title: 'Table basse géométrique',
       category: 'Tables',
-      image: '/images/IMG-20251201-WA0016.jpg',
+      src: '/images/IMG-20251201-WA0016.jpg',
+      url: '#',
+      height: 600,
       span: 'lg:col-span-1 lg:row-span-1',
     },
     {
-      id: 3,
+      id: '3',
       title: 'Jardinière à étages',
       category: 'Jardin',
-      image: '/images/IMG-20251201-WA0009.jpg',
+      src: '/images/IMG-20251205-WA0004.jpg',
+      url: '#',
+      height: 250,
       span: 'lg:col-span-1 lg:row-span-1',
     },
     {
-      id: 4,
+      id: '4',
       title: 'Meuble TV rustique',
       category: 'Intérieur',
-      image: '/images/IMG-20251201-WA0013.jpg',
+      src: '/images/IMG-20251201-WA0013.jpg',
+      url: '#',
+      height: 300,
       span: 'lg:col-span-1 lg:row-span-2',
     },
     {
-      id: 5,
+      id: '5',
       title: "Banc d'entrée",
       category: 'Mobilier',
-      image:
-        'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=800&q=80',
+      src: '/images/IMG-20251205-WA0003.jpg',
+      url: '#',
+      height: 400,
+      span: 'lg:col-span-2 lg:row-span-1',
+    },
+    {
+      id: '6',
+      title: "Banc d'entrée",
+      category: 'Mobilier',
+      src: '/images/IMG-20251201-WA0009.jpg',
+      url: '#',
+      height: 400,
       span: 'lg:col-span-2 lg:row-span-1',
     },
   ];
@@ -66,7 +122,7 @@ const Gallery = () => {
         </div>
 
         {/* Masonry Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-12 animate-slide-up">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-12 animate-slide-up">
           {galleryItems.map((item) => (
             <div
               key={item.id}
@@ -86,7 +142,8 @@ const Gallery = () => {
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
+        <MasonryGrid items={galleryItems} />
 
         {/* CTA */}
         <div className="text-center">

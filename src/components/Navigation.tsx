@@ -12,8 +12,12 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import Logo from './logo';
+import { NAV_LINKS } from '@/constants';
 
 const Navigation = () => {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -26,21 +30,14 @@ const Navigation = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'Accueil', href: '/' },
-    { name: 'Galerie', href: '/galerie' },
-    { name: 'Mon Livre', href: '/ebook' },
-    { name: 'Contact', href: '/contact' },
-  ];
-
   return (
     <nav
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 bg-transparent border-transparent transition-all duration-300',
-        scrolled && 'bg-background/95 backdrop-blur-sm border-b border-border '
+        'fixed top-0 left-0 right-0 z-50 bg-transparent border-transparent transition-all duration-100',
+        scrolled && 'bg-background/70 backdrop-blur-sm border-b border-border '
       )}
     >
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-2">
         <div className="flex items-center justify-between">
           {/* Logo */}
           {/* <Link href="/" className="flex items-center space-x-2">
@@ -48,31 +45,25 @@ const Navigation = () => {
               Run<span className="text-accent">Wood</span>
             </div>
           </Link> */}
-          <Link
-            href="/"
-            className="relative flex items-center space-x-2 size-20"
-          >
-            <Image
-              src="/images/logo.png"
-              alt="logo"
-              fill
-              className="object-cover"
-            />
-          </Link>
+          <Logo />
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={cn(
-                  'text-white hover:text-highlight transition-colors duration-200 font-medium'
-                )}
-              >
-                {link.name}
-              </Link>
-            ))}
+            {NAV_LINKS.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={cn(
+                    'text-foreground hover:text-highlight transition-colors duration-200 font-medium',
+                    isActive && 'text-highlight font-semibold'
+                  )}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
             <Button variant="default" asChild>
               <Link href="/contact">Devis Gratuit</Link>
             </Button>
@@ -88,16 +79,23 @@ const Navigation = () => {
             <SheetContent>
               <SheetTitle className="sr-only">Navigation</SheetTitle>
               <div className="flex flex-col space-y-4 mt-8 p-4">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    onClick={() => setOpen(false)}
-                    className="text-lg font-medium text-foreground hover:text-accent transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                ))}
+                {NAV_LINKS.map((link) => {
+                  const isActive = pathname === link.href;
+
+                  return (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      onClick={() => setOpen(false)}
+                      className={cn(
+                        'text-lg font-medium text-foreground hover:text-accent transition-colors',
+                        isActive && 'text-highlight font-semibold'
+                      )}
+                    >
+                      {link.name}
+                    </Link>
+                  );
+                })}
                 <Button variant="default" asChild className="mt-4">
                   <Link href="/contact" onClick={() => setOpen(false)}>
                     Devis Gratuit

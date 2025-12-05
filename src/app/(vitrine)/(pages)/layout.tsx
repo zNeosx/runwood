@@ -3,5 +3,5 @@ export default function OtherPagesLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className="pt-16">{children}</div>;
+  return <div className="pt-24">{children}</div>;
 }

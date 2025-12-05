@@ -1,9 +1,9 @@
-import { Button } from '@/components/ui/button';
-import { ArrowRight, PlayCircle } from 'lucide-react';
+import { buttonVariants } from '@/components/ui/button';
+import { sanityFetch } from '@/sanity/lib/fetch';
+import { ArrowRight, BookOpen } from 'lucide-react';
 import { groq } from 'next-sanity';
 import Link from 'next/link';
 import type { Hero as HeroType } from '../../../sanity.types';
-import { sanityFetch } from '@/sanity/lib/fetch';
 
 const HERO_QUERY = groq`*[_type == "hero"][0]{ title, description }`;
 
@@ -36,7 +36,7 @@ const Hero = async () => {
         >
           <source src={'/videos/VID-20251201-WA0001.mp4'} type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-background/20" />
+        <div className="absolute inset-0 bg-background/30" />
       </div>
 
       {/* Content */}
@@ -45,11 +45,11 @@ const Hero = async () => {
           <h1 className="text-5xl md:text-7xl font-bold text-foreground leading-tight text-balance">
             {heroData.title}
           </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto text-balance">
+          <p className="text-xl md:text-2xl text-foreground max-w-2xl mx-auto text-balance">
             {heroData.description}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
-            <Button
+            {/* <Button
               size="xl"
               variant="default"
               // className="bg-white text-primary hover:bg-white/90 text-lg px-8 py-6 h-auto"
@@ -57,20 +57,27 @@ const Hero = async () => {
             >
               <Link href="/galerie">
                 Voir les Créations
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-            <Button
-              size="xl"
-              variant="outline"
-              // className="border-2 border-white text-white hover:bg-white hover:text-primary text-lg px-8 py-6 h-auto"
-              asChild
+                </Link>
+                </Button> */}
+            <Link
+              href={'/galerie'}
+              className={buttonVariants({
+                size: 'lg',
+              })}
             >
-              <Link href="/videos">
-                <PlayCircle className="mr-2 h-5 w-5" />
-                Apprendre à Fabriquer
-              </Link>
-            </Button>
+              Voir les créations
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+            <Link
+              href={'/galerie'}
+              className={buttonVariants({
+                variant: 'outline',
+                size: 'lg',
+              })}
+            >
+              <BookOpen className="mr-2 h-5 w-5" />
+              Apprendre à fabriquer
+            </Link>
           </div>
         </div>
 

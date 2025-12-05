@@ -13,6 +13,19 @@
  */
 
 // Source: schema.json
+export type Settings = {
+  _id: string;
+  _type: "settings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  instagram?: string;
+  tiktok?: string;
+};
+
 export type Hero = {
   _id: string;
   _type: "hero";
@@ -153,5 +166,20 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = Hero | SanityImageCrop | SanityImageHotspot | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint | Slug;
+export type AllSanitySchemaTypes = Settings | Hero | SanityImageCrop | SanityImageHotspot | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
+// Source: ./src/app/_components/Hero.tsx
+// Variable: HERO_QUERY
+// Query: *[_type == "hero"][0]{ title, description }
+export type HERO_QUERYResult = {
+  title: string | null;
+  description: string | null;
+} | null;
+
+// Query TypeMap
+import "@sanity/client";
+declare module "@sanity/client" {
+  interface SanityQueries {
+    "*[_type == \"hero\"][0]{ title, description }": HERO_QUERYResult;
+  }
+}

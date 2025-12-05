@@ -52,7 +52,10 @@ const Ebook = () => {
                 {featuresLeft.map((feature) => (
                   <div key={feature} className="flex items-start gap-3">
                     <div className="shrink-0 w-6 h-6 rounded-full bg-highlight flex items-center justify-center mt-0.5">
-                      <Check className="w-4 h-4 text-primary" strokeWidth={3} />
+                      <Check
+                        className="w-4 h-4 text-background"
+                        strokeWidth={3}
+                      />
                     </div>
                     <p className="text-muted-foreground">{feature}</p>
                   </div>
@@ -62,7 +65,10 @@ const Ebook = () => {
                 {featuresRight.map((feature) => (
                   <div key={feature} className="flex items-start gap-3">
                     <div className="shrink-0 w-6 h-6 rounded-full bg-highlight flex items-center justify-center mt-0.5">
-                      <Check className="w-4 h-4 text-primary" strokeWidth={3} />
+                      <Check
+                        className="w-4 h-4 text-background"
+                        strokeWidth={3}
+                      />
                     </div>
                     <p className="text-muted-foreground">{feature}</p>
                   </div>
@@ -93,11 +99,11 @@ const Ebook = () => {
 
           {/* Image */}
           <div className="relative animate-scale-in flex items-center justify-center">
-            <div className="relative z-10 hover-lift w-full aspect-[4/5] max-w-md lg:max-w-lg">
+            <div className="relative z-10 hover-lift w-full aspect-4/5 max-w-md lg:max-w-lg">
               <Image
-                src={'/images/ebook-mockup.jpg'}
+                src={'/images/ebook-2.jpg'}
                 alt="E-book RunWood"
-                className="rounded-2xl shadow-strong object-contain"
+                className="rounded-2xl shadow-strong object-cover"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />

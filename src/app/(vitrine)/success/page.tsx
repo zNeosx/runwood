@@ -1,5 +1,6 @@
+import DownloadEbookBtn from '@/components/download-ebook-btn';
 import ConfettiLottie from '@/components/lottie/confetti.lottie';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { stripe } from '@/lib/stripe';
 import { Home } from 'lucide-react';
@@ -44,13 +45,6 @@ export default async function Success({
     const product = lineItem?.price?.product as Stripe.Product;
     return (
       <section id="success" className="min-h-screen h-screen flex flex-col">
-        <div className="text-center pt-4">
-          <Link href="/">
-            <div className="text-5xl font-bold text-primary">
-              Run<span className="text-accent">Wood</span>
-            </div>
-          </Link>
-        </div>
         <div className="grow flex flex-col items-center justify-center">
           <div className="p-6">
             <div className="size-24 mx-auto">
@@ -88,18 +82,18 @@ export default async function Success({
                 </div>
               </CardContent>
             </Card>
-            <div className="flex items-center justify-center mt-6">
-              <Button
-                variant="outline"
-                size="lg"
-                asChild
-                className="border-border text-foreground hover:bg-muted"
+            <div className="flex items-center justify-center gap-4 mt-6">
+              <DownloadEbookBtn />
+              <Link
+                href="/"
+                className={buttonVariants({
+                  variant: 'outline',
+                  size: 'lg',
+                })}
               >
-                <Link href="/">
-                  <Home className="mr-2 h-5 w-5" />
-                  Retour à l&apos;accueil
-                </Link>
-              </Button>
+                <Home className="mr-2 h-5 w-5" />
+                Retour à l&apos;accueil
+              </Link>
             </div>
             <p className="mt-8 text-sm text-muted-foreground text-center">
               Un problème ? Contactez-nous à{' '}

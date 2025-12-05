@@ -142,7 +142,7 @@ const Galerie = () => {
                     {/* <span className="inline-block px-3 py-1 bg-accent/10 text-accent text-xs font-semibold rounded-full">
                       {item.category}
                     </span> */}
-                    <Badge variant={'accentLight'}>{item.category}</Badge>
+                    <Badge variant={'primaryLight'}>{item.category}</Badge>
                     <h3 className="text-xl font-bold group-hover:text-highlight transition-colors">
                       {item.title}
                     </h3>

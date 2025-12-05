@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Hammer, Leaf, Heart } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -31,16 +31,16 @@ const About = () => {
           {/* Image */}
           <div className="relative aspect-square rounded-2xl overflow-hidden shadow-strong">
             <Image
-              src="/images/about-craftsman.jpg"
+              src="/images/IMG-20251201-WA0012.jpg"
               alt="Artisan au travail"
               fill
-              className="object-cover hover-lift"
+              className="object-cover object-top hover-lift"
             />
           </div>
 
           {/* Content */}
           <div className="space-y-6 animate-fade-in">
-            <Badge variant={'accent'} size={'lg'}>
+            <Badge variant={'primaryLight'} size={'lg'}>
               À Propos
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold text-foreground">
@@ -57,7 +57,7 @@ const About = () => {
             <div className="grid gap-6 pt-4">
               {values.map((value) => (
                 <div key={value.title} className="flex gap-4 items-start group">
-                  <div className="shrink-0 w-12 h-12 rounded-xl bg-accent/70 flex items-center justify-center group-hover:bg-accent/80 transition-colors">
+                  <div className="shrink-0 w-12 h-12 rounded-xl bg-primary/60 flex items-center justify-center group-hover:bg-primary transition-colors">
                     <value.icon className="w-6 h-6 text-foreground" />
                   </div>
                   <div>
@@ -70,9 +70,15 @@ const About = () => {
               ))}
             </div>
 
-            <Button size="lg" variant="default" asChild className="mt-4">
-              <Link href="/contact">En Savoir Plus</Link>
-            </Button>
+            <Link
+              href={'/contact'}
+              className={buttonVariants({
+                size: 'lg',
+                className: 'mt-4',
+              })}
+            >
+              En Savoir Plus
+            </Link>
           </div>
         </div>
       </div>
