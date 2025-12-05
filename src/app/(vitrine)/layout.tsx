@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import '@/app/globals.css';
 import { SanityLive } from '@/sanity/lib/live';
 import Navigation from '@/components/Navigation';
+import Footer from '../_components/Footer';
+import { Toaster } from '@/components/ui/sonner';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -30,7 +32,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Navigation />
-        <div>{children}</div>
+        <main>{children}</main>
+        <Footer />
+        <Toaster />
         <SanityLive />
       </body>
     </html>

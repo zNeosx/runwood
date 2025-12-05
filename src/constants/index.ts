@@ -75,3 +75,12 @@ const photos = [
 });
 
 export default photos;
+
+export const BREADCRUMB_LABELS: Record<string, string> = {
+  galerie: 'Galerie',
+  contact: 'Contact',
+  about: 'À propos',
+  ebook: 'E-book',
+  success: 'Confirmation',
+  cancel: 'Annulé',
+};

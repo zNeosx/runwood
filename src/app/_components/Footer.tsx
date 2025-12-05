@@ -1,22 +1,15 @@
-import { getSettings } from '@/sanity/queries';
-import {
-  Facebook,
-  Instagram,
-  Mail,
-  MapPin,
-  Phone,
-  Youtube,
-} from 'lucide-react';
-import Link from 'next/link';
-import { TiktokIcon } from '../../components/icons/socials/tiktok.icon';
 import Logo from '@/components/logo';
 import { NAV_LINKS } from '@/constants';
+import { getSettings } from '@/sanity/queries';
+import { Instagram, Mail, MapPin, Phone } from 'lucide-react';
+import Link from 'next/link';
+import { TiktokIcon } from '../../components/icons/socials/tiktok.icon';
 
 const Footer = async () => {
   const settings = await getSettings();
   return (
     <footer>
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-8">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
           <div className="space-y-4">

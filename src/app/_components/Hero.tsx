@@ -32,11 +32,13 @@ const Hero = async () => {
           muted
           loop
           playsInline
-          className="w-full h-full object-contain"
+          preload="auto"
+          poster="/images/IMG-20251201-WA0008.jpg"
+          className="size-full object-cover"
         >
-          <source src={'/videos/VID-20251201-WA0001.mp4'} type="video/mp4" />
+          <source src={'/videos/hero.mp4'} type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-background/30" />
+        <div className="absolute inset-0 bg-background/20" />
       </div>
 
       {/* Content */}

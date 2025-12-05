@@ -1,13 +1,8 @@
-'use client';
-import Navigation from '@/components/Navigation';
-import { useState } from 'react';
-import Image from 'next/image';
 import Footer from '@/app/_components/Footer';
-import { Badge } from '@/components/ui/badge';
+import { DynamicBreadcrumb } from '@/components/dynamic-breadcrumb';
+import GalleryContent from '@/components/gallery-content';
 
 const Galerie = () => {
-  const [selectedCategory, setSelectedCategory] = useState('Tous');
-
   const categories = [
     'Tous',
     'Extérieur',
@@ -79,84 +74,27 @@ const Galerie = () => {
     },
   ];
 
-  const filteredItems =
-    selectedCategory === 'Tous'
-      ? galleryItems
-      : galleryItems.filter((item) => item.category === selectedCategory);
-
   return (
-    <div className="min-h-screen flex flex-col">
-      <main className="flex-1">
-        {/* Header */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto text-center animate-fade-in">
-              <h1 className="text-5xl md:text-6xl font-bold mb-6">
-                Galerie de Créations
-              </h1>
-              <p className="text-xl text-muted-foreground">
-                Découvrez toutes nos réalisations en bois de palette recyclé.
-                Chaque pièce est unique et peut être personnalisée selon vos
-                envies.
-              </p>
-            </div>
+    <>
+      {/* Header */}
+      <header className="py-16 bg-muted">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center animate-fade-in">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6">
+              Galerie de Créations
+            </h1>
+            <p className="text-xl text-muted-foreground">
+              Découvrez toutes nos réalisations en bois de palette recyclé.
+              Chaque pièce est unique et peut être personnalisée selon vos
+              envies.
+            </p>
+            <DynamicBreadcrumb className="justify-center py-4" />
           </div>
-        </section>
+        </div>
+      </header>
 
-        {/* Filters */}
-        <section className="py-8 bg-background border-b border-border">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-wrap justify-center gap-2">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`px-6 py-2 rounded-full font-medium transition-all ${
-                    selectedCategory === category
-                      ? 'bg-primary text-primary-foreground shadow-md'
-                      : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Gallery Grid */}
-        <section className="py-16 bg-background">
-          <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 animate-slide-up">
-              {filteredItems.map((item) => (
-                <div key={item.id} className="group cursor-pointer">
-                  <div className="relative aspect-square rounded-2xl overflow-hidden mb-4 shadow-medium hover-lift">
-                    <Image
-                      src={item.image}
-                      alt={item.title}
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                      fill
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    {/* <span className="inline-block px-3 py-1 bg-accent/10 text-accent text-xs font-semibold rounded-full">
-                      {item.category}
-                    </span> */}
-                    <Badge variant={'primaryLight'}>{item.category}</Badge>
-                    <h3 className="text-xl font-bold group-hover:text-highlight transition-colors">
-                      {item.title}
-                    </h3>
-                    <p className="text-muted-foreground">{item.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <Footer />
-    </div>
+      <GalleryContent items={galleryItems} categories={categories} />
+    </>
   );
 };
 
