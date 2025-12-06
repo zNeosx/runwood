@@ -96,7 +96,7 @@ const EbookPage = () => {
               <div className="relative z-10 hover-lift w-full aspect-4/5 max-w-md lg:max-w-lg rounded-2xl">
                 <Image
                   src={'/images/ebook.jpg'}
-                  alt="E-book RunWood"
+                  alt="Couverture de l'e-book Le Guide Complet du Travail de la Palette"
                   className="rounded-2xl shadow-strong object-cover"
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"

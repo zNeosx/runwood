@@ -26,6 +26,122 @@ export type Settings = {
   tiktok?: string;
 };
 
+export type Ebook = {
+  _id: string;
+  _type: "ebook";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  description?: string;
+  cover?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  ctaText?: string;
+  ctaLink?: string;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x?: number;
+  y?: number;
+  height?: number;
+  width?: number;
+};
+
+export type Testimonials = {
+  _id: string;
+  _type: "testimonials";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  items?: Array<{
+    name?: string;
+    role?: string;
+    quote?: string;
+    avatar?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    rating?: 1 | 2 | 3 | 4 | 5;
+    _type: "testimonial";
+    _key: string;
+  }>;
+};
+
+export type Gallery = {
+  _id: string;
+  _type: "gallery";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  description?: string;
+  images?: Array<{
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    caption?: string;
+    _type: "image";
+    _key: string;
+  }>;
+};
+
+export type About = {
+  _id: string;
+  _type: "about";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  description?: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+};
+
 export type Hero = {
   _id: string;
   _type: "hero";
@@ -46,22 +162,6 @@ export type Hero = {
     crop?: SanityImageCrop;
     _type: "image";
   };
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x?: number;
-  y?: number;
-  height?: number;
-  width?: number;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -166,7 +266,7 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = Settings | Hero | SanityImageCrop | SanityImageHotspot | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint | Slug;
+export type AllSanitySchemaTypes = Settings | Ebook | SanityImageCrop | SanityImageHotspot | Testimonials | Gallery | About | Hero | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/app/_components/Hero.tsx
 // Variable: HERO_QUERY
@@ -176,10 +276,121 @@ export type HERO_QUERYResult = {
   description: string | null;
 } | null;
 
+// Source: ./src/sanity/queries/homepage.ts
+// Variable: HOMEPAGE_QUERY
+// Query: {  "hero": *[_type == "hero"][0]{ title, description, image },  "about": *[_type == "about"][0]{ title, description, image },  "gallery": *[_type == "gallery"][0]{ title, description, images },  "testimonials": *[_type == "testimonials"][0]{ title, items },  "ebook": *[_type == "ebook"][0]{ title, description, cover, ctaText, ctaLink }}
+export type HOMEPAGE_QUERYResult = {
+  hero: {
+    title: string | null;
+    description: string | null;
+    image: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    } | null;
+  } | null;
+  about: {
+    title: string | null;
+    description: string | null;
+    image: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    } | null;
+  } | null;
+  gallery: {
+    title: string | null;
+    description: string | null;
+    images: Array<{
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      caption?: string;
+      _type: "image";
+      _key: string;
+    }> | null;
+  } | null;
+  testimonials: {
+    title: string | null;
+    items: Array<{
+      name?: string;
+      role?: string;
+      quote?: string;
+      avatar?: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      };
+      rating?: 1 | 2 | 3 | 4 | 5;
+      _type: "testimonial";
+      _key: string;
+    }> | null;
+  } | null;
+  ebook: {
+    title: string | null;
+    description: string | null;
+    cover: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    } | null;
+    ctaText: string | null;
+    ctaLink: string | null;
+  } | null;
+};
+
+// Source: ./src/sanity/queries/settings.ts
+// Variable: SETTINGS_QUERY
+// Query: *[_type == "settings"][0]{  email,  phone,  address,  instagram,  tiktok}
+export type SETTINGS_QUERYResult = {
+  email: string | null;
+  phone: string | null;
+  address: string | null;
+  instagram: string | null;
+  tiktok: string | null;
+} | null;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"hero\"][0]{ title, description }": HERO_QUERYResult;
+    "{\n  \"hero\": *[_type == \"hero\"][0]{ title, description, image },\n  \"about\": *[_type == \"about\"][0]{ title, description, image },\n  \"gallery\": *[_type == \"gallery\"][0]{ title, description, images },\n  \"testimonials\": *[_type == \"testimonials\"][0]{ title, items },\n  \"ebook\": *[_type == \"ebook\"][0]{ title, description, cover, ctaText, ctaLink }\n}": HOMEPAGE_QUERYResult;
+    "*[_type == \"settings\"][0]{\n  email,\n  phone,\n  address,\n  instagram,\n  tiktok\n}": SETTINGS_QUERYResult;
   }
 }

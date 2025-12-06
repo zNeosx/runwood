@@ -1,6 +1,6 @@
 import { MasonryGrid } from '@/components/masonry';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
@@ -51,6 +51,7 @@ const Gallery = () => {
       category: 'Extérieur',
       src: '/images/IMG-20251205-WA0002.jpg',
       url: '#',
+      width: 600,
       height: 300,
       span: 'lg:col-span-2 lg:row-span-2',
     },
@@ -60,6 +61,7 @@ const Gallery = () => {
       category: 'Tables',
       src: '/images/IMG-20251201-WA0016.jpg',
       url: '#',
+      width: 250,
       height: 600,
       span: 'lg:col-span-1 lg:row-span-1',
     },
@@ -69,6 +71,7 @@ const Gallery = () => {
       category: 'Jardin',
       src: '/images/IMG-20251205-WA0004.jpg',
       url: '#',
+      width: 400,
       height: 250,
       span: 'lg:col-span-1 lg:row-span-1',
     },
@@ -78,6 +81,7 @@ const Gallery = () => {
       category: 'Intérieur',
       src: '/images/IMG-20251201-WA0013.jpg',
       url: '#',
+      width: 300,
       height: 300,
       span: 'lg:col-span-1 lg:row-span-2',
     },
@@ -87,6 +91,7 @@ const Gallery = () => {
       category: 'Mobilier',
       src: '/images/IMG-20251205-WA0003.jpg',
       url: '#',
+      width: 800,
       height: 400,
       span: 'lg:col-span-2 lg:row-span-1',
     },
@@ -96,64 +101,50 @@ const Gallery = () => {
       category: 'Mobilier',
       src: '/images/IMG-20251201-WA0009.jpg',
       url: '#',
+      width: 200,
       height: 400,
       span: 'lg:col-span-2 lg:row-span-1',
     },
   ];
 
   return (
-    <section className="py-24 bg-background">
+    <section aria-labelledby="gallery-title" className="py-24 bg-background">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16 animate-fade-in">
+        <header className="text-center max-w-2xl mx-auto mb-16 animate-fade-in">
           {/* <div className="inline-block px-4 py-2 bg-highlight/10 text-highlight rounded-full text-sm font-semibold mb-4">
             Nos Créations
           </div> */}
           <Badge variant={'highlight'} size="lg" className="mb-4">
             Nos Créations
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+          <h2
+            id="gallery-title"
+            className="text-4xl md:text-5xl font-bold text-foreground mb-4"
+          >
             Galerie de Réalisations
           </h2>
           <p className="text-lg text-muted-foreground">
             Découvrez nos meubles uniques, entièrement fabriqués à partir de
             palettes recyclées
           </p>
-        </div>
+        </header>
 
         {/* Masonry Grid */}
-        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-12 animate-slide-up">
-          {galleryItems.map((item) => (
-            <div
-              key={item.id}
-              className={`group relative overflow-hidden rounded-2xl ${item.span} h-64 lg:h-auto`}
-            >
-              <img
-                src={item.image}
-                alt={item.title}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-linear-to-t from-primary/80 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                <span className="inline-block px-3 py-1 bg-highlight text-highlight-foreground text-xs font-semibold rounded-full mb-2">
-                  {item.category}
-                </span>
-                <h3 className="text-xl font-bold text-white">{item.title}</h3>
-              </div>
-            </div>
-          ))}
-        </div> */}
         <MasonryGrid items={galleryItems} />
 
         {/* CTA */}
-        <div className="text-center">
-          <Button size="lg" variant="default" asChild>
-            <Link href="/galerie">
-              Voir Toute la Galerie
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
-          </Button>
-        </div>
+        <p className="text-center">
+          <Link
+            href={'/galerie'}
+            className={buttonVariants({
+              size: 'lg',
+            })}
+          >
+            Voir Toute la Galerie
+            <ArrowRight className="ml-2 h-5 w-5" />
+          </Link>
+        </p>
       </div>
     </section>
   );

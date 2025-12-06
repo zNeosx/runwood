@@ -3,10 +3,15 @@ import { NAV_LINKS } from '@/constants';
 import { getSettings } from '@/sanity/queries';
 import { Instagram, Mail, MapPin, Phone } from 'lucide-react';
 import Link from 'next/link';
+import { Settings } from '../../../sanity.types';
 import { TiktokIcon } from '../../components/icons/socials/tiktok.icon';
 
-const Footer = async () => {
-  const settings = await getSettings();
+type Props = {
+  data: Settings;
+};
+
+const Footer = async ({ data }: Props) => {
+  console.log('data', data);
   return (
     <footer>
       <div className="container mx-auto px-4 py-8">
@@ -20,14 +25,14 @@ const Footer = async () => {
             </p>
             <div className="flex gap-3">
               <a
-                href={settings.instagram}
+                href={data?.instagram}
                 target="_blank"
                 className="w-10 h-10 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 flex items-center justify-center transition-colors"
               >
                 <Instagram className="w-5 h-5" />
               </a>
               <a
-                href={settings.tiktok}
+                href={data?.tiktok}
                 target="_blank"
                 className="w-10 h-10 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 flex items-center justify-center transition-colors"
               >
@@ -70,15 +75,15 @@ const Footer = async () => {
             <ul className="space-y-3">
               <li className="flex items-start gap-2 text-primary-foreground/80">
                 <Mail className="w-5 h-5 shrink-0 mt-0.5" />
-                <span className="text-sm">{settings.email}</span>
+                <span className="text-sm">{data?.email}</span>
               </li>
               <li className="flex items-start gap-2 text-primary-foreground/80">
                 <Phone className="w-5 h-5 shrink-0 mt-0.5" />
-                <span className="text-sm">{settings.phone}</span>
+                <span className="text-sm">{data?.phone}</span>
               </li>
               <li className="flex items-start gap-2 text-primary-foreground/80">
                 <MapPin className="w-5 h-5 shrink-0 mt-0.5" />
-                <span className="text-sm">{settings.address}</span>
+                <span className="text-sm">{data?.address}</span>
               </li>
             </ul>
           </div>

@@ -27,7 +27,7 @@ export async function sanityFetch<T>({
 
   const start = performance.now();
   // En production ou dev normal → cache Next.js
-  const result = client.fetch<T>(query, params, {
+  const result = await client.fetch<T>(query, params, {
     next: {
       revalidate,
       tags,

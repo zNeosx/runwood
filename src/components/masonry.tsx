@@ -7,6 +7,8 @@ type MasonryGridItem = {
   title?: string;
   description?: string;
   src: string;
+  width: number;
+  height: number;
 };
 type Props = {
   items: MasonryGridItem[];
@@ -15,7 +17,7 @@ type Props = {
 
 export const MasonryGrid = (props: Props) => {
   return (
-    <div className="relative pb-10">
+    <ul className="relative pb-10 list-none">
       <Masonry
         items={props.items}
         config={{
@@ -24,14 +26,21 @@ export const MasonryGrid = (props: Props) => {
           media: [640, 768, 1024],
         }}
         render={(item) => (
-          <img
-            key={item.id}
-            src={item.src}
-            alt={item.description ?? 'image'}
-            className="object-cover rounded-lg w-full h-auto"
-          />
+          <li key={item.id}>
+            <Image
+              src={item.src}
+              alt={
+                item.description ??
+                `Création RunWood - ${item.title ?? 'meuble en palette'}`
+              }
+              width={item.width}
+              height={item.height}
+              className="object-cover rounded-lg w-full h-auto"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            />
+          </li>
         )}
       />
-    </div>
+    </ul>
   );
 };

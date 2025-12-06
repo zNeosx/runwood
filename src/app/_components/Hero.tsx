@@ -1,19 +1,13 @@
 import { buttonVariants } from '@/components/ui/button';
-import { sanityFetch } from '@/sanity/lib/fetch';
+import { HomepageData } from '@/sanity/queries';
 import { ArrowRight, BookOpen } from 'lucide-react';
-import { groq } from 'next-sanity';
 import Link from 'next/link';
-import type { Hero as HeroType } from '../../../sanity.types';
 
-const HERO_QUERY = groq`*[_type == "hero"][0]{ title, description }`;
+type Props = {
+  data: HomepageData['hero'];
+};
 
-const Hero = async () => {
-  const heroData: HeroType = await sanityFetch({
-    query: HERO_QUERY,
-    tags: ['hero'],
-    revalidate: 3600,
-  });
-
+const Hero = async ({ data }: Props) => {
   return (
     <section
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
@@ -45,22 +39,12 @@ const Hero = async () => {
       <div className="relative z-10 container mx-auto px-4 py-32 text-center">
         <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
           <h1 className="text-5xl md:text-7xl font-bold text-foreground leading-tight text-balance">
-            {heroData.title}
+            {data?.title}
           </h1>
           <p className="text-xl md:text-2xl text-foreground max-w-2xl mx-auto text-balance">
-            {heroData.description}
+            {data?.description}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
-            {/* <Button
-              size="xl"
-              variant="default"
-              // className="bg-white text-primary hover:bg-white/90 text-lg px-8 py-6 h-auto"
-              asChild
-            >
-              <Link href="/galerie">
-                Voir les Créations
-                </Link>
-                </Button> */}
             <Link
               href={'/galerie'}
               className={buttonVariants({

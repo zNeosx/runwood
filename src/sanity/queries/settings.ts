@@ -1,7 +1,6 @@
-// lib/sanity/queries.ts
-
-import { Settings } from '../../sanity.types';
-import { client } from './lib/client';
+import { groq } from 'next-sanity';
+import { sanityFetch } from '../lib/fetch';
+import type { Settings } from '../../../sanity.types';
 
 const DEFAULT_SETTINGS: Settings = {
   _id: '',
@@ -16,25 +15,22 @@ const DEFAULT_SETTINGS: Settings = {
   tiktok: 'https://www.tiktok.com/@runwood97412',
 };
 
+const SETTINGS_QUERY = groq`*[_type == "settings"][0]{
+  email,
+  phone,
+  address,
+  instagram,
+  tiktok
+}`;
+
 export async function getSettings(): Promise<Settings> {
   try {
-    const settings = await client.fetch(
-      `*[_type == "settings"][0]{
-        email,
-        phone,
-        address,
-        instagram,
-        tiktok
-      }`,
-      {},
-      { next: { revalidate: 3600 } }
-    );
+    const settings = await sanityFetch<Settings | null>({
+      query: SETTINGS_QUERY,
+      tags: ['settings'],
+    });
 
-    if (!settings) {
-      return DEFAULT_SETTINGS;
-    }
-
-    return settings;
+    return settings ?? DEFAULT_SETTINGS;
   } catch (error) {
     console.error('Erreur Sanity (settings):', error);
     return DEFAULT_SETTINGS;
