@@ -38,7 +38,6 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <DebugLivePreview />
         <Navigation />
         <main className={isPreview ? 'pt-10' : ''}>{children}</main>
         <Footer data={settings} />

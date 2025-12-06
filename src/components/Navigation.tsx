@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
 import {
   Sheet,
@@ -56,7 +56,7 @@ const Navigation = () => {
                   key={link.name}
                   href={link.href}
                   className={cn(
-                    'text-foreground hover:text-highlight transition-colors duration-200 font-medium',
+                    'text-foreground hover:text-highlight transition-colors duration-200 font-medium text-lg',
                     isActive && 'text-highlight font-semibold'
                   )}
                 >
@@ -64,9 +64,9 @@ const Navigation = () => {
                 </Link>
               );
             })}
-            <Button variant="default" asChild>
-              <Link href="/contact">Devis Gratuit</Link>
-            </Button>
+            <Link href="/contact" className={cn(buttonVariants())}>
+              Devis Gratuit
+            </Link>
           </div>
 
           {/* Mobile Navigation */}

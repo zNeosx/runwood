@@ -18,7 +18,7 @@ export type HomepageData = {
 
 const HOMEPAGE_QUERY = groq`{
   "hero": *[_type == "hero"][0]{ title, description, image },
-  "about": *[_type == "about"][0]{ title, description, image },
+  "about": *[_type == "about"][0]{ title, description, features },
   "gallery": *[_type == "gallery"][0]{ title, description, images },
   "testimonials": *[_type == "testimonials"][0]{ title, items },
   "ebook": *[_type == "ebook"][0]{ title, description, cover, ctaText, ctaLink }

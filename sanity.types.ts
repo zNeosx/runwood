@@ -128,19 +128,16 @@ export type About = {
   _rev: string;
   title?: string;
   description?: string;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
+  features?: Array<{
+    icon?: LucideIcon;
+    title?: string;
+    description?: string;
+    _type: "featureItem";
+    _key: string;
+  }>;
 };
+
+export type LucideIcon = string;
 
 export type Hero = {
   _id: string;
@@ -266,16 +263,8 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = Settings | Ebook | SanityImageCrop | SanityImageHotspot | Testimonials | Gallery | About | Hero | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint | Slug;
+export type AllSanitySchemaTypes = Settings | Ebook | SanityImageCrop | SanityImageHotspot | Testimonials | Gallery | About | LucideIcon | Hero | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
-// Source: ./src/app/_components/Hero.tsx
-// Variable: HERO_QUERY
-// Query: *[_type == "hero"][0]{ title, description }
-export type HERO_QUERYResult = {
-  title: string | null;
-  description: string | null;
-} | null;
-
 // Source: ./src/sanity/queries/homepage.ts
 // Variable: HOMEPAGE_QUERY
 // Query: {  "hero": *[_type == "hero"][0]{ title, description, image },  "about": *[_type == "about"][0]{ title, description, image },  "gallery": *[_type == "gallery"][0]{ title, description, images },  "testimonials": *[_type == "testimonials"][0]{ title, items },  "ebook": *[_type == "ebook"][0]{ title, description, cover, ctaText, ctaLink }}
@@ -299,18 +288,7 @@ export type HOMEPAGE_QUERYResult = {
   about: {
     title: string | null;
     description: string | null;
-    image: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-    } | null;
+    image: null;
   } | null;
   gallery: {
     title: string | null;
@@ -389,7 +367,6 @@ export type SETTINGS_QUERYResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"hero\"][0]{ title, description }": HERO_QUERYResult;
     "{\n  \"hero\": *[_type == \"hero\"][0]{ title, description, image },\n  \"about\": *[_type == \"about\"][0]{ title, description, image },\n  \"gallery\": *[_type == \"gallery\"][0]{ title, description, images },\n  \"testimonials\": *[_type == \"testimonials\"][0]{ title, items },\n  \"ebook\": *[_type == \"ebook\"][0]{ title, description, cover, ctaText, ctaLink }\n}": HOMEPAGE_QUERYResult;
     "*[_type == \"settings\"][0]{\n  email,\n  phone,\n  address,\n  instagram,\n  tiktok\n}": SETTINGS_QUERYResult;
   }

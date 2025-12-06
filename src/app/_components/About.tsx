@@ -1,10 +1,17 @@
 import { Badge } from '@/components/ui/badge';
-import { Button, buttonVariants } from '@/components/ui/button';
-import { Hammer, Leaf, Heart } from 'lucide-react';
+import { buttonVariants } from '@/components/ui/button';
+import { Hammer, Heart, Leaf } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { About as AboutType } from '../../../sanity.types';
+import { DynamicIcon, IconName } from 'lucide-react/dynamic';
 
-const About = () => {
+type Props = {
+  data: AboutType | null;
+};
+
+const About = ({ data }: Props) => {
+  console.log('about data', data);
   const values = [
     {
       icon: Hammer,
@@ -47,7 +54,7 @@ const About = () => {
               id="about-title"
               className="text-4xl md:text-5xl font-bold text-foreground"
             >
-              L&apos;Art du Bois Recyclé
+              {data?.title}
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
               Chez RunWood, chaque meuble est créé à partir de palettes
@@ -58,10 +65,10 @@ const About = () => {
 
             {/* Values Grid */}
             <ul className="grid gap-6 pt-4">
-              {values.map((value) => (
+              {data?.features?.map((value) => (
                 <li key={value.title} className="flex gap-4 items-start group">
                   <div className="shrink-0 w-12 h-12 rounded-xl bg-primary/60 flex items-center justify-center group-hover:bg-primary transition-colors">
-                    <value.icon className="w-6 h-6 text-foreground" />
+                    <DynamicIcon name={value.icon as IconName} size={24} />
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg text-foreground mb-1">

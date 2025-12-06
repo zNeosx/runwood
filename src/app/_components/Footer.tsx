@@ -72,13 +72,24 @@ const Footer = async ({ data }: Props) => {
           <div>
             <h3 className="font-semibold text-lg mb-4">Contact</h3>
             <ul className="space-y-3">
-              <li className="flex items-start gap-2 text-primary-foreground/80">
-                <Mail className="w-5 h-5 shrink-0 mt-0.5" />
-                <span className="text-sm">{data.email}</span>
+              <li className="text-primary-foreground/80">
+                <a
+                  href={`mailto:${data.email}`}
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-2 hover:text-primary"
+                >
+                  <Mail className="w-5 h-5 shrink-0 mt-0.5" />
+                  <span className="text-sm">{data.email}</span>
+                </a>
               </li>
               <li className="flex items-start gap-2 text-primary-foreground/80">
-                <Phone className="w-5 h-5 shrink-0 mt-0.5" />
-                <span className="text-sm">{data?.phone}</span>
+                <a
+                  href={`tel:${data.phone}`}
+                  className="flex items-start gap-2 hover:text-primary"
+                >
+                  <Phone className="w-5 h-5 shrink-0 mt-0.5" />
+                  <span className="text-sm">{data?.phone}</span>
+                </a>
               </li>
               <li className="flex items-start gap-2 text-primary-foreground/80">
                 <MapPin className="w-5 h-5 shrink-0 mt-0.5" />

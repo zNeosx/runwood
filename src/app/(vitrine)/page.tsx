@@ -12,7 +12,7 @@ export default async function Home() {
   return (
     <div className="min-h-screen">
       <Hero data={homepage.hero} />
-      <About />
+      <About data={homepage.about} />
       <Gallery />
       <Testimonials />
       <Ebook />

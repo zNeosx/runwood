@@ -1,4 +1,5 @@
 import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { HomepageData } from '@/sanity/queries';
 import { ArrowRight, BookOpen } from 'lucide-react';
 import Link from 'next/link';
@@ -8,7 +9,6 @@ type Props = {
 };
 
 const Hero = async ({ data }: Props) => {
-  console.log('homepage data', data);
   return (
     <section
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
@@ -33,7 +33,7 @@ const Hero = async ({ data }: Props) => {
         >
           <source src={'/videos/hero.mp4'} type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-background/20" />
+        <div className="absolute inset-0 bg-background/30" />
       </div>
 
       {/* Content */}
@@ -48,19 +48,23 @@ const Hero = async ({ data }: Props) => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
             <Link
               href={'/galerie'}
-              className={buttonVariants({
-                size: 'lg',
-              })}
+              className={cn(
+                buttonVariants({
+                  size: 'lg',
+                })
+              )}
             >
               Voir les créations
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
             <Link
               href={'/galerie'}
-              className={buttonVariants({
-                variant: 'outline',
-                size: 'lg',
-              })}
+              className={cn(
+                buttonVariants({
+                  variant: 'outline',
+                  size: 'lg',
+                })
+              )}
             >
               <BookOpen className="mr-2 h-5 w-5" />
               Apprendre à fabriquer

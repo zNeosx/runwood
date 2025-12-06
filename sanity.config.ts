@@ -13,6 +13,7 @@ import { apiVersion, dataset, projectId } from './src/sanity/env';
 import { schema } from './src/sanity/schemaTypes';
 import { structure } from './src/sanity/structure';
 import { presentationTool } from 'sanity/presentation';
+import { lucideIconPicker } from 'sanity-plugin-lucide-icon-picker';
 
 const PREVIEW_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
 
@@ -23,6 +24,7 @@ export default defineConfig({
   // Add and edit the content schema in the './sanity/schemaTypes' folder
   schema,
   plugins: [
+    lucideIconPicker(),
     structureTool({ structure }),
     presentationTool({
       previewUrl: {
