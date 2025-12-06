@@ -1,5 +1,5 @@
 import { groq } from 'next-sanity';
-import { sanityFetch } from '../lib/fetch';
+import { sanityFetch } from '../lib/live';
 import type {
   Hero,
   About,
@@ -25,8 +25,21 @@ const HOMEPAGE_QUERY = groq`{
 }`;
 
 export async function getHomepage(): Promise<HomepageData> {
-  return sanityFetch<HomepageData>({
+  // try {
+  // const hommepage = await sanityFetch<HomepageData>({
+  //   query: HOMEPAGE_QUERY,
+  //   tags: ['homepage', 'hero', 'about', 'gallery', 'testimonials', 'ebook'],
+  // });
+
+  //   return hommepage.data;
+  // } catch (error) {
+  //   console.error('Erreur Sanity (settings):', error);
+  //   return;
+  // }
+  const homepage = await sanityFetch({
     query: HOMEPAGE_QUERY,
     tags: ['homepage', 'hero', 'about', 'gallery', 'testimonials', 'ebook'],
   });
+
+  return homepage.data;
 }

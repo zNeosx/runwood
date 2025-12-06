@@ -8,6 +8,7 @@ type Props = {
 };
 
 const Hero = async ({ data }: Props) => {
+  console.log('homepage data', data);
   return (
     <section
       className="relative min-h-screen flex items-center justify-center overflow-hidden"

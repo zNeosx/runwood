@@ -1,11 +1,15 @@
-import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import '@/app/globals.css';
-import { SanityLive } from '@/sanity/lib/live';
 import Navigation from '@/components/Navigation';
-import Footer from '../_components/Footer';
 import { Toaster } from '@/components/ui/sonner';
 import { getSettings } from '@/sanity/queries';
+import type { Metadata } from 'next';
+import { VisualEditing } from 'next-sanity/visual-editing';
+import { Geist, Geist_Mono } from 'next/font/google';
+import { draftMode } from 'next/headers';
+import Footer from '../_components/Footer';
+import { DisableDraftMode } from '@/components/sanity/disable-draft-mode';
+import { SanityLive } from '@/sanity/lib/live';
+import { DebugLivePreview } from '@/components/sanity/debug-live-preview';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -28,15 +32,23 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const settings = await getSettings();
+  const { isEnabled: isPreview } = await draftMode();
   return (
     <html lang="fr">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <DebugLivePreview />
         <Navigation />
-        <main>{children}</main>
+        <main className={isPreview ? 'pt-10' : ''}>{children}</main>
         <Footer data={settings} />
         <Toaster />
+        {isPreview && (
+          <>
+            <VisualEditing />
+            <DisableDraftMode />
+          </>
+        )}
         <SanityLive />
       </body>
     </html>

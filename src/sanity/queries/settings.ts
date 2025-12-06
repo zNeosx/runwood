@@ -1,5 +1,5 @@
 import { groq } from 'next-sanity';
-import { sanityFetch } from '../lib/fetch';
+import { sanityFetch } from '../lib/live';
 import type { Settings } from '../../../sanity.types';
 
 const DEFAULT_SETTINGS: Settings = {
@@ -24,13 +24,14 @@ const SETTINGS_QUERY = groq`*[_type == "settings"][0]{
 }`;
 
 export async function getSettings(): Promise<Settings> {
+  console.log(`[SERVER] Fetching Settings at: ${new Date().toISOString()}`);
   try {
-    const settings = await sanityFetch<Settings | null>({
+    const settings = await sanityFetch({
       query: SETTINGS_QUERY,
       tags: ['settings'],
     });
 
-    return settings ?? DEFAULT_SETTINGS;
+    return settings.data ?? DEFAULT_SETTINGS;
   } catch (error) {
     console.error('Erreur Sanity (settings):', error);
     return DEFAULT_SETTINGS;
