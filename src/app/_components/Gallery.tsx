@@ -1,49 +1,10 @@
-import { MasonryGrid } from '@/components/masonry';
+import AnimatedMasonryGallery from '@/components/animated-masonry-gallery';
 import { Badge } from '@/components/ui/badge';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 const Gallery = () => {
-  // Placeholder gallery items - will be replaced with actual images
-  // const galleryItems = [
-  //   {
-  //     id: 1,
-  //     title: "Salon d'extérieur",
-  //     category: 'Extérieur',
-  //     image: '/images/IMG-20251201-WA0005.jpg',
-  //     span: 'lg:col-span-2 lg:row-span-2',
-  //   },
-  //   {
-  //     id: 2,
-  //     title: 'Table basse géométrique',
-  //     category: 'Tables',
-  //     image: '/images/IMG-20251201-WA0016.jpg',
-  //     span: 'lg:col-span-1 lg:row-span-1',
-  //   },
-  //   {
-  //     id: 3,
-  //     title: 'Jardinière à étages',
-  //     category: 'Jardin',
-  //     image: '/images/IMG-20251201-WA0009.jpg',
-  //     span: 'lg:col-span-1 lg:row-span-1',
-  //   },
-  //   {
-  //     id: 4,
-  //     title: 'Meuble TV rustique',
-  //     category: 'Intérieur',
-  //     image: '/images/IMG-20251201-WA0013.jpg',
-  //     span: 'lg:col-span-1 lg:row-span-2',
-  //   },
-  //   {
-  //     id: 5,
-  //     title: "Banc d'entrée",
-  //     category: 'Mobilier',
-  //     image:
-  //       'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=800&q=80',
-  //     span: 'lg:col-span-2 lg:row-span-1',
-  //   },
-  // ];
   const galleryItems = [
     {
       id: '1',
@@ -111,19 +72,24 @@ const Gallery = () => {
     <section aria-labelledby="gallery-title" className="py-24 bg-background">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <header className="text-center max-w-2xl mx-auto mb-16 animate-fade-in">
+        <header className="text-center max-w-2xl mx-auto mb-6 animate-fade-in">
           {/* <div className="inline-block px-4 py-2 bg-highlight/10 text-highlight rounded-full text-sm font-semibold mb-4">
             Nos Créations
           </div> */}
-          <Badge variant={'highlight'} size="lg" className="mb-4">
-            Nos Créations
-          </Badge>
+          <p>
+            <Badge variant={'highlight'} size="lg" className="mb-4">
+              Nos Créations
+            </Badge>
+          </p>
+          {/* <div className="mb-4"> */}
           <h2
             id="gallery-title"
-            className="text-4xl md:text-5xl font-bold text-foreground mb-4"
+            className="text-4xl md:text-5xl font-bold text-foreground mb-3 title-with-lines"
           >
             Galerie de Réalisations
           </h2>
+          {/* <div className="h-px w-150 mx-auto bg-linear-to-r from-transparent via-foreground/20 to-transparent"></div>
+          </div> */}
           <p className="text-lg text-muted-foreground">
             Découvrez nos meubles uniques, entièrement fabriqués à partir de
             palettes recyclées
@@ -131,8 +97,10 @@ const Gallery = () => {
         </header>
 
         {/* Masonry Grid */}
-        <MasonryGrid items={galleryItems} />
-
+        {/* <MasonryGrid items={galleryItems} /> */}
+        {/* <EmblaCarousel2 /> */}
+        <AnimatedMasonryGallery />
+        {/* <MasonryGallery /> */}
         {/* CTA */}
         <p className="text-center">
           <Link

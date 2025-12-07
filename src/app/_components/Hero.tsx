@@ -50,7 +50,7 @@ const Hero = async ({ data }: Props) => {
               href={'/galerie'}
               className={cn(
                 buttonVariants({
-                  size: 'lg',
+                  size: 'xl',
                 })
               )}
             >
@@ -62,7 +62,7 @@ const Hero = async ({ data }: Props) => {
               className={cn(
                 buttonVariants({
                   variant: 'outline',
-                  size: 'lg',
+                  size: 'xl',
                 })
               )}
             >

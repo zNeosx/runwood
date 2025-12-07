@@ -1,23 +1,32 @@
 import '@/app/globals.css';
 import Navigation from '@/components/Navigation';
+import { DisableDraftMode } from '@/components/sanity/disable-draft-mode';
 import { Toaster } from '@/components/ui/sonner';
+import { SanityLive } from '@/sanity/lib/live';
 import { getSettings } from '@/sanity/queries';
 import type { Metadata } from 'next';
 import { VisualEditing } from 'next-sanity/visual-editing';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Nunito_Sans, Playfair_Display } from 'next/font/google';
 import { draftMode } from 'next/headers';
 import Footer from '../_components/Footer';
-import { DisableDraftMode } from '@/components/sanity/disable-draft-mode';
-import { SanityLive } from '@/sanity/lib/live';
-import { DebugLivePreview } from '@/components/sanity/debug-live-preview';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
+// const geistSans = Geist({
+//   variable: '--font-geist-sans',
+//   subsets: ['latin'],
+// });
+
+// const geistMono = Geist_Mono({s
+//   variable: '--font-geist-mono',
+//   subsets: ['latin'],
+// });
+const nunitoSans = Nunito_Sans({
+  variable: '--font-nunito-sans',
+  weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const playfairDisplay = Playfair_Display({
+  variable: '--font-playfair-display',
+  weight: ['400', '500', '600', '700', '800', '900'],
   subsets: ['latin'],
 });
 
@@ -35,9 +44,7 @@ export default async function RootLayout({
   const { isEnabled: isPreview } = await draftMode();
   return (
     <html lang="fr">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${nunitoSans.variable} ${playfairDisplay.variable} font-sans antialiased`}>
         <Navigation />
         <main className={isPreview ? 'pt-10' : ''}>{children}</main>
         <Footer data={settings} />

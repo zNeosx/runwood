@@ -1,16 +1,15 @@
 'use client';
 
-import { Badge } from '@/components/ui/badge';
-import Image from 'next/image';
 import { useState } from 'react';
+import { FocusCards } from './ui/focus-cards';
 
-interface GalleryItem {
-  id: number;
-  title: string;
-  category: string;
-  image: string;
-  description: string;
-}
+// interface GalleryItem {
+//   id: number;
+//   title: string;
+//   category: string;
+//   image: string;
+//   description: string;
+// }
 
 interface GalleryContentProps {
   items: GalleryItem[];
@@ -57,7 +56,7 @@ export default function GalleryContent({
 
       {/* Gallery Grid */}
       <section aria-label="Créations" className="py-16 bg-background">
-        <div className="container mx-auto px-4">
+        {/* <div className="container mx-auto px-4">
           <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 animate-slide-up">
             {filteredItems.map((item) => (
               <li key={item.id}>
@@ -71,9 +70,6 @@ export default function GalleryContent({
                     />
                   </div>
                   <div className="space-y-2">
-                    {/* <span className="inline-block px-3 py-1 bg-accent/10 text-accent text-xs font-semibold rounded-full">
-                      {item.category}
-                    </span> */}
                     <Badge variant={'primaryLight'}>{item.category}</Badge>
                     <h2 className="text-xl font-bold group-hover:text-highlight transition-colors">
                       {item.title}
@@ -84,7 +80,8 @@ export default function GalleryContent({
               </li>
             ))}
           </ul>
-        </div>
+        </div> */}
+        <FocusCards cards={filteredItems} />
       </section>
     </>
   );

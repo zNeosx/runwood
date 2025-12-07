@@ -34,16 +34,19 @@ const About = ({ data }: Props) => {
   return (
     <section aria-labelledby="about-title" className="py-24">
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-20 items-center">
           {/* Image */}
-          <figure className="relative aspect-square rounded-2xl overflow-hidden shadow-strong">
-            <Image
-              src="/images/IMG-20251201-WA0012.jpg"
-              alt="Artisan RunWood travaillant le bois de palette dans son atelier"
-              fill
-              className="object-cover object-top hover-lift"
-            />
-          </figure>
+          <div className="relative">
+            <figure className="relative aspect-square rounded-full overflow-hidden shadow-strong">
+              <Image
+                src="/images/IMG-20251201-WA0012.jpg"
+                alt="Artisan RunWood travaillant le bois de palette dans son atelier"
+                fill
+                className="object-cover object-top hover-lift z-1"
+              />
+            </figure>
+            <div className="absolute top-0 right-0 size-full bg-highlight/10 rounded-full blur-3xl" />
+          </div>
 
           {/* Content */}
           <div className="space-y-6 animate-fade-in">
