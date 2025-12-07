@@ -101,9 +101,7 @@ export type Gallery = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: string;
-  description?: string;
-  images?: Array<{
+  image?: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -113,11 +111,45 @@ export type Gallery = {
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
-    alt?: string;
-    caption?: string;
     _type: "image";
-    _key: string;
-  }>;
+  };
+  name?: string;
+  description?: string;
+  category?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "category";
+  };
+  featured?: boolean;
+  order?: number;
+};
+
+export type Category = {
+  _id: string;
+  _type: "category";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+};
+
+export type Slug = {
+  _type: "slug";
+  current?: string;
+  source?: string;
+};
+
+export type GallerySection = {
+  _id: string;
+  _type: "gallerySection";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  subtitle?: string;
+  maxPhotos?: number;
 };
 
 export type About = {
@@ -257,17 +289,76 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type Slug = {
-  _type: "slug";
-  current?: string;
-  source?: string;
-};
-
-export type AllSanitySchemaTypes = Settings | Ebook | SanityImageCrop | SanityImageHotspot | Testimonials | Gallery | About | LucideIcon | Hero | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint | Slug;
+export type AllSanitySchemaTypes = Settings | Ebook | SanityImageCrop | SanityImageHotspot | Testimonials | Gallery | Category | Slug | GallerySection | About | LucideIcon | Hero | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
+// Source: ./src/sanity/queries/category.ts
+// Variable: CATEGORIES_QUERY
+// Query: *[_type == "category"] | order(name asc) {  _id,  name,  slug}
+export type CATEGORIES_QUERYResult = Array<{
+  _id: string;
+  name: string | null;
+  slug: Slug | null;
+}>;
+
+// Source: ./src/sanity/queries/gallery.ts
+// Variable: GALLERY_SECTION_QUERY
+// Query: {  "section": *[_type == "gallerySection"][0]{ title, subtitle, maxPhotos },  "photos": *[_type == "gallery" && featured == true] | order(order asc) {    _id,    name,    description,    image,    "category": category->{ name, slug }  }}
+export type GALLERY_SECTION_QUERYResult = {
+  section: {
+    title: string | null;
+    subtitle: string | null;
+    maxPhotos: number | null;
+  } | null;
+  photos: Array<{
+    _id: string;
+    name: string | null;
+    description: string | null;
+    image: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    } | null;
+    category: {
+      name: string | null;
+      slug: Slug | null;
+    } | null;
+  }>;
+};
+// Variable: ALL_PHOTOS_QUERY
+// Query: *[_type == "gallery"] | order(order asc) {  _id,  name,  description,  image,  "category": category->{ _id, name, slug }}
+export type ALL_PHOTOS_QUERYResult = Array<{
+  _id: string;
+  name: string | null;
+  description: string | null;
+  image: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  category: {
+    _id: string;
+    name: string | null;
+    slug: Slug | null;
+  } | null;
+}>;
+
 // Source: ./src/sanity/queries/homepage.ts
 // Variable: HOMEPAGE_QUERY
-// Query: {  "hero": *[_type == "hero"][0]{ title, description, image },  "about": *[_type == "about"][0]{ title, description, image },  "gallery": *[_type == "gallery"][0]{ title, description, images },  "testimonials": *[_type == "testimonials"][0]{ title, items },  "ebook": *[_type == "ebook"][0]{ title, description, cover, ctaText, ctaLink }}
+// Query: {  "hero": *[_type == "hero"][0]{ title, description, image },  "about": *[_type == "about"][0]{ title, description, features },  "gallery": {    "title": *[_type == "gallerySection"][0].title,    "subtitle": *[_type == "gallerySection"][0].subtitle,    "maxPhotos": *[_type == "gallerySection"][0].maxPhotos,    "photos": *[_type == "gallery" && featured == true] | order(order asc) {      _id,      name,      description,      image,      "category": category->{ name, slug }    }  },  "testimonials": *[_type == "testimonials"][0]{ title, items },  "ebook": *[_type == "ebook"][0]{ title, description, cover, ctaText, ctaLink }}
 export type HOMEPAGE_QUERYResult = {
   hero: {
     title: string | null;
@@ -288,27 +379,40 @@ export type HOMEPAGE_QUERYResult = {
   about: {
     title: string | null;
     description: string | null;
-    image: null;
-  } | null;
-  gallery: {
-    title: string | null;
-    description: string | null;
-    images: Array<{
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      alt?: string;
-      caption?: string;
-      _type: "image";
+    features: Array<{
+      icon?: LucideIcon;
+      title?: string;
+      description?: string;
+      _type: "featureItem";
       _key: string;
     }> | null;
   } | null;
+  gallery: {
+    title: string | null;
+    subtitle: string | null;
+    maxPhotos: number | null;
+    photos: Array<{
+      _id: string;
+      name: string | null;
+      description: string | null;
+      image: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      } | null;
+      category: {
+        name: string | null;
+        slug: Slug | null;
+      } | null;
+    }>;
+  };
   testimonials: {
     title: string | null;
     items: Array<{
@@ -367,7 +471,10 @@ export type SETTINGS_QUERYResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "{\n  \"hero\": *[_type == \"hero\"][0]{ title, description, image },\n  \"about\": *[_type == \"about\"][0]{ title, description, image },\n  \"gallery\": *[_type == \"gallery\"][0]{ title, description, images },\n  \"testimonials\": *[_type == \"testimonials\"][0]{ title, items },\n  \"ebook\": *[_type == \"ebook\"][0]{ title, description, cover, ctaText, ctaLink }\n}": HOMEPAGE_QUERYResult;
+    "*[_type == \"category\"] | order(name asc) {\n  _id,\n  name,\n  slug\n}": CATEGORIES_QUERYResult;
+    "{\n  \"section\": *[_type == \"gallerySection\"][0]{ title, subtitle, maxPhotos },\n  \"photos\": *[_type == \"gallery\" && featured == true] | order(order asc) {\n    _id,\n    name,\n    description,\n    image,\n    \"category\": category->{ name, slug }\n  }\n}": GALLERY_SECTION_QUERYResult;
+    "*[_type == \"gallery\"] | order(order asc) {\n  _id,\n  name,\n  description,\n  image,\n  \"category\": category->{ _id, name, slug }\n}": ALL_PHOTOS_QUERYResult;
+    "{\n  \"hero\": *[_type == \"hero\"][0]{ title, description, image },\n  \"about\": *[_type == \"about\"][0]{ title, description, features },\n  \"gallery\": {\n    \"title\": *[_type == \"gallerySection\"][0].title,\n    \"subtitle\": *[_type == \"gallerySection\"][0].subtitle,\n    \"maxPhotos\": *[_type == \"gallerySection\"][0].maxPhotos,\n    \"photos\": *[_type == \"gallery\" && featured == true] | order(order asc) {\n      _id,\n      name,\n      description,\n      image,\n      \"category\": category->{ name, slug }\n    }\n  },\n  \"testimonials\": *[_type == \"testimonials\"][0]{ title, items },\n  \"ebook\": *[_type == \"ebook\"][0]{ title, description, cover, ctaText, ctaLink }\n}": HOMEPAGE_QUERYResult;
     "*[_type == \"settings\"][0]{\n  email,\n  phone,\n  address,\n  instagram,\n  tiktok\n}": SETTINGS_QUERYResult;
   }
 }

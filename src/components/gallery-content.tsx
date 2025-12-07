@@ -1,31 +1,28 @@
 'use client';
 
 import { useState } from 'react';
+import { ALL_PHOTOS_QUERYResult, Category } from '../../sanity.types';
 import { FocusCards } from './ui/focus-cards';
 
-// interface GalleryItem {
-//   id: number;
-//   title: string;
-//   category: string;
-//   image: string;
-//   description: string;
-// }
-
 interface GalleryContentProps {
-  items: GalleryItem[];
-  categories: string[];
+  items: ALL_PHOTOS_QUERYResult;
+  categories: Category[];
 }
 
 export default function GalleryContent({
   items,
   categories,
 }: GalleryContentProps) {
-  const [selectedCategory, setSelectedCategory] = useState('Tous');
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
   const filteredItems =
-    selectedCategory === 'Tous'
+    selectedCategory === 'all'
       ? items
-      : items.filter((item) => item.category === selectedCategory);
+      : items.filter((item) => {
+          if (item.category) {
+            return item.category._id === selectedCategory;
+          }
+        });
 
   return (
     <>
@@ -36,18 +33,29 @@ export default function GalleryContent({
       >
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap justify-center gap-2">
+            <button
+              onClick={() => setSelectedCategory('all')}
+              aria-pressed={selectedCategory === 'all'}
+              className={`px-6 py-2 rounded-full font-medium transition-all ${
+                selectedCategory === 'all'
+                  ? 'bg-primary text-primary-foreground shadow-md'
+                  : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+              }`}
+            >
+              Tous
+            </button>
             {categories.map((category) => (
               <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                aria-pressed={selectedCategory === category}
+                key={category._id}
+                onClick={() => setSelectedCategory(category._id)}
+                aria-pressed={selectedCategory === category._id}
                 className={`px-6 py-2 rounded-full font-medium transition-all ${
-                  selectedCategory === category
+                  selectedCategory === category._id
                     ? 'bg-primary text-primary-foreground shadow-md'
                     : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
                 }`}
               >
-                {category}
+                {category.name}
               </button>
             ))}
           </div>
@@ -56,31 +64,6 @@ export default function GalleryContent({
 
       {/* Gallery Grid */}
       <section aria-label="Créations" className="py-16 bg-background">
-        {/* <div className="container mx-auto px-4">
-          <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 animate-slide-up">
-            {filteredItems.map((item) => (
-              <li key={item.id}>
-                <article className="group cursor-pointer">
-                  <div className="relative aspect-square rounded-2xl overflow-hidden mb-4 shadow-medium hover-lift">
-                    <Image
-                      src={item.image}
-                      alt={item.title}
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                      fill
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Badge variant={'primaryLight'}>{item.category}</Badge>
-                    <h2 className="text-xl font-bold group-hover:text-highlight transition-colors">
-                      {item.title}
-                    </h2>
-                    <p className="text-muted-foreground">{item.description}</p>
-                  </div>
-                </article>
-              </li>
-            ))}
-          </ul>
-        </div> */}
         <FocusCards cards={filteredItems} />
       </section>
     </>

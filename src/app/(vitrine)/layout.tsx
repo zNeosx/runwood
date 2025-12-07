@@ -10,17 +10,9 @@ import { Nunito_Sans, Playfair_Display } from 'next/font/google';
 import { draftMode } from 'next/headers';
 import Footer from '../_components/Footer';
 
-// const geistSans = Geist({
-//   variable: '--font-geist-sans',
-//   subsets: ['latin'],
-// });
-
-// const geistMono = Geist_Mono({s
-//   variable: '--font-geist-mono',
-//   subsets: ['latin'],
-// });
 const nunitoSans = Nunito_Sans({
   variable: '--font-nunito-sans',
+  subsets: ['latin'],
   weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
 });
 
@@ -44,7 +36,9 @@ export default async function RootLayout({
   const { isEnabled: isPreview } = await draftMode();
   return (
     <html lang="fr">
-      <body className={`${nunitoSans.variable} ${playfairDisplay.variable} font-sans antialiased`}>
+      <body
+        className={`${nunitoSans.variable} ${playfairDisplay.variable} font-sans antialiased`}
+      >
         <Navigation />
         <main className={isPreview ? 'pt-10' : ''}>{children}</main>
         <Footer data={settings} />

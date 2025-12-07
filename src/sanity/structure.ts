@@ -8,6 +8,9 @@ import {
   Image,
   Users,
   BookOpen,
+  GalleryHorizontal,
+  Images,
+  Tag,
 } from 'lucide-react';
 
 const PAGES = [
@@ -17,7 +20,7 @@ const PAGES = [
     sections: [
       { type: 'hero', title: 'Hero', icon: Clapperboard },
       { type: 'about', title: 'À propos', icon: Info },
-      { type: 'gallery', title: 'Galerie', icon: Image },
+      { type: 'gallerySection', title: 'Section Galerie', icon: Image },
       { type: 'testimonials', title: 'Témoignages', icon: Users },
       { type: 'ebook', title: 'Ebook', icon: BookOpen },
     ],
@@ -27,10 +30,12 @@ const PAGES = [
 const SINGLETON_TYPES = [
   'hero',
   'about',
-  'gallery',
+  'gallerySection',
   'testimonials',
   'ebook',
   'settings',
+  'gallery',
+  'category',
 ];
 
 export const structure: StructureResolver = (S) =>
@@ -59,6 +64,24 @@ export const structure: StructureResolver = (S) =>
               )
           )
       ),
+
+      S.divider(),
+
+      // Photos (liste)
+      S.listItem()
+        .title('Page Galerie')
+        .icon(Images)
+        .child(
+          S.documentTypeList('gallery')
+            .title('Page Galerie')
+            .defaultOrdering([{ field: 'order', direction: 'asc' }])
+        ),
+
+      // Catégories (liste)
+      S.listItem()
+        .title('Catégories')
+        .icon(Tag)
+        .child(S.documentTypeList('category').title('Catégories')),
 
       S.divider(),
 

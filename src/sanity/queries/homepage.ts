@@ -11,7 +11,11 @@ import type {
 export type HomepageData = {
   hero: Hero | null;
   about: About | null;
-  gallery: Gallery | null;
+  gallery: {
+    title: string | null;
+    subtitle: string | null;
+    photos: Gallery[];
+  } | null;
   testimonials: Testimonials | null;
   ebook: Ebook | null;
 };
@@ -19,7 +23,18 @@ export type HomepageData = {
 const HOMEPAGE_QUERY = groq`{
   "hero": *[_type == "hero"][0]{ title, description, image },
   "about": *[_type == "about"][0]{ title, description, features },
-  "gallery": *[_type == "gallery"][0]{ title, description, images },
+  "gallery": {
+    "title": *[_type == "gallerySection"][0].title,
+    "subtitle": *[_type == "gallerySection"][0].subtitle,
+    "maxPhotos": *[_type == "gallerySection"][0].maxPhotos,
+    "photos": *[_type == "gallery" && featured == true] | order(order asc) {
+      _id,
+      name,
+      description,
+      image,
+      "category": category->{ name, slug }
+    }
+  },
   "testimonials": *[_type == "testimonials"][0]{ title, items },
   "ebook": *[_type == "ebook"][0]{ title, description, cover, ctaText, ctaLink }
 }`;
@@ -38,7 +53,14 @@ export async function getHomepage(): Promise<HomepageData> {
   // }
   const homepage = await sanityFetch({
     query: HOMEPAGE_QUERY,
-    tags: ['homepage', 'hero', 'about', 'gallery', 'testimonials', 'ebook'],
+    tags: [
+      'homepage',
+      'hero',
+      'about',
+      'gallerySection',
+      'testimonials',
+      'ebook',
+    ],
   });
 
   return homepage.data;

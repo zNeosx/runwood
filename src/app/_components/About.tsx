@@ -11,7 +11,6 @@ type Props = {
 };
 
 const About = ({ data }: Props) => {
-  console.log('about data', data);
   const values = [
     {
       icon: Hammer,

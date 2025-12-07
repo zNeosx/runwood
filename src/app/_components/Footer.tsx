@@ -10,7 +10,6 @@ type Props = {
 };
 
 const Footer = async ({ data }: Props) => {
-  console.log('data', data);
   return (
     <footer>
       <div className="container mx-auto px-4 py-8">
