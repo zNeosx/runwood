@@ -4,7 +4,7 @@ import { BookOpen, Check } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const Ebook = () => {
+const Ebook = async () => {
   const featuresLeft = [
     '10+ projets de meubles détaillés',
     "Techniques d'assemblage professionnelles",

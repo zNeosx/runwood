@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { About as AboutType } from '../../../sanity.types';
 import { DynamicIcon, IconName } from 'lucide-react/dynamic';
+import Sticker from '@/components/ui/sticker';
 
 type Props = {
   data: AboutType | null;
@@ -31,7 +32,7 @@ const About = ({ data }: Props) => {
   ];
 
   return (
-    <section aria-labelledby="about-title" className="py-24">
+    <section aria-labelledby="about-title" className="py-32">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-20 items-center">
           {/* Image */}
@@ -44,7 +45,6 @@ const About = ({ data }: Props) => {
                 className="object-cover object-top hover-lift z-1"
               />
             </figure>
-            <div className="absolute top-0 right-0 size-full bg-highlight/10 rounded-full blur-3xl" />
           </div>
 
           {/* Content */}

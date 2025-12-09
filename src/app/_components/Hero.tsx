@@ -1,14 +1,241 @@
+'use client';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { HomepageData } from '@/sanity/queries';
 import { ArrowRight, BookOpen } from 'lucide-react';
 import Link from 'next/link';
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { useGSAP } from '@gsap/react';
+
+gsap.registerPlugin(useGSAP);
 
 type Props = {
   data: HomepageData['hero'];
 };
 
-const Hero = async ({ data }: Props) => {
+const ANIMATION_CONFIG = {
+  reverseAt: 12,
+  loopThreshold: 0.5, // Seuil pour détecter le loop
+};
+
+const Hero = ({ data }: Props) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const textContainerRef = useRef<HTMLDivElement>(null);
+  const timelineRef = useRef<gsap.core.Timeline | null>(null);
+  const titleRef = useRef<HTMLHeadingElement | null>(null);
+  const subtitleRef = useRef<HTMLParagraphElement | null>(null);
+  const buttonsRef = useRef<HTMLDivElement | null>(null);
+  const container = useRef<HTMLDivElement | null>(null);
+
+  // useEffect(() => {
+  //   const video = videoRef.current;
+  //   const textContainer = textContainerRef.current;
+
+  //   if (!video || !textContainer) return;
+
+  //   // Timeline GSAP pour les animations
+  //   const tl = gsap.timeline({ paused: true });
+  //   timelineRef.current = tl;
+
+  //   // Configuration des animations
+  //   const config = {
+  //     fadeOutStart: 3, // Le texte commence à disparaître à 3s
+  //     fadeOutEnd: 4, // Complètement disparu à 4s
+  //     fadeInStart: 0, // Réapparaît à 0s (boucle)
+  //     fadeInDuration: 1, // Durée du fade in
+  //   };
+
+  //   // Animation de disparition
+  //   tl.to(
+  //     textContainer,
+  //     {
+  //       opacity: 0,
+  //       y: -30,
+  //       duration: config.fadeOutEnd - config.fadeOutStart,
+  //       ease: 'power2.inOut',
+  //     },
+  //     config.fadeOutStart
+  //   );
+
+  //   // Sync avec le temps de la vidéo
+  //   const handleTimeUpdate = () => {
+  //     const currentTime = video.currentTime;
+  //     const duration = video.duration;
+
+  //     // Progression normalisée pour GSAP
+  //     if (duration) {
+  //       tl.seek(currentTime);
+  //     }
+  //   };
+
+  //   // Quand la vidéo boucle, reset smooth du texte
+  //   const handleLoop = () => {
+  //     gsap.to(textContainer, {
+  //       opacity: 1,
+  //       y: 0,
+  //       duration: config.fadeInDuration,
+  //       ease: 'power2.out',
+  //     });
+  //   };
+
+  //   video.addEventListener('timeupdate', handleTimeUpdate);
+  //   video.addEventListener('seeked', () => {
+  //     if (video.currentTime < 1) handleLoop();
+  //   });
+  //   video.addEventListener('ended', () => {
+  //     // Si la vidéo n'est pas en loop automatique
+  //     handleLoop();
+  //   });
+
+  //   return () => {
+  //     video.removeEventListener('timeupdate', handleTimeUpdate);
+  //     tl.kill();
+  //   };
+  // }, []);
+
+  // useEffect(() => {
+  //   const video = videoRef.current;
+  //   if (!video) return;
+
+  //   const elements = {
+  //     title: titleRef.current,
+  //     subtitle: subtitleRef.current,
+  //     buttons: buttonsRef.current,
+  //   };
+
+  //   const handleTimeUpdate = () => {
+  //     const t = video.currentTime;
+
+  //     // Fade out progressif entre 4s et 5s
+  //     if (t >= 4 && t <= 5) {
+  //       const progress = (t - 4) / 1; // 0 à 1
+  //       gsap.set(elements.title, { opacity: 1 - progress, y: -80 * progress });
+  //       gsap.set(elements.subtitle, {
+  //         opacity: 1 - progress,
+  //         y: -20 * progress,
+  //       });
+  //       gsap.set(elements.buttons, { opacity: 1 - progress });
+  //     }
+
+  //     // Reset quand la vidéo repart au début
+  //     if (t < 0.5) {
+  //       gsap.to([elements.title, elements.subtitle, elements.buttons], {
+  //         opacity: 1,
+  //         y: 0,
+  //         duration: 0.8,
+  //         stagger: 0.1,
+  //         ease: 'power3.out',
+  //       });
+  //     }
+  //   };
+
+  //   video.addEventListener('timeupdate', handleTimeUpdate);
+  //   return () => video.removeEventListener('timeupdate', handleTimeUpdate);
+  // }, []);
+
+  // useEffect(() => {
+  // const title = titleRef.current;
+  // const subtitle = subtitleRef.current;
+  // const buttons = buttonsRef.current;
+
+  // if (!title && !subtitle && !buttons) return;
+
+  //   timelineRef.current = gsap
+  //     .timeline()
+  // .to(title, { opacity: 1, duration: 0.5 })
+  // .to(subtitle, {
+  //   opacity: 1,
+  //   duration: 0.5,
+  // })
+  // .to(buttons, { opacity: 1, duration: 0.5 });
+
+  // }, []);
+  // Timeline principale stockée pour pouvoir la reverse
+  const mainTimeline = useRef<gsap.core.Timeline | null>(null);
+  const lastTimeRef = useRef<number>(0);
+  const hasReversedRef = useRef<boolean>(false);
+
+  useGSAP(
+    () => {
+      const title = titleRef.current;
+      const subtitle = subtitleRef.current;
+      const buttons = buttonsRef.current;
+      const video = videoRef.current;
+
+      if (!title || !subtitle || !buttons || !video) return;
+
+      // Timeline d'entrée
+      mainTimeline.current = gsap
+        .timeline({ paused: true })
+        .to(title, {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: 'power3.out',
+        })
+        .to(
+          subtitle,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: 'power3.out',
+          },
+          '-=0.3'
+        )
+        .to(
+          buttons,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: 'power3.out',
+          },
+          '-=0.3'
+        );
+
+      // Set initial state
+      gsap.set([title, subtitle, buttons], { opacity: 0, y: 30 });
+
+      // Play intro
+      mainTimeline.current.play();
+
+      // Sync avec la vidéo
+      const handleTimeUpdate = () => {
+        const currentTime = video.currentTime;
+
+        // Détecter le loop (temps actuel < dernier temps - seuil)
+        if (
+          currentTime <
+          lastTimeRef.current - ANIMATION_CONFIG.loopThreshold
+        ) {
+          hasReversedRef.current = false;
+          // Rejouer l'animation
+          mainTimeline.current?.restart();
+        }
+
+        // Reverse à 6 secondes
+        if (
+          !hasReversedRef.current &&
+          currentTime >= ANIMATION_CONFIG.reverseAt
+        ) {
+          hasReversedRef.current = true;
+          mainTimeline.current?.reverse();
+        }
+
+        lastTimeRef.current = currentTime;
+      };
+
+      video.addEventListener('timeupdate', handleTimeUpdate);
+
+      return () => {
+        video.removeEventListener('timeupdate', handleTimeUpdate);
+      };
+    },
+    { scope: container }
+  );
+
   return (
     <section
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
@@ -23,6 +250,7 @@ const Hero = async ({ data }: Props) => {
           fill
         /> */}
         <video
+          ref={videoRef}
           autoPlay
           muted
           loop
@@ -37,15 +265,27 @@ const Hero = async ({ data }: Props) => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 py-32 text-center">
+      <div
+        ref={container}
+        className="relative z-10 container mx-auto px-4 py-32 text-center"
+      >
         <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
-          <h1 className="text-5xl md:text-7xl font-bold text-foreground leading-tight text-balance">
+          <h1
+            ref={titleRef}
+            className="text-5xl md:text-7xl font-bold text-foreground leading-tight text-balance opacity-0"
+          >
             {data?.title}
           </h1>
-          <p className="text-xl md:text-2xl text-foreground max-w-2xl mx-auto text-balance">
+          <p
+            ref={subtitleRef}
+            className="text-xl md:text-2xl text-foreground max-w-2xl mx-auto text-balance opacity-0"
+          >
             {data?.description}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+          <div
+            ref={buttonsRef}
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4 opacity-0"
+          >
             <Link
               href={'/galerie'}
               className={cn(

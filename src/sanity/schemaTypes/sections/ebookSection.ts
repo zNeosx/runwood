@@ -2,7 +2,7 @@ import { defineField, defineType } from 'sanity';
 import { BookOpen } from 'lucide-react';
 
 export default defineType({
-  name: 'ebook',
+  name: 'ebookSection',
   title: 'Ebook',
   type: 'document',
   icon: BookOpen,
