@@ -26,132 +26,9 @@ const Hero = ({ data }: Props) => {
   const titleRef = useRef<HTMLHeadingElement | null>(null);
   const subtitleRef = useRef<HTMLParagraphElement | null>(null);
   const buttonsRef = useRef<HTMLDivElement | null>(null);
+  const scrollIndicatorRef = useRef<HTMLDivElement | null>(null);
   const container = useRef<HTMLDivElement | null>(null);
 
-  // useEffect(() => {
-  //   const video = videoRef.current;
-  //   const textContainer = textContainerRef.current;
-
-  //   if (!video || !textContainer) return;
-
-  //   // Timeline GSAP pour les animations
-  //   const tl = gsap.timeline({ paused: true });
-  //   timelineRef.current = tl;
-
-  //   // Configuration des animations
-  //   const config = {
-  //     fadeOutStart: 3, // Le texte commence à disparaître à 3s
-  //     fadeOutEnd: 4, // Complètement disparu à 4s
-  //     fadeInStart: 0, // Réapparaît à 0s (boucle)
-  //     fadeInDuration: 1, // Durée du fade in
-  //   };
-
-  //   // Animation de disparition
-  //   tl.to(
-  //     textContainer,
-  //     {
-  //       opacity: 0,
-  //       y: -30,
-  //       duration: config.fadeOutEnd - config.fadeOutStart,
-  //       ease: 'power2.inOut',
-  //     },
-  //     config.fadeOutStart
-  //   );
-
-  //   // Sync avec le temps de la vidéo
-  //   const handleTimeUpdate = () => {
-  //     const currentTime = video.currentTime;
-  //     const duration = video.duration;
-
-  //     // Progression normalisée pour GSAP
-  //     if (duration) {
-  //       tl.seek(currentTime);
-  //     }
-  //   };
-
-  //   // Quand la vidéo boucle, reset smooth du texte
-  //   const handleLoop = () => {
-  //     gsap.to(textContainer, {
-  //       opacity: 1,
-  //       y: 0,
-  //       duration: config.fadeInDuration,
-  //       ease: 'power2.out',
-  //     });
-  //   };
-
-  //   video.addEventListener('timeupdate', handleTimeUpdate);
-  //   video.addEventListener('seeked', () => {
-  //     if (video.currentTime < 1) handleLoop();
-  //   });
-  //   video.addEventListener('ended', () => {
-  //     // Si la vidéo n'est pas en loop automatique
-  //     handleLoop();
-  //   });
-
-  //   return () => {
-  //     video.removeEventListener('timeupdate', handleTimeUpdate);
-  //     tl.kill();
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   const video = videoRef.current;
-  //   if (!video) return;
-
-  //   const elements = {
-  //     title: titleRef.current,
-  //     subtitle: subtitleRef.current,
-  //     buttons: buttonsRef.current,
-  //   };
-
-  //   const handleTimeUpdate = () => {
-  //     const t = video.currentTime;
-
-  //     // Fade out progressif entre 4s et 5s
-  //     if (t >= 4 && t <= 5) {
-  //       const progress = (t - 4) / 1; // 0 à 1
-  //       gsap.set(elements.title, { opacity: 1 - progress, y: -80 * progress });
-  //       gsap.set(elements.subtitle, {
-  //         opacity: 1 - progress,
-  //         y: -20 * progress,
-  //       });
-  //       gsap.set(elements.buttons, { opacity: 1 - progress });
-  //     }
-
-  //     // Reset quand la vidéo repart au début
-  //     if (t < 0.5) {
-  //       gsap.to([elements.title, elements.subtitle, elements.buttons], {
-  //         opacity: 1,
-  //         y: 0,
-  //         duration: 0.8,
-  //         stagger: 0.1,
-  //         ease: 'power3.out',
-  //       });
-  //     }
-  //   };
-
-  //   video.addEventListener('timeupdate', handleTimeUpdate);
-  //   return () => video.removeEventListener('timeupdate', handleTimeUpdate);
-  // }, []);
-
-  // useEffect(() => {
-  // const title = titleRef.current;
-  // const subtitle = subtitleRef.current;
-  // const buttons = buttonsRef.current;
-
-  // if (!title && !subtitle && !buttons) return;
-
-  //   timelineRef.current = gsap
-  //     .timeline()
-  // .to(title, { opacity: 1, duration: 0.5 })
-  // .to(subtitle, {
-  //   opacity: 1,
-  //   duration: 0.5,
-  // })
-  // .to(buttons, { opacity: 1, duration: 0.5 });
-
-  // }, []);
-  // Timeline principale stockée pour pouvoir la reverse
   const mainTimeline = useRef<gsap.core.Timeline | null>(null);
   const lastTimeRef = useRef<number>(0);
   const hasReversedRef = useRef<boolean>(false);
@@ -161,9 +38,10 @@ const Hero = ({ data }: Props) => {
       const title = titleRef.current;
       const subtitle = subtitleRef.current;
       const buttons = buttonsRef.current;
+      const scrollIndicator = scrollIndicatorRef.current;
       const video = videoRef.current;
 
-      if (!title || !subtitle || !buttons || !video) return;
+      if (!title || !subtitle || !buttons || !scrollIndicator || !video) return;
 
       // Timeline d'entrée
       mainTimeline.current = gsap
@@ -193,10 +71,23 @@ const Hero = ({ data }: Props) => {
             ease: 'power3.out',
           },
           '-=0.3'
+        )
+        .to(
+          scrollIndicator,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: 'power3.out',
+          },
+          '-=0.3'
         );
 
       // Set initial state
-      gsap.set([title, subtitle, buttons], { opacity: 0, y: 30 });
+      gsap.set([title, subtitle, buttons, scrollIndicator], {
+        opacity: 0,
+        y: 30,
+      });
 
       // Play intro
       mainTimeline.current.play();
@@ -243,12 +134,6 @@ const Hero = ({ data }: Props) => {
     >
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
-        {/* <Image
-          src={urlFor(heroData.image as SanityImageSource).url()}
-          alt="Atelier RunWood"
-          className="w-full h-full object-cover"
-          fill
-        /> */}
         <video
           ref={videoRef}
           autoPlay
@@ -259,7 +144,7 @@ const Hero = ({ data }: Props) => {
           poster="/images/IMG-20251201-WA0008.jpg"
           className="size-full object-cover"
         >
-          <source src={'/videos/hero.mp4'} type="video/mp4" />
+          <source src={'/videos/hero-2.mp4'} type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-background/30" />
       </div>
@@ -272,13 +157,13 @@ const Hero = ({ data }: Props) => {
         <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
           <h1
             ref={titleRef}
-            className="text-5xl md:text-7xl font-bold text-foreground leading-tight text-balance opacity-0"
+            className="text-5xl md:text-7xl xl:text-8xl font-bold text-foreground leading-tight text-balance opacity-0"
           >
             {data?.title}
           </h1>
           <p
             ref={subtitleRef}
-            className="text-xl md:text-2xl text-foreground max-w-2xl mx-auto text-balance opacity-0"
+            className="text-xl md:text-2xl xl:text-3xl text-foreground max-w-2xl mx-auto text-balance opacity-0"
           >
             {data?.description}
           </p>
@@ -313,7 +198,10 @@ const Hero = ({ data }: Props) => {
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <div
+          ref={scrollIndicatorRef}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce"
+        >
           <div className="w-6 h-10 border-2 border-white/50 rounded-full flex items-start justify-center p-2">
             <div className="w-1 h-3 bg-white/50 rounded-full" />
           </div>

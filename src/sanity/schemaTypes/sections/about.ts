@@ -1,8 +1,8 @@
 import { defineField, defineType } from 'sanity';
 import { Info } from 'lucide-react';
 
-export default defineType({
-  name: 'about',
+export const aboutSection = defineType({
+  name: 'aboutSection',
   title: 'À propos',
   type: 'document',
   icon: Info,

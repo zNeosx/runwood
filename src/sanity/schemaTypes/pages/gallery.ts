@@ -1,71 +1,28 @@
 import { defineField, defineType } from 'sanity';
-import { Image } from 'lucide-react';
+import { Images } from 'lucide-react';
 
-export default defineType({
-  name: 'gallery',
-  title: 'Page Galerie',
+export const galleryPage = defineType({
+  name: 'galleryPage',
+  title: 'Page Galerie (Paramètres)',
   type: 'document',
-  icon: Image,
+  icon: Images,
   fields: [
     defineField({
-      name: 'image',
-      title: 'Image',
-      type: 'image',
-      options: { hotspot: true },
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'name',
-      title: 'Nom',
+      name: 'pageTitle',
+      title: 'Titre de la page',
       type: 'string',
-      validation: (Rule) => Rule.required(),
+      initialValue: 'Galerie',
     }),
     defineField({
-      name: 'description',
-      title: 'Description',
+      name: 'pageDescription',
+      title: 'Description (sous le titre)',
       type: 'text',
       rows: 2,
     }),
     defineField({
-      name: 'category',
-      title: 'Catégorie',
-      type: 'reference',
-      to: [{ type: 'category' }],
-      validation: (Rule) => Rule.required(),
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
     }),
-    defineField({
-      name: 'featured',
-      title: "Afficher en page d'accueil",
-      type: 'boolean',
-      initialValue: false,
-      description:
-        "Cochez pour afficher cette photo dans la section galerie de la page d'accueil",
-    }),
-    defineField({
-      name: 'order',
-      title: "Ordre d'affichage",
-      type: 'number',
-      initialValue: 0,
-    }),
-  ],
-  preview: {
-    select: {
-      title: 'name',
-      subtitle: 'category.name',
-      media: 'image',
-      featured: 'featured',
-    },
-    prepare: ({ title, subtitle, media, featured }) => ({
-      title: featured ? `⭐ ${title}` : title,
-      subtitle,
-      media,
-    }),
-  },
-  orderings: [
-    {
-      title: 'Ordre manuel',
-      name: 'orderAsc',
-      by: [{ field: 'order', direction: 'asc' }],
-    },
   ],
 });

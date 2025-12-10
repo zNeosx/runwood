@@ -1,7 +1,7 @@
+import { BookOpen, ListChecks } from 'lucide-react'; // Ajout d'icônes pour la clarté dans le Studio
 import { defineField, defineType } from 'sanity';
-import { BookOpen, DollarSign, ListChecks } from 'lucide-react'; // Ajout d'icônes pour la clarté dans le Studio
 
-export const ebook = defineType({
+export const ebookPage = defineType({
   name: 'ebookPage',
   title: 'Page du Ebook',
   type: 'document',

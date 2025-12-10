@@ -1,28 +1,28 @@
 import { groq } from 'next-sanity';
 import { sanityFetch } from '../lib/live';
 import type {
-  Hero,
-  About,
+  HeroSection,
+  AboutSection,
   Gallery,
-  Testimonials,
-  Ebook,
+  TestimonialsSection,
+  EbookSection,
 } from '../../../sanity.types';
 
 export type HomepageData = {
-  hero: Hero | null;
-  about: About | null;
+  hero: HeroSection | null;
+  about: AboutSection | null;
   gallery: {
     title: string | null;
     subtitle: string | null;
     photos: Gallery[];
   } | null;
-  testimonials: Testimonials | null;
-  ebook: Ebook | null;
+  testimonials: TestimonialsSection | null;
+  ebook: EbookSection | null;
 };
 
 const HOMEPAGE_QUERY = groq`{
-  "hero": *[_type == "hero"][0]{ title, description, image },
-  "about": *[_type == "about"][0]{ title, description, features },
+  "hero": *[_type == "heroSection"][0]{ title, description, image },
+  "about": *[_type == "aboutSection"][0]{ title, description, features },
   "gallery": {
     "title": *[_type == "gallerySection"][0].title,
     "subtitle": *[_type == "gallerySection"][0].subtitle,
@@ -35,8 +35,8 @@ const HOMEPAGE_QUERY = groq`{
       "category": category->{ name, slug }
     }
   },
-  "testimonials": *[_type == "testimonials"][0]{ title, items },
-  "ebook": *[_type == "ebook"][0]{ title, description, cover, ctaText, ctaLink }
+  "testimonials": *[_type == "testimonialsSection"][0]{ title, items },
+  "ebook": *[_type == "ebookSection"][0]{ title, description, cover, ctaText, ctaLink }
 }`;
 
 export async function getHomepage(): Promise<HomepageData> {

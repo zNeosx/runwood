@@ -1,26 +1,25 @@
-import { type SchemaTypeDefinition } from 'sanity';
-import category from './category';
-import about from './sections/about';
-import ebookSection from './sections/ebookSection';
-import gallerySection from './sections/gallery-section';
-import hero from './sections/hero';
-import testimonials from './sections/testimonials';
-import settings from './settings';
-import gallery from './pages/gallery';
-import { ebook } from './pages/ebook';
-import { seo } from './seo';
+// schemaTypes/index.ts
+import * as pages from './pages';
+import * as sections from './sections';
+import * as documents from './documents';
+import * as objects from './objects';
+import * as taxonomies from './taxonomies';
+import * as settings from './settings';
+import { SchemaTypeDefinition } from 'sanity';
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
-    hero,
-    about,
-    gallerySection,
-    gallery,
-    category,
-    testimonials,
-    ebookSection,
-    settings,
-    ebook,
-    seo,
+    // Pages (singletons)
+    ...Object.values(pages),
+    // Sections accueil (singletons)
+    ...Object.values(sections),
+    // Documents (multiples)
+    ...Object.values(documents),
+    // Objects réutilisables
+    ...Object.values(objects),
+    // Taxonomies
+    ...Object.values(taxonomies),
+    // Settings
+    ...Object.values(settings),
   ],
 };

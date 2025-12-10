@@ -1,8 +1,8 @@
 import { defineField, defineType } from 'sanity';
 import { Users } from 'lucide-react';
 
-export default defineType({
-  name: 'testimonials',
+export const testimonialsSection = defineType({
+  name: 'testimonialsSection',
   title: 'Témoignages',
   type: 'document',
   icon: Users,

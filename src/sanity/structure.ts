@@ -10,30 +10,35 @@ import {
   BookOpen,
   Images,
   Tag,
-  FileText, // Icône pour le dossier "Pages"
-  SlidersHorizontal, // Icône pour le dossier "Configuration"
+  FileText,
+  SlidersHorizontal,
 } from 'lucide-react';
 
 // Liste des types qui ne doivent pas apparaître dans "Autres documents"
-const HIDDEN_DOC_TYPES = [
-  'hero',
-  'about',
-  'gallerySection',
-  'testimonials',
-  'ebookSection',
-  'settings',
-  'gallery',
-  'category',
-  'ebookPage',
-  'media.tag', // Souvent généré par les plugins de media
-];
+// const HIDDEN_DOC_TYPES = [
+//   // Sections (accueil)
+//   'heroSection',
+//   'aboutSection',
+//   'gallerySection',
+//   'testimonialsSection',
+//   'ebookSection',
+//   // Pages
+//   'ebookPage',
+//   'galleryPage',
+//   // Documents
+//   'gallery',
+//   // Taxonomies
+//   'galleryCategory',
+//   // Settings
+//   'settings',
+// ];
 
 export const structure: StructureResolver = (S) =>
   S.list()
     .title('Contenu')
     .items([
       // --------------------------------------------------------
-      // 1. DOSSIER "PAGES"
+      // 1. PAGES
       // --------------------------------------------------------
       S.listItem()
         .title('Pages')
@@ -42,7 +47,7 @@ export const structure: StructureResolver = (S) =>
           S.list()
             .title('Mes Pages')
             .items([
-              // A. Page Accueil (C'est un dossier contenant les sections singletons)
+              // A. Page Accueil
               S.listItem()
                 .title('Accueil')
                 .icon(Home)
@@ -54,16 +59,20 @@ export const structure: StructureResolver = (S) =>
                         .title('Hero')
                         .icon(Clapperboard)
                         .child(
-                          S.document().schemaType('hero').documentId('hero')
+                          S.document()
+                            .schemaType('heroSection')
+                            .documentId('heroSection')
                         ),
                       S.listItem()
                         .title('À propos')
                         .icon(Info)
                         .child(
-                          S.document().schemaType('about').documentId('about')
+                          S.document()
+                            .schemaType('aboutSection')
+                            .documentId('aboutSection')
                         ),
                       S.listItem()
-                        .title('Section Galerie (Aperçu)')
+                        .title('Section Galerie')
                         .icon(Image)
                         .child(
                           S.document()
@@ -75,11 +84,11 @@ export const structure: StructureResolver = (S) =>
                         .icon(Users)
                         .child(
                           S.document()
-                            .schemaType('testimonials')
-                            .documentId('testimonials')
+                            .schemaType('testimonialsSection')
+                            .documentId('testimonialsSection')
                         ),
                       S.listItem()
-                        .title('Section Ebook (Aperçu)')
+                        .title('Section Ebook')
                         .icon(BookOpen)
                         .child(
                           S.document()
@@ -89,28 +98,49 @@ export const structure: StructureResolver = (S) =>
                     ])
                 ),
 
-              // B. Page Galerie (C'est directement la liste des images/albums)
+              // B. Page Galerie
               S.listItem()
                 .title('Galerie')
                 .icon(Images)
                 .child(
-                  S.documentTypeList('gallery')
-                    .title('Tous les éléments de galerie')
-                    .defaultOrdering([{ field: 'order', direction: 'asc' }]) // Si vous avez un champ 'order'
+                  S.list()
+                    .title('Galerie')
+                    .items([
+                      S.listItem()
+                        .title('Paramètres de la page')
+                        .icon(Settings)
+                        .child(
+                          S.document()
+                            .schemaType('galleryPage')
+                            .documentId('galleryPage')
+                        ),
+                      S.listItem()
+                        .title('Créations')
+                        .icon(Image)
+                        .child(
+                          S.documentTypeList('gallery')
+                            .title('Toutes les créations')
+                            .defaultOrdering([
+                              { field: 'order', direction: 'asc' },
+                            ])
+                        ),
+                    ])
                 ),
 
-              // C. Page Ebook (Singleton ou Liste selon votre besoin)
-              S.listItem().title('Ebook').icon(BookOpen).child(
-                // Si c'est une page unique de présentation du Ebook :
-                S.document().schemaType('ebookPage').documentId('ebookPage')
-              ),
+              // C. Page Ebook
+              S.listItem()
+                .title('Ebook')
+                .icon(BookOpen)
+                .child(
+                  S.document().schemaType('ebookPage').documentId('ebookPage')
+                ),
             ])
         ),
 
       S.divider(),
 
       // --------------------------------------------------------
-      // 2. DOSSIER "CONFIGURATION"
+      // 2. CONFIGURATION
       // --------------------------------------------------------
       S.listItem()
         .title('Configuration')
@@ -119,20 +149,19 @@ export const structure: StructureResolver = (S) =>
           S.list()
             .title('Configuration')
             .items([
-              // Catégories
               S.listItem()
-                .title('Catégories')
+                .title('Catégories (Galerie)')
                 .icon(Tag)
-                .child(S.documentTypeList('category').title('Catégories')),
-
-              // Vous pouvez ajouter d'autres listes de configuration ici (ex: Auteurs, Tags...)
+                .child(
+                  S.documentTypeList('galleryCategory').title('Catégories')
+                ),
             ])
         ),
 
       S.divider(),
 
       // --------------------------------------------------------
-      // 3. PARAMÈTRES (Singleton direct à la racine)
+      // 3. PARAMÈTRES GLOBAUX
       // --------------------------------------------------------
       S.listItem()
         .title('Paramètres globaux')
@@ -141,10 +170,10 @@ export const structure: StructureResolver = (S) =>
 
       S.divider(),
 
-      // --------------------------------------------------------
-      // 4. AUTRES (Pour le débogage ou les types oubliés)
-      // --------------------------------------------------------
-      ...S.documentTypeListItems().filter(
-        (item) => !HIDDEN_DOC_TYPES.includes(item.getId() as string)
-      ),
+      // // --------------------------------------------------------
+      // // 4. AUTRES (debug)
+      // // --------------------------------------------------------
+      // ...S.documentTypeListItems().filter(
+      //   (item) => !HIDDEN_DOC_TYPES.includes(item.getId() as string)
+      // ),
     ]);

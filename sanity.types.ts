@@ -13,6 +13,19 @@
  */
 
 // Source: schema.json
+export type Settings = {
+  _id: string;
+  _type: "settings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  instagram?: string;
+  tiktok?: string;
+};
+
 export type Seo = {
   _type: "seo";
   metaTitle?: string;
@@ -29,6 +42,184 @@ export type Seo = {
     crop?: SanityImageCrop;
     _type: "image";
   };
+};
+
+export type Gallery = {
+  _id: string;
+  _type: "gallery";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  name?: string;
+  description?: string;
+  category?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "galleryCategory";
+  };
+  featured?: boolean;
+  order?: number;
+};
+
+export type GalleryCategory = {
+  _id: string;
+  _type: "galleryCategory";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+};
+
+export type Slug = {
+  _type: "slug";
+  current?: string;
+  source?: string;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x?: number;
+  y?: number;
+  height?: number;
+  width?: number;
+};
+
+export type TestimonialsSection = {
+  _id: string;
+  _type: "testimonialsSection";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  items?: Array<{
+    name?: string;
+    role?: string;
+    quote?: string;
+    avatar?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    rating?: 1 | 2 | 3 | 4 | 5;
+    _type: "testimonial";
+    _key: string;
+  }>;
+};
+
+export type HeroSection = {
+  _id: string;
+  _type: "heroSection";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  description?: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+};
+
+export type GallerySection = {
+  _id: string;
+  _type: "gallerySection";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  subtitle?: string;
+  maxPhotos?: number;
+};
+
+export type EbookSection = {
+  _id: string;
+  _type: "ebookSection";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  description?: string;
+  cover?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  ctaText?: string;
+  ctaLink?: string;
+};
+
+export type AboutSection = {
+  _id: string;
+  _type: "aboutSection";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  description?: string;
+  features?: Array<{
+    icon?: LucideIcon;
+    title?: string;
+    description?: string;
+    _type: "featureItem";
+    _key: string;
+  }>;
+};
+
+export type LucideIcon = string;
+
+export type GalleryPage = {
+  _id: string;
+  _type: "galleryPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  pageTitle?: string;
+  pageDescription?: string;
+  seo?: Seo;
 };
 
 export type EbookPage = {
@@ -59,186 +250,6 @@ export type EbookPage = {
     _key: string;
   }>;
   seo?: Seo;
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x?: number;
-  y?: number;
-  height?: number;
-  width?: number;
-};
-
-export type Settings = {
-  _id: string;
-  _type: "settings";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  email?: string;
-  phone?: string;
-  address?: string;
-  instagram?: string;
-  tiktok?: string;
-};
-
-export type EbookSection = {
-  _id: string;
-  _type: "ebookSection";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  description?: string;
-  cover?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  ctaText?: string;
-  ctaLink?: string;
-};
-
-export type Testimonials = {
-  _id: string;
-  _type: "testimonials";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  items?: Array<{
-    name?: string;
-    role?: string;
-    quote?: string;
-    avatar?: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-    };
-    rating?: 1 | 2 | 3 | 4 | 5;
-    _type: "testimonial";
-    _key: string;
-  }>;
-};
-
-export type Gallery = {
-  _id: string;
-  _type: "gallery";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  name?: string;
-  description?: string;
-  category?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "category";
-  };
-  featured?: boolean;
-  order?: number;
-};
-
-export type Category = {
-  _id: string;
-  _type: "category";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  slug?: Slug;
-};
-
-export type Slug = {
-  _type: "slug";
-  current?: string;
-  source?: string;
-};
-
-export type GallerySection = {
-  _id: string;
-  _type: "gallerySection";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  subtitle?: string;
-  maxPhotos?: number;
-};
-
-export type About = {
-  _id: string;
-  _type: "about";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  description?: string;
-  features?: Array<{
-    icon?: LucideIcon;
-    title?: string;
-    description?: string;
-    _type: "featureItem";
-    _key: string;
-  }>;
-};
-
-export type LucideIcon = string;
-
-export type Hero = {
-  _id: string;
-  _type: "hero";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  description?: string;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
 };
 
 export type SanityImagePaletteSwatch = {
@@ -337,16 +348,12 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = Seo | EbookPage | SanityImageCrop | SanityImageHotspot | Settings | EbookSection | Testimonials | Gallery | Category | Slug | GallerySection | About | LucideIcon | Hero | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = Settings | Seo | Gallery | GalleryCategory | Slug | SanityImageCrop | SanityImageHotspot | TestimonialsSection | HeroSection | GallerySection | EbookSection | AboutSection | LucideIcon | GalleryPage | EbookPage | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/queries/category.ts
 // Variable: CATEGORIES_QUERY
 // Query: *[_type == "category"] | order(name asc) {  _id,  name,  slug}
-export type CATEGORIES_QUERYResult = Array<{
-  _id: string;
-  name: string | null;
-  slug: Slug | null;
-}>;
+export type CATEGORIES_QUERYResult = Array<never>;
 
 // Source: ./src/sanity/queries/ebook.ts
 // Variable: EBOOK_PAGE_QUERY
@@ -448,7 +455,7 @@ export type ALL_PHOTOS_QUERYResult = Array<{
 
 // Source: ./src/sanity/queries/homepage.ts
 // Variable: HOMEPAGE_QUERY
-// Query: {  "hero": *[_type == "hero"][0]{ title, description, image },  "about": *[_type == "about"][0]{ title, description, features },  "gallery": {    "title": *[_type == "gallerySection"][0].title,    "subtitle": *[_type == "gallerySection"][0].subtitle,    "maxPhotos": *[_type == "gallerySection"][0].maxPhotos,    "photos": *[_type == "gallery" && featured == true] | order(order asc) {      _id,      name,      description,      image,      "category": category->{ name, slug }    }  },  "testimonials": *[_type == "testimonials"][0]{ title, items },  "ebook": *[_type == "ebook"][0]{ title, description, cover, ctaText, ctaLink }}
+// Query: {  "hero": *[_type == "heroSection"][0]{ title, description, image },  "about": *[_type == "aboutSection"][0]{ title, description, features },  "gallery": {    "title": *[_type == "gallerySection"][0].title,    "subtitle": *[_type == "gallerySection"][0].subtitle,    "maxPhotos": *[_type == "gallerySection"][0].maxPhotos,    "photos": *[_type == "gallery" && featured == true] | order(order asc) {      _id,      name,      description,      image,      "category": category->{ name, slug }    }  },  "testimonials": *[_type == "testimonialsSection"][0]{ title, items },  "ebook": *[_type == "ebookSection"][0]{ title, description, cover, ctaText, ctaLink }}
 export type HOMEPAGE_QUERYResult = {
   hero: {
     title: string | null;
@@ -526,7 +533,24 @@ export type HOMEPAGE_QUERYResult = {
       _key: string;
     }> | null;
   } | null;
-  ebook: null;
+  ebook: {
+    title: string | null;
+    description: string | null;
+    cover: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    } | null;
+    ctaText: string | null;
+    ctaLink: string | null;
+  } | null;
 };
 
 // Source: ./src/sanity/queries/settings.ts
@@ -548,7 +572,7 @@ declare module "@sanity/client" {
     "*[_type == \"ebookPage\"][0]{\n  pageTitle,\n  pageSubtitle,\n  ebookTitle,\n  tagline,\n  coverImage,\n  features[]{\n    _key,\n    text\n  },\n  seo {\n    metaTitle,\n    metaDescription,\n    openGraphImage\n  }\n}": EBOOK_PAGE_QUERYResult;
     "{\n  \"section\": *[_type == \"gallerySection\"][0]{ title, subtitle, maxPhotos },\n  \"photos\": *[_type == \"gallery\" && featured == true] | order(order asc) {\n    _id,\n    name,\n    description,\n    image,\n    \"category\": category->{ name, slug }\n  }\n}": GALLERY_SECTION_QUERYResult;
     "*[_type == \"gallery\"] | order(order asc) {\n  _id,\n  name,\n  description,\n  image,\n  \"category\": category->{ _id, name, slug }\n}": ALL_PHOTOS_QUERYResult;
-    "{\n  \"hero\": *[_type == \"hero\"][0]{ title, description, image },\n  \"about\": *[_type == \"about\"][0]{ title, description, features },\n  \"gallery\": {\n    \"title\": *[_type == \"gallerySection\"][0].title,\n    \"subtitle\": *[_type == \"gallerySection\"][0].subtitle,\n    \"maxPhotos\": *[_type == \"gallerySection\"][0].maxPhotos,\n    \"photos\": *[_type == \"gallery\" && featured == true] | order(order asc) {\n      _id,\n      name,\n      description,\n      image,\n      \"category\": category->{ name, slug }\n    }\n  },\n  \"testimonials\": *[_type == \"testimonials\"][0]{ title, items },\n  \"ebook\": *[_type == \"ebook\"][0]{ title, description, cover, ctaText, ctaLink }\n}": HOMEPAGE_QUERYResult;
+    "{\n  \"hero\": *[_type == \"heroSection\"][0]{ title, description, image },\n  \"about\": *[_type == \"aboutSection\"][0]{ title, description, features },\n  \"gallery\": {\n    \"title\": *[_type == \"gallerySection\"][0].title,\n    \"subtitle\": *[_type == \"gallerySection\"][0].subtitle,\n    \"maxPhotos\": *[_type == \"gallerySection\"][0].maxPhotos,\n    \"photos\": *[_type == \"gallery\" && featured == true] | order(order asc) {\n      _id,\n      name,\n      description,\n      image,\n      \"category\": category->{ name, slug }\n    }\n  },\n  \"testimonials\": *[_type == \"testimonialsSection\"][0]{ title, items },\n  \"ebook\": *[_type == \"ebookSection\"][0]{ title, description, cover, ctaText, ctaLink }\n}": HOMEPAGE_QUERYResult;
     "*[_type == \"settings\"][0]{\n  email,\n  phone,\n  address,\n  instagram,\n  tiktok\n}": SETTINGS_QUERYResult;
   }
 }
