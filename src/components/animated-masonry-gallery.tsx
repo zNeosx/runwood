@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 import { urlFor } from '@/sanity/lib/image';
 import { motion } from 'motion/react';
 import Image from 'next/image';
-import { Gallery } from '../../sanity.types';
+import { ALL_PHOTOS_QUERYResult } from '../../sanity.types';
 import { Marquee } from './ui/marquee';
 
 export const Highlight = ({
@@ -27,7 +27,7 @@ export const Highlight = ({
 };
 
 export interface MasonryGalleryCardProps {
-  item: Gallery;
+  item: ALL_PHOTOS_QUERYResult[0];
   className?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
@@ -59,7 +59,7 @@ export const MasonryGalleryCard = ({
 export default function AnimatedMasonryGallery({
   items,
 }: {
-  items: Gallery[];
+  items: ALL_PHOTOS_QUERYResult;
 }) {
   return (
     <div className="relative mt-6 max-h-screen overflow-hidden max-w-7xl mx-auto mb-6">

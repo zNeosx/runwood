@@ -1,11 +1,12 @@
 import { BuyButton } from '@/components/buy-button';
-import { Button, buttonVariants } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { buttonVariants } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { getSettings } from '@/sanity/queries';
 import { ArrowLeft, Home, XCircle } from 'lucide-react';
 import Link from 'next/link';
-import React from 'react';
 
-const CancelCheckoutPage = () => {
+const CancelCheckoutPage = async () => {
+  const settings = await getSettings();
   return (
     <section id="cancel" className="min-h-screen h-screen flex flex-col">
       <div className="text-center pt-4">
@@ -41,7 +42,7 @@ const CancelCheckoutPage = () => {
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li className="flex items-start gap-2">
                   <span className="text-highlight">•</span>
-                  Plus de 150 pages de contenu exclusif
+                  Plus de 60 pages de contenu exclusif
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-highlight">•</span>
@@ -49,11 +50,7 @@ const CancelCheckoutPage = () => {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-highlight">•</span>
-                  Accès à vie et mises à jour gratuites
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-highlight">•</span>
-                  Prix de lancement : 14,99€ au lieu de 29€
+                  Accès à vie
                 </li>
               </ul>
             </CardContent>
@@ -75,13 +72,13 @@ const CancelCheckoutPage = () => {
               Retour à l&apos;accueil
             </Link>
           </div>
-          <p className="mt-8 text-sm text-muted-foreground text-center">
+          <p className="mt-8 text-sm text-foreground text-center">
             Un problème ? Contactez-nous à{' '}
             <a
               href="mailto:support@runwood.fr"
-              className="text-accent hover:underline"
+              className="text-muted-foreground hover:underline hover:text-primary"
             >
-              support@runwood.fr
+              {settings.email}
             </a>
           </p>
         </div>

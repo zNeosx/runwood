@@ -6,6 +6,7 @@ import type {
   Gallery,
   TestimonialsSection,
   EbookSection,
+  HOMEPAGE_QUERYResult,
 } from '../../../sanity.types';
 
 export type HomepageData = {
@@ -32,14 +33,14 @@ const HOMEPAGE_QUERY = groq`{
       name,
       description,
       image,
-      "category": category->{ name, slug }
+      "category": category->{ _id, name, slug }
     }
   },
   "testimonials": *[_type == "testimonialsSection"][0]{ title, items },
   "ebook": *[_type == "ebookSection"][0]{ title, description, cover, ctaText, ctaLink }
 }`;
 
-export async function getHomepage(): Promise<HomepageData> {
+export async function getHomepage(): Promise<HOMEPAGE_QUERYResult> {
   // try {
   // const hommepage = await sanityFetch<HomepageData>({
   //   query: HOMEPAGE_QUERY,

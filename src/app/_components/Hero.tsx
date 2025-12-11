@@ -1,17 +1,17 @@
 'use client';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { HomepageData } from '@/sanity/queries';
+import { useGSAP } from '@gsap/react';
+import { gsap } from 'gsap';
 import { ArrowRight, BookOpen } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { useGSAP } from '@gsap/react';
+import { useRef } from 'react';
+import { HOMEPAGE_QUERYResult } from '../../../sanity.types';
 
 gsap.registerPlugin(useGSAP);
 
 type Props = {
-  data: HomepageData['hero'];
+  data: HOMEPAGE_QUERYResult['hero'];
 };
 
 const ANIMATION_CONFIG = {
@@ -21,8 +21,6 @@ const ANIMATION_CONFIG = {
 
 const Hero = ({ data }: Props) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const textContainerRef = useRef<HTMLDivElement>(null);
-  const timelineRef = useRef<gsap.core.Timeline | null>(null);
   const titleRef = useRef<HTMLHeadingElement | null>(null);
   const subtitleRef = useRef<HTMLParagraphElement | null>(null);
   const buttonsRef = useRef<HTMLDivElement | null>(null);
@@ -183,7 +181,7 @@ const Hero = ({ data }: Props) => {
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
             <Link
-              href={'/galerie'}
+              href={'/ebook'}
               className={cn(
                 buttonVariants({
                   variant: 'outline',

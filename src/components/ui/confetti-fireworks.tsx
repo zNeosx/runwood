@@ -1,14 +1,14 @@
 'use client';
-import Lottie from 'lottie-react';
-import React, { useEffect } from 'react';
-import confettiLottieAnimation from '@/assets/lottie/confetti.json';
+
 import confetti from 'canvas-confetti';
 
-const ConfettiLottie = () => {
+import { Button } from '@/components/ui/button';
+import { useEffect } from 'react';
+
+export function ConfettiFireworks() {
   useEffect(() => {
     handleClick();
   }, []);
-
   const handleClick = () => {
     const duration = 5 * 1000;
     const animationEnd = Date.now() + duration;
@@ -39,15 +39,8 @@ const ConfettiLottie = () => {
   };
 
   return (
-    <Lottie
-      animationData={confettiLottieAnimation}
-      loop={true}
-      width={100}
-      height={100}
-      className="cursor-pointer"
-      onClick={handleClick}
-    />
+    <div className="relative sr-only">
+      <Button onClick={handleClick}>Trigger Fireworks</Button>
+    </div>
   );
-};
-
-export default ConfettiLottie;
+}

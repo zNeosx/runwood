@@ -1,8 +1,10 @@
 import DownloadEbookBtn from '@/components/download-ebook-btn';
 import ConfettiLottie from '@/components/lottie/confetti.lottie';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { stripe } from '@/lib/stripe';
+import { Language, LANGUAGE_LABELS } from '@/lib/stripe/config';
+import { getSettings } from '@/sanity/queries';
 import { Home } from 'lucide-react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -16,11 +18,12 @@ export default async function Success({
   searchParams: SearchParams;
 }) {
   const { session_id } = await searchParams;
+  const settings = await getSettings();
 
   if (!session_id)
     throw new Error('Please provide a valid session_id (`cs_test_...`)');
 
-  const { status, line_items, amount_total, currency } =
+  const { status, line_items, amount_total, currency, metadata } =
     await stripe.checkout.sessions.retrieve(session_id as string, {
       expand: ['line_items', 'line_items.data.price.product', 'payment_intent'],
     });
@@ -30,19 +33,11 @@ export default async function Success({
   }
 
   if (status === 'complete') {
-    // return (
-    //   <section id="success">
-    //     <Lottie animationData={confettiLottieAnimation} loop={true} />
-    //     <p>
-    //       We appreciate your business! A confirmation email will be sent to{' '}
-    //       {customer_details?.email}. If you have any questions, please
-    //       email{' '}
-    //     </p>
-    //     <a href="mailto:orders@example.com">orders@example.com</a>.
-    //   </section>
-    // );
     const lineItem = line_items?.data[0];
     const product = lineItem?.price?.product as Stripe.Product;
+    const language = (metadata?.language as Language) || 'FRA';
+    const languageLabel = LANGUAGE_LABELS[language];
+
     return (
       <section id="success" className="min-h-screen h-screen flex flex-col">
         <div className="grow flex flex-col items-center justify-center">
@@ -58,6 +53,7 @@ export default async function Success({
                 Votre paiement a été effectué avec succès. Vous allez recevoir
                 un email avec le lien de téléchargement de votre e-book.
               </p>
+              {/* <ConfettiFireworks /> */}
             </div>
             <Card className="p-6 mt-6">
               <CardHeader>
@@ -70,6 +66,12 @@ export default async function Success({
                   <span className="text-muted-foreground">Produit</span>
                   <span className="text-foreground">{product.name}</span>
                 </div>
+                {languageLabel && (
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Langue</span>
+                    <span className="text-foreground">{languageLabel}</span>
+                  </div>
+                )}
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Format</span>
                   <span className="text-foreground">PDF (E-Book)</span>
@@ -83,7 +85,7 @@ export default async function Success({
               </CardContent>
             </Card>
             <div className="flex items-center justify-center gap-4 mt-6">
-              <DownloadEbookBtn />
+              <DownloadEbookBtn language={language} />
               <Link
                 href="/"
                 className={buttonVariants({
@@ -95,13 +97,13 @@ export default async function Success({
                 Retour à l&apos;accueil
               </Link>
             </div>
-            <p className="mt-8 text-sm text-muted-foreground text-center">
+            <p className="mt-8 text-sm text-foreground text-center">
               Un problème ? Contactez-nous à{' '}
               <a
-                href="mailto:support@runwood.fr"
-                className="text-accent hover:underline"
+                href={`mailto:${settings.email}`}
+                className="text-muted-foreground hover:underline hover:text-primary"
               >
-                support@runwood.fr
+                {settings.email}
               </a>
             </p>
           </div>

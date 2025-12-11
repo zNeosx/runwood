@@ -455,7 +455,7 @@ export type ALL_PHOTOS_QUERYResult = Array<{
 
 // Source: ./src/sanity/queries/homepage.ts
 // Variable: HOMEPAGE_QUERY
-// Query: {  "hero": *[_type == "heroSection"][0]{ title, description, image },  "about": *[_type == "aboutSection"][0]{ title, description, features },  "gallery": {    "title": *[_type == "gallerySection"][0].title,    "subtitle": *[_type == "gallerySection"][0].subtitle,    "maxPhotos": *[_type == "gallerySection"][0].maxPhotos,    "photos": *[_type == "gallery" && featured == true] | order(order asc) {      _id,      name,      description,      image,      "category": category->{ name, slug }    }  },  "testimonials": *[_type == "testimonialsSection"][0]{ title, items },  "ebook": *[_type == "ebookSection"][0]{ title, description, cover, ctaText, ctaLink }}
+// Query: {  "hero": *[_type == "heroSection"][0]{ title, description, image },  "about": *[_type == "aboutSection"][0]{ title, description, features },  "gallery": {    "title": *[_type == "gallerySection"][0].title,    "subtitle": *[_type == "gallerySection"][0].subtitle,    "maxPhotos": *[_type == "gallerySection"][0].maxPhotos,    "photos": *[_type == "gallery" && featured == true] | order(order asc) {      _id,      name,      description,      image,      "category": category->{ _id, name, slug }    }  },  "testimonials": *[_type == "testimonialsSection"][0]{ title, items },  "ebook": *[_type == "ebookSection"][0]{ title, description, cover, ctaText, ctaLink }}
 export type HOMEPAGE_QUERYResult = {
   hero: {
     title: string | null;
@@ -505,6 +505,7 @@ export type HOMEPAGE_QUERYResult = {
         _type: "image";
       } | null;
       category: {
+        _id: string;
         name: string | null;
         slug: Slug | null;
       } | null;
@@ -572,7 +573,7 @@ declare module "@sanity/client" {
     "*[_type == \"ebookPage\"][0]{\n  pageTitle,\n  pageSubtitle,\n  ebookTitle,\n  tagline,\n  coverImage,\n  features[]{\n    _key,\n    text\n  },\n  seo {\n    metaTitle,\n    metaDescription,\n    openGraphImage\n  }\n}": EBOOK_PAGE_QUERYResult;
     "{\n  \"section\": *[_type == \"gallerySection\"][0]{ title, subtitle, maxPhotos },\n  \"photos\": *[_type == \"gallery\" && featured == true] | order(order asc) {\n    _id,\n    name,\n    description,\n    image,\n    \"category\": category->{ name, slug }\n  }\n}": GALLERY_SECTION_QUERYResult;
     "*[_type == \"gallery\"] | order(order asc) {\n  _id,\n  name,\n  description,\n  image,\n  \"category\": category->{ _id, name, slug }\n}": ALL_PHOTOS_QUERYResult;
-    "{\n  \"hero\": *[_type == \"heroSection\"][0]{ title, description, image },\n  \"about\": *[_type == \"aboutSection\"][0]{ title, description, features },\n  \"gallery\": {\n    \"title\": *[_type == \"gallerySection\"][0].title,\n    \"subtitle\": *[_type == \"gallerySection\"][0].subtitle,\n    \"maxPhotos\": *[_type == \"gallerySection\"][0].maxPhotos,\n    \"photos\": *[_type == \"gallery\" && featured == true] | order(order asc) {\n      _id,\n      name,\n      description,\n      image,\n      \"category\": category->{ name, slug }\n    }\n  },\n  \"testimonials\": *[_type == \"testimonialsSection\"][0]{ title, items },\n  \"ebook\": *[_type == \"ebookSection\"][0]{ title, description, cover, ctaText, ctaLink }\n}": HOMEPAGE_QUERYResult;
+    "{\n  \"hero\": *[_type == \"heroSection\"][0]{ title, description, image },\n  \"about\": *[_type == \"aboutSection\"][0]{ title, description, features },\n  \"gallery\": {\n    \"title\": *[_type == \"gallerySection\"][0].title,\n    \"subtitle\": *[_type == \"gallerySection\"][0].subtitle,\n    \"maxPhotos\": *[_type == \"gallerySection\"][0].maxPhotos,\n    \"photos\": *[_type == \"gallery\" && featured == true] | order(order asc) {\n      _id,\n      name,\n      description,\n      image,\n      \"category\": category->{ _id, name, slug }\n    }\n  },\n  \"testimonials\": *[_type == \"testimonialsSection\"][0]{ title, items },\n  \"ebook\": *[_type == \"ebookSection\"][0]{ title, description, cover, ctaText, ctaLink }\n}": HOMEPAGE_QUERYResult;
     "*[_type == \"settings\"][0]{\n  email,\n  phone,\n  address,\n  instagram,\n  tiktok\n}": SETTINGS_QUERYResult;
   }
 }

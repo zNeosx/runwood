@@ -1,65 +1,64 @@
 'use client';
+import { EBOOK_FILES, Language } from '@/lib/stripe/config';
+import { supabase } from '@/lib/supabase/client';
+import { VariantProps } from 'class-variance-authority';
 import { BookOpen } from 'lucide-react';
 import React, { useState } from 'react';
 import { Button, buttonVariants } from './ui/button';
-import { VariantProps } from 'class-variance-authority';
-import { supabase } from '@/lib/supabase/client';
 
 const DownloadEbookBtn = ({
   variant = 'highlight',
   size,
   className,
   children,
+  language,
 }: VariantProps<typeof buttonVariants> & {
   className?: string;
   children?: React.ReactNode;
+  language: Language;
 }) => {
-  const [downloadIsLoading, setDownloadIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleDownloadEbook = async () => {
-    setDownloadIsLoading(true);
-    const { data, error } = await supabase.storage
-      .from('ebooks')
-      .download('ebook-fr.pdf');
+    setIsLoading(true);
+    try {
+      const fileName = EBOOK_FILES[language];
 
-    if (data) {
-      // Crée un lien de téléchargement
+      const { data, error } = await supabase.storage
+        .from('ebooks')
+        .download(fileName);
+
+      if (error) {
+        console.error('Download error:', error);
+        return;
+      }
+
       const url = URL.createObjectURL(data);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'ebook.pdf';
+      a.download = fileName;
       a.click();
+      URL.revokeObjectURL(url);
+    } finally {
+      setIsLoading(false);
     }
-
-    setDownloadIsLoading(false);
-    return;
   };
 
-  if (children) {
-    return (
-      <Button
-        type="submit"
-        variant={variant}
-        size={size}
-        className={className}
-        onClick={handleDownloadEbook}
-        isLoading={downloadIsLoading}
-      >
-        {children}
-      </Button>
-    );
-  }
   return (
     <Button
-      type="submit"
+      type="button"
       variant={variant}
       size={size}
       className={className}
       onClick={handleDownloadEbook}
-      isLoading={downloadIsLoading}
+      isLoading={isLoading}
     >
-      <BookOpen className="h-5 w-5" />
-      Télécharger mon e-book
+      {children ?? (
+        <>
+          <BookOpen className="h-5 w-5" />
+          Télécharger mon e-book
+        </>
+      )}
     </Button>
   );
 };

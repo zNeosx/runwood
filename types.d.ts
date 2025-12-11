@@ -6,17 +6,18 @@ type GalleryItem = {
 
 type StripePromo = {
   id: string;
-  name: string;
-  percentOff: number;
-  redeemBy: Date;
-  timesRedeemed: number;
+  name: string | null;
+  percentOff?: number;
+  amountOff?: number;
+  redeemBy: Date | null;
 };
 
-type GetProductWithPromo = {
+type EbookProduct = {
+  priceId: string;
   name: string;
-  description: string;
-  image: string;
-  originalPrice: string;
-  priceWithPromo: string | null;
-  promo?: StripePromo;
+  description: string | null;
+  image: string | undefined;
+  originalPrice: number | null;
+  price: number;
+  promo: StripePromo | null;
 };

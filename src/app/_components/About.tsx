@@ -1,36 +1,15 @@
 import { Badge } from '@/components/ui/badge';
 import { buttonVariants } from '@/components/ui/button';
-import { Hammer, Heart, Leaf } from 'lucide-react';
+import { DynamicIcon, IconName } from 'lucide-react/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import { About as AboutType } from '../../../sanity.types';
-import { DynamicIcon, IconName } from 'lucide-react/dynamic';
-import Sticker from '@/components/ui/sticker';
+import { HOMEPAGE_QUERYResult } from '../../../sanity.types';
 
 type Props = {
-  data: AboutType | null;
+  data: HOMEPAGE_QUERYResult['about'];
 };
 
 const About = ({ data }: Props) => {
-  const values = [
-    {
-      icon: Hammer,
-      title: 'Artisanat',
-      description: 'Chaque pièce est unique, fabriquée à la main avec passion',
-    },
-    {
-      icon: Leaf,
-      title: 'Durabilité',
-      description: 'Recyclage de palettes pour donner une seconde vie au bois',
-    },
-    {
-      icon: Heart,
-      title: 'Authenticité',
-      description:
-        'Un savoir-faire traditionnel au service de créations modernes',
-    },
-  ];
-
   return (
     <section aria-labelledby="about-title" className="py-32">
       <div className="container mx-auto px-4">

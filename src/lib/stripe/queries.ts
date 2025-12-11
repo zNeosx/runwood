@@ -1,44 +1,60 @@
 import Stripe from 'stripe';
 import { stripe } from '../stripe';
 
-export async function getProductWithPromo(): Promise<GetProductWithPromo> {
-  const price = await stripe.prices.retrieve(process.env.STRIPE_PRICE_ID!, {
-    expand: ['product'],
-  });
-
-  const product = price.product as Stripe.Product;
-  const basePrice = price.unit_amount! / 100;
-
+export async function getActiveCoupon() {
   const coupons = await stripe.coupons.list({
     limit: 10,
     expand: ['data.applies_to'],
   });
 
-  const [coupon] = coupons.data.filter((d) =>
-    d.applies_to?.products.includes(product.id)
+  return coupons.data.find((coupon) => coupon.valid) || null;
+}
+
+export async function getEbookProduct(): Promise<EbookProduct> {
+  const price = await stripe.prices.retrieve(
+    process.env.STRIPE_EBOOK_PRICE_ID!,
+    {
+      expand: ['product'],
+    }
   );
 
-  let promo: StripePromo | undefined = undefined;
-  let finalPrice: string | null = null;
+  const product = price.product as Stripe.Product;
+  const basePrice = price.unit_amount! / 100;
 
-  if (coupon) {
-    promo = {
-      id: coupon.id,
-      name: coupon.name!,
-      percentOff: coupon.percent_off!,
-      redeemBy: new Date(coupon.redeem_by! * 1000),
-      timesRedeemed: coupon.times_redeemed,
-    };
+  const coupon = await getActiveCoupon();
 
-    finalPrice = (basePrice - (basePrice * promo.percentOff) / 100).toFixed(2);
+  const applicableCoupon = coupon?.applies_to?.products.includes(product.id);
+
+  let promo: StripePromo | null = null;
+  let finalPrice = basePrice;
+
+  if (applicableCoupon && coupon) {
+    if (coupon.percent_off) {
+      finalPrice = basePrice * (1 - coupon.percent_off / 100);
+      promo = {
+        id: coupon.id,
+        name: coupon.name!,
+        percentOff: coupon.percent_off,
+        redeemBy: coupon.redeem_by ? new Date(coupon.redeem_by * 1000) : null,
+      };
+    } else if (coupon.amount_off) {
+      finalPrice = basePrice - coupon.amount_off / 100;
+      promo = {
+        id: coupon.id,
+        name: coupon.name!,
+        amountOff: coupon.amount_off / 100,
+        redeemBy: coupon.redeem_by ? new Date(coupon.redeem_by * 1000) : null,
+      };
+    }
   }
 
   return {
+    priceId: price.id,
     name: product.name,
-    description: product.description ?? '',
+    description: product.description,
     image: product.images?.[0],
-    originalPrice: basePrice.toString(),
-    priceWithPromo: finalPrice,
+    originalPrice: promo ? basePrice : null,
+    price: Math.round(finalPrice * 100) / 100,
     promo,
   };
 }

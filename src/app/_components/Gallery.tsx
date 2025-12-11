@@ -1,11 +1,11 @@
 import AnimatedMasonryGallery from '@/components/animated-masonry-gallery';
 import { Badge } from '@/components/ui/badge';
 import { buttonVariants } from '@/components/ui/button';
-import { HomepageData } from '@/sanity/queries';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { HOMEPAGE_QUERYResult } from '../../../sanity.types';
 type Props = {
-  data: HomepageData['gallery'];
+  data: HOMEPAGE_QUERYResult['gallery'];
 };
 
 const Gallery = async ({ data }: Props) => {

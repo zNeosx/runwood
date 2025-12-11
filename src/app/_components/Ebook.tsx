@@ -3,8 +3,13 @@ import { buttonVariants } from '@/components/ui/button';
 import { BookOpen, Check } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { HOMEPAGE_QUERYResult } from '../../../sanity.types';
 
-const Ebook = async () => {
+type Props = {
+  data: HOMEPAGE_QUERYResult['ebook'];
+};
+
+const Ebook = async ({ data }: Props) => {
   const featuresLeft = [
     '10+ projets de meubles détaillés',
     "Techniques d'assemblage professionnelles",
@@ -27,9 +32,6 @@ const Ebook = async () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
           <div className="space-y-6 animate-fade-in">
-            {/* <div className="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm text-white rounded-full text-sm font-semibold">
-              E-Book Exclusif
-            </div> */}
             <Badge variant={'highlight'} size={'lg'}>
               E-Book Exclusif
             </Badge>
@@ -77,21 +79,12 @@ const Ebook = async () => {
 
             {/* Price & CTA */}
             <div className="pt-6 flex flex-col sm:flex-row items-start sm:items-center gap-6">
-              <div>
-                <p className="text-white/70 text-sm mb-1">Prix de lancement</p>
-                <p className="text-4xl font-bold text-highlight">
-                  29€
-                  <span className="text-xl text-white/70 line-through ml-2">
-                    49€
-                  </span>
-                </p>
-              </div>
               <Link
                 href={'/ebook'}
                 className={buttonVariants({ variant: 'highlight', size: 'lg' })}
               >
                 <BookOpen className="mr-2 h-5 w-5" />
-                Acheter l&apos;E-Book
+                En savoir plus
               </Link>
             </div>
           </div>
