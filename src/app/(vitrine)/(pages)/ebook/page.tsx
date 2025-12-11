@@ -10,6 +10,9 @@ import { getEbookProduct } from '@/lib/stripe/queries';
 import { urlFor } from '@/sanity/lib/image';
 import { getEbookPage } from '@/sanity/queries/ebook';
 
+// Revalidate toutes les 5 minutes (synchronisé avec le cache Stripe)
+export const revalidate = 300;
+
 export default async function EbookPage() {
   const ebookPage = await getEbookPage();
   const product = await getEbookProduct();
@@ -83,9 +86,10 @@ export default async function EbookPage() {
                           <span className="uppercase text-muted-foreground">
                             Coupon expire le{' '}
                             {new Intl.DateTimeFormat('fr-FR', {
+                              day: '2-digit',
                               month: '2-digit',
                               year: '2-digit',
-                            }).format(product.promo.redeemBy)}
+                            }).format(new Date(product.promo.redeemBy))}
                           </span>
                         )}
                       </div>

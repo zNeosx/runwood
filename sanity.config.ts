@@ -31,7 +31,9 @@ export default defineConfig({
         origin: PREVIEW_URL,
         preview: '/',
         previewMode: {
-          enable: '/api/draft-mode/enable',
+          enable:
+            '/api/draft-mode/enable?secret=' +
+            process.env.NEXT_PUBLIC_SANITY_PREVIEW_SECRET!,
         },
       },
     }),

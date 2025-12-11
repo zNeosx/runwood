@@ -9,8 +9,23 @@ import { Home } from 'lucide-react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import Stripe from 'stripe';
+import { unstable_cache } from 'next/cache';
 
 type SearchParams = Promise<{ session_id?: string }>;
+
+// Cache la session Stripe pour 1 heure par session_id
+const getCachedCheckoutSession = unstable_cache(
+  async (sessionId: string) => {
+    return await stripe.checkout.sessions.retrieve(sessionId, {
+      expand: ['line_items', 'line_items.data.price.product', 'payment_intent'],
+    });
+  },
+  ['stripe-checkout-session'],
+  {
+    revalidate: 3600, // 1 heure
+    tags: ['checkout-session'],
+  }
+);
 
 export default async function Success({
   searchParams,
@@ -24,9 +39,7 @@ export default async function Success({
     throw new Error('Please provide a valid session_id (`cs_test_...`)');
 
   const { status, line_items, amount_total, currency, metadata } =
-    await stripe.checkout.sessions.retrieve(session_id as string, {
-      expand: ['line_items', 'line_items.data.price.product', 'payment_intent'],
-    });
+    await getCachedCheckoutSession(session_id);
 
   if (status === 'open') {
     return redirect('/');

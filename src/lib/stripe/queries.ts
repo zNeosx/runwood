@@ -1,22 +1,37 @@
 import Stripe from 'stripe';
 import { stripe } from '../stripe';
+import { unstable_cache } from 'next/cache';
 
-export async function getActiveCoupon() {
-  const coupons = await stripe.coupons.list({
-    limit: 10,
-    expand: ['data.applies_to'],
-  });
+// Cache de 5 minutes pour les coupons actifs
+export const getActiveCoupon = unstable_cache(
+  async () => {
+    console.log('🔴 [STRIPE API] Fetching coupons from Stripe...'); // Log pour debug
+    const coupons = await stripe.coupons.list({
+      limit: 10,
+      expand: ['data.applies_to'],
+    });
 
-  return coupons.data.find((coupon) => coupon.valid) || null;
-}
+    console.log('✅ [STRIPE API] Coupons fetched successfully');
+    return coupons.data.find((coupon) => coupon.valid) || null;
+  },
+  ['active-coupon'],
+  {
+    revalidate: 300, // 5 minutes
+    tags: ['stripe-coupon'],
+  }
+);
 
-export async function getEbookProduct(): Promise<EbookProduct> {
+// Cache de 5 minutes pour le produit ebook
+export const getEbookProduct = unstable_cache(
+  async (): Promise<EbookProduct> => {
+  console.log('🔴 [STRIPE API] Fetching product from Stripe...'); // Log pour debug
   const price = await stripe.prices.retrieve(
     process.env.STRIPE_EBOOK_PRICE_ID!,
     {
       expand: ['product'],
     }
   );
+  console.log('✅ [STRIPE API] Product fetched successfully');
 
   const product = price.product as Stripe.Product;
   const basePrice = price.unit_amount! / 100;
@@ -57,4 +72,10 @@ export async function getEbookProduct(): Promise<EbookProduct> {
     price: Math.round(finalPrice * 100) / 100,
     promo,
   };
-}
+  },
+  ['ebook-product'],
+  {
+    revalidate: 300, // 5 minutes
+    tags: ['stripe-product'],
+  }
+);

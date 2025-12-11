@@ -47,9 +47,9 @@ export default async function RootLayout({
           <>
             <VisualEditing />
             <DisableDraftMode />
+            <SanityLive />
           </>
         )}
-        <SanityLive />
       </body>
     </html>
   );
