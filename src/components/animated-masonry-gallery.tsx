@@ -51,6 +51,7 @@ export const MasonryGalleryCard = ({
         src={urlFor(item.image).width(1200).url()}
         alt={item.name ?? 'Photo'}
         className="size-full object-cover rounded-xl"
+        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, (max-width: 1536px) 33vw, 25vw"
       />
     )}
   </div>

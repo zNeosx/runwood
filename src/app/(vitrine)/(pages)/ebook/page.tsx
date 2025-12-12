@@ -10,8 +10,7 @@ import { getEbookProduct } from '@/lib/stripe/queries';
 import { urlFor } from '@/sanity/lib/image';
 import { getEbookPage } from '@/sanity/queries/ebook';
 
-// Revalidate toutes les 5 minutes (synchronisé avec le cache Stripe)
-export const revalidate = 300;
+export const revalidate = 3600; // 1 heure
 
 export default async function EbookPage() {
   const ebookPage = await getEbookPage();

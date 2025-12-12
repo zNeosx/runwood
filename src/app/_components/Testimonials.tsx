@@ -1,40 +1,8 @@
-import { Star } from 'lucide-react';
-import { Card } from '@/components/ui/card';
-import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
-import { AnimatedTestimonials } from '@/components/ui/animated-testimonials';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Marquee } from '@/components/ui/marquee';
 
 const Testimonials = () => {
-  // const testimonials = [
-  //   {
-  //     id: 1,
-  //     name: 'Marie Dubois',
-  //     location: 'Lyon',
-  //     text: "Une table magnifique qui apporte une vraie chaleur à mon salon. Le travail est impeccable, on sent la passion de l'artisan.",
-  //     rating: 5,
-  //     image:
-  //       'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&q=80',
-  //   },
-  //   {
-  //     id: 2,
-  //     name: 'Thomas Martin',
-  //     location: 'Paris',
-  //     text: "J'ai commandé un salon de jardin complet. Livraison rapide et qualité exceptionnelle. Tout le monde me demande où je l'ai acheté !",
-  //     rating: 5,
-  //     image:
-  //       'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&q=80',
-  //   },
-  //   {
-  //     id: 3,
-  //     name: 'Sophie Laurent',
-  //     location: 'Marseille',
-  //     text: "Les vidéos DIY sont parfaites ! J'ai pu réaliser ma première étagère grâce aux explications claires. Merci RunWood !",
-  //     rating: 5,
-  //     image:
-  //       'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&q=80',
-  //   },
-  // ];
-
   const testimonials = [
     {
       quote:
@@ -126,11 +94,29 @@ const Testimonials = () => {
             </Card>
           ))}
         </div> */}
-        <AnimatedTestimonials
+        {/* <AnimatedTestimonials
           testimonials={testimonials}
           autoplay
           className="py-10"
-        />
+        /> */}
+        <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
+          <Marquee pauseOnHover className="[--duration:80s]">
+            {testimonials.map((t, index) => (
+              <Card key={index} className="max-w-md">
+                <CardHeader>
+                  <CardTitle className="text-foreground font-bold">
+                    {t.name}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p>{t.quote}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </Marquee>
+          <div className="from-background pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-linear-to-r"></div>
+          <div className="from-background pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-linear-to-l"></div>
+        </div>
       </div>
     </section>
   );

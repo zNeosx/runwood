@@ -15,7 +15,7 @@ export default async function Home() {
       <About data={homepage.about} />
       <Gallery data={homepage.gallery} />
       <Testimonials />
-      <Ebook />
+      <Ebook data={homepage.ebook} />
     </div>
   );
 }

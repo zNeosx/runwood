@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
-import { ALL_PHOTOS_QUERYResult, Category } from '../../sanity.types';
+import { useMemo, useState } from 'react';
+import { ALL_PHOTOS_QUERYResult, GalleryCategory } from '../../sanity.types';
 import { FocusCards } from './ui/focus-cards';
 
 interface GalleryContentProps {
   items: ALL_PHOTOS_QUERYResult;
-  categories: Category[];
+  categories: GalleryCategory[];
 }
 
 export default function GalleryContent({
@@ -15,14 +15,11 @@ export default function GalleryContent({
 }: GalleryContentProps) {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
-  const filteredItems =
-    selectedCategory === 'all'
+  const filteredItems = useMemo(() => {
+    return selectedCategory === 'all'
       ? items
-      : items.filter((item) => {
-          if (item.category) {
-            return item.category._id === selectedCategory;
-          }
-        });
+      : items.filter((item) => item.category?._id === selectedCategory);
+  }, [items, selectedCategory]);
 
   return (
     <>

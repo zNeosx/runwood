@@ -5,6 +5,7 @@ import { Resend } from 'resend';
 import { EBOOK_FILES, Language } from '@/lib/stripe/config';
 import Stripe from 'stripe';
 import { supabaseAdmin } from '@/lib/supabase/server';
+import { EMAIL_CONFIG } from '@/lib/config/email';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -14,6 +15,9 @@ const LANGUAGE_LABELS: Record<Language, string> = {
   ESP: 'Espagnol',
   PRT: 'Portugais',
 };
+
+export const dynamic = 'force-dynamic';
+export const maxDuration = 10; // Pour être explicite sur la limite Hobby
 
 export async function POST(req: NextRequest) {
   const body = await req.text();
@@ -57,9 +61,10 @@ export async function POST(req: NextRequest) {
     }
 
     const cleanEmail = customerEmail.trim().toLowerCase();
+
     // Envoie l'email
     const { error: emailError } = await resend.emails.send({
-      from: 'Acme <onboarding@resend.dev>',
+      from: EMAIL_CONFIG.from,
       to: cleanEmail,
       subject: 'Votre e-book est prêt ! 📚',
       html: `
@@ -92,7 +97,7 @@ export async function POST(req: NextRequest) {
           <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;" />
           
           <p style="color: #999; font-size: 12px;">
-            Un problème ? Contactez-nous à support@runwood.re
+            Un problème ? Contactez-nous à ${EMAIL_CONFIG.supportEmail}
           </p>
         </div>
       `,

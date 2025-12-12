@@ -3,6 +3,8 @@ import GalleryContent from '@/components/gallery-content';
 import { getCategories } from '@/sanity/queries/category';
 import { getAllPhotos } from '@/sanity/queries/gallery';
 
+export const revalidate = 3600; // 1 heure
+
 const Galerie = async () => {
   const categories = await getCategories();
 

@@ -42,7 +42,7 @@ export default async function RootLayout({
         <Navigation />
         <main className={isPreview ? 'pt-10' : ''}>{children}</main>
         <Footer data={settings} />
-        <Toaster />
+        <Toaster richColors />
         {isPreview && (
           <>
             <VisualEditing />

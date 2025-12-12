@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { createCheckoutSession } from '@/app/actions/checkout';
 import { Loader2, ShoppingCart } from 'lucide-react';
 import { LANGUAGES, Language } from '@/lib/stripe/config';
+import { toast } from 'sonner';
 
 interface EbookPurchaseModalProps {
   price: number;
@@ -33,7 +34,13 @@ export function EbookPurchaseModal({
   const handlePurchase = async () => {
     if (!selectedLang) return;
     setIsLoading(true);
-    await createCheckoutSession(selectedLang);
+    const { error } = await createCheckoutSession(selectedLang);
+
+    if (error) {
+      toast.error(error);
+      setIsLoading(false);
+      setIsOpen(false);
+    }
   };
 
   const handleOpenChange = (open: boolean) => {

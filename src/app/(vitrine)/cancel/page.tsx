@@ -4,9 +4,19 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getSettings } from '@/sanity/queries';
 import { ArrowLeft, Home, XCircle } from 'lucide-react';
 import Link from 'next/link';
+import { Language } from '@/lib/stripe/config';
 
-const CancelCheckoutPage = async () => {
+export const revalidate = 3600; // 1 heure
+
+const CancelCheckoutPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ lang?: string }>;
+}) => {
   const settings = await getSettings();
+  const params = await searchParams;
+  const language = (params.lang as Language) || 'FRA';
+
   return (
     <section id="cancel" className="min-h-screen h-screen flex flex-col">
       <div className="text-center pt-4">
@@ -56,7 +66,7 @@ const CancelCheckoutPage = async () => {
             </CardContent>
           </Card>
           <div className="flex items-center justify-center gap-3 mt-6">
-            <BuyButton>
+            <BuyButton language={language}>
               <ArrowLeft className="h-5 w-5" />
               Revenir à l&apos;achat
             </BuyButton>

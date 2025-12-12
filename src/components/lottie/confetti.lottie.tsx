@@ -6,7 +6,15 @@ import confetti from 'canvas-confetti';
 
 const ConfettiLottie = () => {
   useEffect(() => {
+    let interval: number;
+    const handleClick = () => {
+      interval = window.setInterval(() => {}, 250);
+    };
     handleClick();
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
   }, []);
 
   const handleClick = () => {

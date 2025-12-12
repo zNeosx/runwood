@@ -11,14 +11,21 @@ import { headers } from 'next/headers';
 export async function createCheckoutSession(language: Language) {
   // Rate limiting par IP : 10 sessions par heure
   const headersList = await headers();
-  const ip = headersList.get('x-forwarded-for') || headersList.get('x-real-ip') || 'anonymous';
+  const ip =
+    headersList.get('x-forwarded-for') ||
+    headersList.get('x-real-ip') ||
+    'anonymous';
 
-  const { success, limit, remaining, reset } = await checkoutRateLimit.limit(ip);
+  const { success, limit, reset } = await checkoutRateLimit.limit(ip);
 
   if (!success) {
-    throw new Error(
-      `Trop de tentatives. Limite : ${limit} sessions/heure. Réessayez dans ${Math.ceil((reset - Date.now()) / 1000 / 60)} minutes.`
+    const minutesLeft = Math.ceil((reset - Date.now()) / 1000 / 60);
+    console.error(
+      `Trop de tentatives. Limite : ${limit} sessions/heure. Réessayez dans ${minutesLeft} minutes.`
     );
+    return {
+      error: `Veuillez patienter ${minutesLeft} minute${minutesLeft > 1 ? 's' : ''} avant de réessayer. Pour toute information, veuillez contacter le support Runwood.`,
+    };
   }
 
   const coupon = await getActiveCoupon();
@@ -39,8 +46,13 @@ export async function createCheckoutSession(language: Language) {
     },
     discounts: coupon ? [{ coupon: coupon.id }] : undefined,
     success_url: `${process.env.NEXT_PUBLIC_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${process.env.NEXT_PUBLIC_URL}/cancel`,
+    cancel_url: `${process.env.NEXT_PUBLIC_URL}/cancel?lang=${language}`,
   });
+
+  if (!session.url) {
+    // Gérer l'échec de la création de l'URL
+    return { error: 'Erreur: URL de session Stripe manquante.' };
+  }
 
   redirect(session.url!);
 }

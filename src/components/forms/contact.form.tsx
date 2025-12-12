@@ -1,5 +1,5 @@
 'use client';
-import { sendContactEmail } from '@/app/actions/contact';
+import { sendContactEmail } from '@/app/actions/send-contact-email.action';
 import { Send } from 'lucide-react';
 import React, { useState } from 'react';
 import { toast } from 'sonner';
@@ -38,7 +38,7 @@ const ContactForm = () => {
       toast.success('Message envoyé ! Nous vous répondrons dans les 24h.');
       form.reset();
     } else {
-      toast.error("Erreur lors de l'envoi. Veuillez réessayer.");
+      toast.error(result.error);
     }
 
     setIsLoading(false);

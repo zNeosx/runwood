@@ -22,13 +22,14 @@ const About = ({ data }: Props) => {
                 alt="Artisan RunWood travaillant le bois de palette dans son atelier"
                 fill
                 className="object-cover object-top hover-lift z-1"
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </figure>
           </div>
 
           {/* Content */}
           <div className="space-y-6 animate-fade-in">
-            <Badge variant={'primaryLight'} size={'lg'}>
+            <Badge variant={'primaryLight'} size={'sm'}>
               À Propos
             </Badge>
             <h2
