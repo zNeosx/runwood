@@ -5,6 +5,7 @@ import Ebook from '../_components/Ebook';
 import GalleryWrapper from '../_components/gallery.wrapper';
 import HeroWrapper from '../_components/hero.wrapper';
 import Testimonials from '../_components/Testimonials';
+import AboutSkeleton from '../_components/about-skeleton';
 
 export const revalidate = 3600;
 
@@ -20,13 +21,7 @@ export default async function Home() {
       >
         <HeroWrapper />
       </Suspense>
-      <Suspense
-        fallback={
-          <div className="h-screen flex items-center justify-center">
-            <Loader2 className="animate-spin" />
-          </div>
-        }
-      >
+      <Suspense fallback={<AboutSkeleton />}>
         <AboutWrapper />
       </Suspense>
       <Suspense

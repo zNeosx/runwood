@@ -21,7 +21,6 @@ type Props = {
 export function DynamicBreadcrumb({ className }: Props) {
   const pathname = usePathname();
 
-  // Ignore la page d'accueil
   if (pathname === '/') return null;
 
   const segments = pathname.split('/').filter(Boolean);
