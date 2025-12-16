@@ -4,8 +4,11 @@ import { NextRequest, NextResponse } from 'next/server';
 
 // Handler protégé par secret
 async function GET(request: NextRequest) {
-  // Vérifier le secret dans les query params
-  const secret = request.nextUrl.searchParams.get('secret');
+  // Vérifier le secret dans le header Authorization OU dans les query params (fallback)
+  const authHeader = request.headers.get('authorization');
+  const querySecret = request.nextUrl.searchParams.get('secret');
+
+  const secret = authHeader?.replace('Bearer ', '') || querySecret;
 
   if (!secret || secret !== process.env.SANITY_PREVIEW_SECRET) {
     return NextResponse.json(
