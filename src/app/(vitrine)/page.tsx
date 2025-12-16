@@ -1,21 +1,45 @@
-import { getHomepage } from '@/sanity/queries';
-import About from '../_components/About';
+import { Loader2 } from 'lucide-react';
+import { Suspense } from 'react';
+import AboutWrapper from '../_components/about.wrapper';
 import Ebook from '../_components/Ebook';
-import Gallery from '../_components/Gallery';
-import Hero from '../_components/Hero';
+import GalleryWrapper from '../_components/gallery.wrapper';
+import HeroWrapper from '../_components/hero.wrapper';
 import Testimonials from '../_components/Testimonials';
 
 export const revalidate = 3600;
 
 export default async function Home() {
-  const homepage = await getHomepage();
   return (
     <div className="min-h-screen">
-      <Hero data={homepage.hero} />
-      <About data={homepage.about} />
-      <Gallery data={homepage.gallery} />
+      <Suspense
+        fallback={
+          <div className="h-screen flex items-center justify-center">
+            <Loader2 className="animate-spin" />
+          </div>
+        }
+      >
+        <HeroWrapper />
+      </Suspense>
+      <Suspense
+        fallback={
+          <div className="h-screen flex items-center justify-center">
+            <Loader2 className="animate-spin" />
+          </div>
+        }
+      >
+        <AboutWrapper />
+      </Suspense>
+      <Suspense
+        fallback={
+          <div className="h-screen flex items-center justify-center">
+            <Loader2 className="animate-spin" />
+          </div>
+        }
+      >
+        <GalleryWrapper />
+      </Suspense>
       <Testimonials />
-      <Ebook data={homepage.ebook} />
+      <Ebook />
     </div>
   );
 }

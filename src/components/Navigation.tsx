@@ -1,20 +1,19 @@
 'use client';
 
 import { Button, buttonVariants } from '@/components/ui/button';
-import { Menu } from 'lucide-react';
 import {
   Sheet,
   SheetContent,
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { cn } from '@/lib/utils';
-import Image from 'next/image';
-import { usePathname } from 'next/navigation';
-import Logo from './logo';
 import { NAV_LINKS } from '@/constants';
+import { cn } from '@/lib/utils';
+import { Menu } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import Logo from './logo';
 
 const Navigation = () => {
   const pathname = usePathname();

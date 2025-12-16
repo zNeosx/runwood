@@ -4,38 +4,34 @@
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { EBOOK_FILES, Language } from '@/lib/stripe/config';
 
-export async function downloadEbook(language: Language) {
+export async function getEbookDownloadUrl(language: Language) {
   try {
     const fileName = EBOOK_FILES[language];
 
-    // Télécharger le fichier depuis Supabase avec supabaseAdmin
+    // ✅ Génère un signed URL valide 1 heure (au lieu de télécharger le fichier)
+    // Évite les problèmes de timeout et de limite de payload (4MB)
     const { data, error } = await supabaseAdmin.storage
       .from('ebooks')
-      .download(fileName);
+      .createSignedUrl(fileName, 3600, {
+        download: true,
+      }); // 1 heure
 
-    if (error) {
-      console.error('Download error:', error);
+    if (error || !data?.signedUrl) {
+      console.error('Supabase error:', error);
       return {
-        error: "Erreur lors du téléchargement de l'e-book",
+        error: 'Erreur lors de la génération du lien de téléchargement',
       };
     }
 
-    // Convertir le blob en base64 pour le transférer au client
-    const arrayBuffer = await data.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-    const base64 = buffer.toString('base64');
-
     return {
       success: true,
-      data: base64,
-      fileName,
-      mimeType: data.type,
+      downloadUrl: data.signedUrl,
     };
   } catch (error) {
-    console.error('Error downloading ebook:', error);
+    console.error('Error generating download URL:', error);
     return {
       success: false,
-      error: 'Une erreur est survenue lors du téléchargement',
+      error: 'Une erreur est survenue',
     };
   }
 }

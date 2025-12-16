@@ -6,9 +6,6 @@ import { Button } from '@/components/ui/button';
 import { useEffect } from 'react';
 
 export function ConfettiFireworks() {
-  useEffect(() => {
-    handleClick();
-  }, []);
   const handleClick = () => {
     const duration = 5 * 1000;
     const animationEnd = Date.now() + duration;
@@ -37,6 +34,9 @@ export function ConfettiFireworks() {
       });
     }, 250);
   };
+  useEffect(() => {
+    handleClick();
+  }, []);
 
   return (
     <div className="relative sr-only">

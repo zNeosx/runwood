@@ -46,7 +46,7 @@ async function migrateTypes() {
 
     for (const doc of oldDocs) {
       // Extrait les données sans les métadonnées Sanity
-      const { _id, _type, _rev, _createdAt, _updatedAt, ...data } = doc;
+      const { _id, ...data } = doc;
 
       try {
         // 1. Crée un NOUVEAU document avec le nouveau type
@@ -71,8 +71,12 @@ async function migrateTypes() {
         } catch {
           // Pas de draft, c'est OK
         }
-      } catch (error: any) {
-        console.error(`   ❌ Erreur pour ${_id}:`, error.message);
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error(`   ❌ Erreur pour ${_id}:`, error.message);
+        } else {
+          console.error(`   ❌ Erreur pour ${_id}:`, error);
+        }
       }
     }
   }

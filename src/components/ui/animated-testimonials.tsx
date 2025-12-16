@@ -2,10 +2,10 @@
 
 import { cn } from '@/lib/utils';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import Image from 'next/image';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 type Testimonial = {
   quote: string;
@@ -25,9 +25,8 @@ export const AnimatedTestimonials = ({
 }) => {
   const [active, setActive] = useState(0);
 
-  const rotations = useMemo(
-    () => testimonials.map(() => Math.floor(Math.random() * 21) - 10),
-    [testimonials]
+  const [rotations] = useState(() =>
+    testimonials.map(() => Math.floor(Math.random() * 21) - 10)
   );
 
   const handlePrev = () => {

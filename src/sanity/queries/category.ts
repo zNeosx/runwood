@@ -2,7 +2,7 @@ import { groq } from 'next-sanity';
 import { sanityFetch } from '../lib/live';
 import { GalleryCategory } from '../../../sanity.types';
 
-const CATEGORIES_QUERY = groq`*[_type == "category"] | order(name asc) {
+const CATEGORIES_QUERY = groq`*[_type == "galleryCategory"] | order(name asc) {
   _id,
   name,
   slug
@@ -11,7 +11,7 @@ const CATEGORIES_QUERY = groq`*[_type == "category"] | order(name asc) {
 export async function getCategories(): Promise<GalleryCategory[]> {
   const { data } = await sanityFetch({
     query: CATEGORIES_QUERY,
-    tags: ['category'],
+    tags: ['galleryCategory'],
   });
   return data;
 }

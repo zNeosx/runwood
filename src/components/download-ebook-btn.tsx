@@ -4,7 +4,7 @@ import { VariantProps } from 'class-variance-authority';
 import { BookOpen } from 'lucide-react';
 import React, { useState } from 'react';
 import { Button, buttonVariants } from './ui/button';
-import { downloadEbook } from '@/app/actions/download-ebook.action';
+import { getEbookDownloadUrl } from '@/app/actions/download-ebook.action';
 
 const DownloadEbookBtn = ({
   variant = 'highlight',
@@ -22,7 +22,7 @@ const DownloadEbookBtn = ({
   const handleDownloadEbook = async () => {
     setIsLoading(true);
     try {
-      const result = await downloadEbook(language);
+      const result = await getEbookDownloadUrl(language);
 
       if (!result.success) {
         console.error('Download error:', result.error);
@@ -30,22 +30,13 @@ const DownloadEbookBtn = ({
         return;
       }
 
-      // Convertir base64 en blob
-      const byteCharacters = atob(result.data!);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      const blob = new Blob([byteArray], { type: result.mimeType });
-
-      // Créer un lien de téléchargement
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = result.fileName!;
-      a.click();
-      URL.revokeObjectURL(url);
+      const link = document.createElement('a');
+      link.href = result.downloadUrl!;
+      link.download = `runwood-ebook-${language}.pdf`; // Nom du fichier téléchargé
+      link.target = '_blank'; // Fallback si download ne marche pas
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     } finally {
       setIsLoading(false);
     }
@@ -58,7 +49,7 @@ const DownloadEbookBtn = ({
       size={size}
       className={className}
       isLoading={isLoading}
-      textInLoading="Téléchargement en cours"
+      textInLoading="Préparation du téléchargement"
       onClick={handleDownloadEbook}
     >
       {children ?? (

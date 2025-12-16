@@ -49,6 +49,7 @@ const Hero = ({ data }: Props) => {
           y: 0,
           duration: 0.6,
           ease: 'power3.out',
+          pointerEvents: 'auto',
         })
         .to(
           subtitle,
@@ -57,6 +58,7 @@ const Hero = ({ data }: Props) => {
             y: 0,
             duration: 0.6,
             ease: 'power3.out',
+            pointerEvents: 'auto',
           },
           '-=0.3'
         )
@@ -67,6 +69,7 @@ const Hero = ({ data }: Props) => {
             y: 0,
             duration: 0.6,
             ease: 'power3.out',
+            pointerEvents: 'auto',
           },
           '-=0.3'
         )
@@ -77,6 +80,7 @@ const Hero = ({ data }: Props) => {
             y: 0,
             duration: 0.6,
             ease: 'power3.out',
+            pointerEvents: 'auto',
           },
           '-=0.3'
         );
@@ -144,7 +148,7 @@ const Hero = ({ data }: Props) => {
         >
           <source src={'/videos/hero-2.mp4'} type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-background/30" />
+        <div className="absolute inset-0 bg-background/60" />
       </div>
 
       {/* Content */}
@@ -155,19 +159,19 @@ const Hero = ({ data }: Props) => {
         <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
           <h1
             ref={titleRef}
-            className="text-5xl md:text-7xl xl:text-8xl font-bold text-foreground leading-tight text-balance opacity-0"
+            className="text-5xl md:text-7xl xl:text-8xl font-bold text-foreground leading-tight text-balance opacity-0 pointer-events-none"
           >
             {data?.title}
           </h1>
           <p
             ref={subtitleRef}
-            className="text-xl md:text-2xl xl:text-3xl text-foreground max-w-2xl mx-auto text-balance opacity-0"
+            className="text-xl md:text-2xl xl:text-3xl text-muted-foreground max-w-3xl mx-auto text-balance opacity-0 pointer-events-none"
           >
             {data?.description}
           </p>
           <div
             ref={buttonsRef}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4 opacity-0"
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4 opacity-0 pointer-events-none"
           >
             <Link
               href={'/galerie'}
