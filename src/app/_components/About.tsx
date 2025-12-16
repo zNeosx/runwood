@@ -62,7 +62,7 @@ const About = ({ data }: Props) => {
               ))}
             </ul>
 
-            <Link
+            {/* <Link
               href={'/contact'}
               className={buttonVariants({
                 size: 'lg',
@@ -70,7 +70,7 @@ const About = ({ data }: Props) => {
               })}
             >
               En Savoir Plus
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>

@@ -48,7 +48,7 @@ const Testimonials = () => {
           <Badge variant={'highlight'} size="lg" className="mb-4">
             Témoignages
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 title-with-lines">
             Ils Nous Font Confiance
           </h2>
           <p className="text-lg text-muted-foreground">
@@ -56,49 +56,6 @@ const Testimonials = () => {
           </p>
         </div>
 
-        {/* Testimonials Grid */}
-        {/* <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 animate-slide-up">
-          {testimonials.map((testimonial) => (
-            <Card
-              key={testimonial.id}
-              className="p-6 hover-lift bg-card border-border"
-            >
-              <div className="flex gap-1 mb-4">
-                {Array.from({ length: testimonial.rating }).map((_, i) => (
-                  <Star
-                    key={i}
-                    className="w-5 h-5 fill-highlight text-highlight"
-                  />
-                ))}
-              </div>
-              <p className="text-muted-foreground mb-6 leading-relaxed">
-                &quot;{testimonial.text}&quot;
-              </p>
-              <div className="flex items-center gap-3">
-                <Image
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-12 h-12 rounded-full object-cover"
-                  width={48}
-                  height={48}
-                />
-                <div>
-                  <p className="font-semibold text-foreground">
-                    {testimonial.name}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    {testimonial.location}
-                  </p>
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div> */}
-        {/* <AnimatedTestimonials
-          testimonials={testimonials}
-          autoplay
-          className="py-10"
-        /> */}
         <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
           <Marquee pauseOnHover className="[--duration:80s]">
             {testimonials.map((t, index) => (

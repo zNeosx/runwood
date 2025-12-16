@@ -5,6 +5,18 @@ const useMasonry = () => {
   const masonryContainer = useRef<HTMLDivElement | null>(null);
   const [items, setItems] = useState<ChildNode[]>([]);
 
+  const elementLeft = (el: HTMLElement) => {
+    return el.getBoundingClientRect().left;
+  };
+
+  const elementTop = (el: HTMLElement) => {
+    return el.getBoundingClientRect().top + window.scrollY;
+  };
+
+  const elementBottom = (el: HTMLElement) => {
+    return el.getBoundingClientRect().bottom + window.scrollY;
+  };
+
   useEffect(() => {
     if (masonryContainer.current) {
       const masonryItem = Array.from(masonryContainer.current.children);
@@ -49,18 +61,6 @@ const useMasonry = () => {
       window.removeEventListener('resize', handleMasonry);
     };
   }, [items]);
-
-  const elementLeft = (el: HTMLElement) => {
-    return el.getBoundingClientRect().left;
-  };
-
-  const elementTop = (el: HTMLElement) => {
-    return el.getBoundingClientRect().top + window.scrollY;
-  };
-
-  const elementBottom = (el: HTMLElement) => {
-    return el.getBoundingClientRect().bottom + window.scrollY;
-  };
 
   return masonryContainer;
 };

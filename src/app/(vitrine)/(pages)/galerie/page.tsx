@@ -1,15 +1,11 @@
 import { DynamicBreadcrumb } from '@/components/dynamic-breadcrumb';
-import GalleryContent from '@/components/gallery-content';
-import { getCategories } from '@/sanity/queries/category';
-import { getAllPhotos } from '@/sanity/queries/gallery';
+import GalleryWrapper from './_components/gallery-wrapper';
+import { Suspense } from 'react';
+import GallerySkeleton from '@/app/_components/gallery-skeleton';
 
 export const revalidate = 3600; // 1 heure
 
 const Galerie = async () => {
-  const categories = await getCategories();
-
-  const galleryItems = await getAllPhotos();
-
   return (
     <>
       {/* Header */}
@@ -28,7 +24,9 @@ const Galerie = async () => {
           </div>
         </div>
       </header>
-      <GalleryContent items={galleryItems} categories={categories} />
+      <Suspense fallback={<GallerySkeleton />}>
+        <GalleryWrapper />
+      </Suspense>
     </>
   );
 };

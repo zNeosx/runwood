@@ -19,13 +19,6 @@ const CancelCheckoutPage = async ({
 
   return (
     <section id="cancel" className="min-h-screen h-screen flex flex-col">
-      <div className="text-center pt-4">
-        <Link href="/">
-          <div className="text-5xl font-bold text-primary">
-            Run<span className="text-accent">Wood</span>
-          </div>
-        </Link>
-      </div>
       <div className="grow flex flex-col items-center justify-center">
         <div className="p-6">
           <div className="mb-6 animate-scale-in">

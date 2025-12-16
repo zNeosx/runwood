@@ -50,7 +50,6 @@ export async function createCheckoutSession(language: Language) {
   });
 
   if (!session.url) {
-    // Gérer l'échec de la création de l'URL
     return { error: 'Erreur: URL de session Stripe manquante.' };
   }
 

@@ -1,6 +1,4 @@
-import type { Photo } from 'react-photo-album';
-
-const breakpoints = [1080, 640, 384, 256, 128, 96, 64, 48];
+export const breakpoints = [1080, 640, 384, 256, 128, 96, 64, 48];
 
 export const NAV_LINKS = [
   { name: 'Accueil', href: '/' },
@@ -9,7 +7,7 @@ export const NAV_LINKS = [
   { name: 'Contact', href: '/contact' },
 ];
 
-function imageLink(
+export function imageLink(
   path: string,
   width: number,
   height: number,

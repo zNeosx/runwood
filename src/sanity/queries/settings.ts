@@ -24,13 +24,13 @@ const SETTINGS_QUERY = groq`*[_type == "settings"][0]{
 }`;
 
 export async function getSettings(): Promise<Settings> {
-  console.log(`[SERVER] Fetching Settings at: ${new Date().toISOString()}`);
   try {
     const settings = await sanityFetch({
       query: SETTINGS_QUERY,
       tags: ['settings'],
     });
 
+    console.log(`[SERVER] Fetched Settings at: ${new Date().toISOString()}`);
     return settings.data ?? DEFAULT_SETTINGS;
   } catch (error) {
     console.error('Erreur Sanity (settings):', error);

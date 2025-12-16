@@ -6,8 +6,10 @@ import { EBOOK_FILES, Language } from '@/lib/stripe/config';
 import Stripe from 'stripe';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { EMAIL_CONFIG } from '@/lib/config/email';
+import { Redis } from '@upstash/redis';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+const redis = Redis.fromEnv();
 
 const LANGUAGE_LABELS: Record<Language, string> = {
   FRA: 'Français',
@@ -16,7 +18,6 @@ const LANGUAGE_LABELS: Record<Language, string> = {
   PRT: 'Portugais',
 };
 
-export const dynamic = 'force-dynamic';
 export const maxDuration = 10; // Pour être explicite sur la limite Hobby
 
 export async function POST(req: NextRequest) {
@@ -35,6 +36,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
   }
 
+  // ✅ Vérifier l'idempotence avec Redis pour éviter les doubles traitements
+  const eventKey = `stripe-event:${event.id}`;
+  const alreadyProcessed = await redis.get(eventKey);
+
+  if (alreadyProcessed) {
+    console.log(`⏩ Event ${event.id} déjà traité (idempotence)`);
+    return NextResponse.json({ received: true, cached: true });
+  }
+
+  await redis.setex(eventKey, 300, 'processing');
+
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session;
     const customerEmail = session.customer_details?.email?.trim().toLowerCase();
@@ -47,7 +59,8 @@ export async function POST(req: NextRequest) {
 
     console.log(`📧 Traitement commande pour ${customerEmail} (${language})`);
 
-    // Récupère le nom du fichier
+    try {
+      // Récupère le nom du fichier
     const fileName = EBOOK_FILES[language];
 
     // Génère le signed URL
@@ -70,11 +83,11 @@ export async function POST(req: NextRequest) {
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
           <h1 style="color: #1a1a1a;">Merci pour votre achat !</h1>
-          
+
           <p style="color: #666; font-size: 16px;">
             Votre e-book <strong>"Fais-le Toi-Même"</strong> en ${LANGUAGE_LABELS[language]} est prêt à être téléchargé.
           </p>
-          
+
           <div style="margin: 30px 0;">
             <a href="${data.signedUrl}" style="
               display: inline-block;
@@ -89,13 +102,13 @@ export async function POST(req: NextRequest) {
               Télécharger mon e-book
             </a>
           </div>
-          
+
           <p style="color: #999; font-size: 14px;">
             Ce lien expire dans 7 jours. Conservez bien votre fichier après téléchargement.
           </p>
-          
+
           <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;" />
-          
+
           <p style="color: #999; font-size: 12px;">
             Un problème ? Contactez-nous à ${EMAIL_CONFIG.supportEmail}
           </p>
@@ -109,6 +122,14 @@ export async function POST(req: NextRequest) {
     }
 
     console.log(`✅ Email envoyé à ${customerEmail}`);
+
+    // ✅ Marquer l'event comme traité (expire après 7 jours)
+    await redis.setex(eventKey, 60 * 60 * 24 * 7, 'processed');
+    } catch (error) {
+      console.error('❌ Erreur de traitement final:', error);
+      await redis.setex(eventKey, 60 * 60 * 24, 'failed'); // TTL de 24h pour examen
+      return NextResponse.json({ error: 'Internal processing error' }, { status: 500 });
+    }
   }
 
   return NextResponse.json({ received: true });

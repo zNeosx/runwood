@@ -3,13 +3,13 @@ import { buttonVariants } from '@/components/ui/button';
 import { BookOpen, Check } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { HOMEPAGE_QUERYResult } from '../../../sanity.types';
+// import { HOMEPAGE_QUERYResult } from '../../../sanity.types';
 
-type Props = {
-  data: HOMEPAGE_QUERYResult['ebook'];
-};
+// type Props = {
+//   data: HOMEPAGE_QUERYResult['ebook'];
+// };
 
-const Ebook = async ({ data }: Props) => {
+const Ebook = async () => {
   const featuresLeft = [
     '10+ projets de meubles détaillés',
     "Techniques d'assemblage professionnelles",
