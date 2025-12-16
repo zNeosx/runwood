@@ -142,7 +142,7 @@ export default async function EbookPage() {
                   src={
                     ebookPage?.coverImage
                       ? urlFor(ebookPage?.coverImage).url()
-                      : '/images/ebook.jpg'
+                      : '/images/ebook-cover.png'
                   }
                   alt="Couverture de l'e-book Le Guide Complet du Travail de la Palette"
                   className="rounded-2xl shadow-strong object-cover"

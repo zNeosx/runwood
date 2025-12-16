@@ -84,6 +84,14 @@ export async function getAboutSection() {
   });
   return about.data;
 }
+export async function getEbookSection() {
+  const EBOOK_QUERY = groq`*[_type == "ebookSection"][0]{ title, description, cover, ctaText, ctaLink }`;
+  const ebook = await sanityFetch({
+    query: EBOOK_QUERY,
+    tags: ['ebookSection'], // Tag précis
+  });
+  return ebook.data;
+}
 
 export async function getGallerySection() {
   const GALLERY_QUERY = groq`

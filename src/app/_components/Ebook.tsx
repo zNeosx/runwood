@@ -3,13 +3,14 @@ import { buttonVariants } from '@/components/ui/button';
 import { BookOpen, Check } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-// import { HOMEPAGE_QUERYResult } from '../../../sanity.types';
+import { HOMEPAGE_QUERYResult } from '../../../sanity.types';
+import { urlFor } from '@/sanity/lib/image';
 
-// type Props = {
-//   data: HOMEPAGE_QUERYResult['ebook'];
-// };
+type Props = {
+  data: HOMEPAGE_QUERYResult['ebook'];
+};
 
-const Ebook = async () => {
+const Ebook = async ({ data }: Props) => {
   const featuresLeft = [
     '10+ projets de meubles détaillés',
     "Techniques d'assemblage professionnelles",
@@ -35,17 +36,29 @@ const Ebook = async () => {
             <Badge variant={'highlight'} size={'lg'}>
               E-Book Exclusif
             </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold leading-tight">
-              Le <span className="text-highlight">Guide Complet</span> du
-              Travail
-              <br className="hidden md:block" />
-              <span className="md:whitespace-nowrap"> de la Palette</span>
-            </h2>
-            <p className="text-xl text-muted-foreground leading-relaxed max-w-xl">
-              Maîtrisez l&apos;art de la transformation de palettes avec notre
-              guide complet. Plus de 150 pages d&apos;expertise et de
-              savoir-faire.
-            </p>
+            {data?.title ? (
+              <h2 className="text-4xl md:text-5xl font-bold leading-tight">
+                {data.title}
+              </h2>
+            ) : (
+              <h2 className="text-4xl md:text-5xl font-bold leading-tight">
+                Le <span className="text-highlight">Guide Complet</span> du
+                Travail
+                <br className="hidden md:block" />
+                <span className="md:whitespace-nowrap"> de la Palette</span>
+              </h2>
+            )}
+            {data?.description ? (
+              <p className="text-xl text-muted-foreground leading-relaxed max-w-xl">
+                {data.description}
+              </p>
+            ) : (
+              <p className="text-xl text-muted-foreground leading-relaxed max-w-xl">
+                Maîtrisez l&apos;art de la transformation de palettes avec notre
+                guide complet. Plus de 150 pages d&apos;expertise et de
+                savoir-faire.
+              </p>
+            )}
 
             {/* Features - 2 colonnes séparées */}
             <div className="grid grid-cols-2 gap-x-8 gap-y-4 pt-4">
@@ -92,13 +105,23 @@ const Ebook = async () => {
           {/* Image */}
           <div className="relative animate-scale-in flex items-center justify-center">
             <div className="relative z-10 hover-lift w-full aspect-4/5 max-w-md lg:max-w-lg">
-              <Image
-                src={'/images/ebook-2.jpg'}
-                alt="E-book RunWood"
-                className="rounded-2xl shadow-strong object-cover"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
+              {data?.cover ? (
+                <Image
+                  src={urlFor(data?.cover).url()}
+                  alt="E-book RunWood"
+                  className="rounded-2xl shadow-strong object-cover"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              ) : (
+                <Image
+                  src={'/images/ebook-cover.png'}
+                  alt="E-book RunWood"
+                  className="rounded-2xl shadow-strong object-cover"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              )}
             </div>
             <div className="absolute top-8 right-8 w-64 h-64 bg-highlight/20 rounded-full blur-3xl" />
           </div>
