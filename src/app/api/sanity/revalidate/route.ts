@@ -7,26 +7,26 @@ export async function POST(request: NextRequest) {
   console.log('[DEBUG] Sanity revalidate API route');
   const bodyText = await request.text();
   // 1. Rate limiting pour éviter le spam de revalidation
-  const ip =
-    request.headers.get('x-forwarded-for') ||
-    request.headers.get('x-real-ip') ||
-    'anonymous';
+  // const ip =
+  //   request.headers.get('x-forwarded-for') ||
+  //   request.headers.get('x-real-ip') ||
+  //   'anonymous';
 
-  const { success, limit, reset } = await revalidateRateLimit.limit(ip);
+  // const { success, limit, reset } = await revalidateRateLimit.limit(ip);
 
-  if (!success) {
-    const minutesLeft = Math.ceil((reset - Date.now()) / 1000 / 60);
-    console.error(
-      `⚠️ Rate limit dépassé pour revalidate. Limite: ${limit}/heure. Réessayez dans ${minutesLeft}min.`
-    );
-    return NextResponse.json(
-      {
-        message: 'Too many requests',
-        retryAfter: minutesLeft,
-      },
-      { status: 429 }
-    );
-  }
+  // if (!success) {
+  //   const minutesLeft = Math.ceil((reset - Date.now()) / 1000 / 60);
+  //   console.error(
+  //     `⚠️ Rate limit dépassé pour revalidate. Limite: ${limit}/heure. Réessayez dans ${minutesLeft}min.`
+  //   );
+  //   return NextResponse.json(
+  //     {
+  //       message: 'Too many requests',
+  //       retryAfter: minutesLeft,
+  //     },
+  //     { status: 429 }
+  //   );
+  // }
 
   // 2. Vérifie la signature Sanity
   // On passe le body en texte brut (bodyText)

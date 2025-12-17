@@ -4,7 +4,11 @@ import { cn } from '@/lib/utils';
 import { urlFor } from '@/sanity/lib/image';
 import { motion } from 'motion/react';
 import Image from 'next/image';
-import { ALL_PHOTOS_QUERYResult } from '../../sanity.types';
+import {
+  ALL_PHOTOS_QUERYResult,
+  HOMEPAGE_QUERYResult,
+  internalGroqTypeReferenceTo,
+} from '../../sanity.types';
 import { Marquee } from './ui/marquee';
 
 export const Highlight = ({
@@ -27,7 +31,7 @@ export const Highlight = ({
 };
 
 export interface MasonryGalleryCardProps {
-  item: ALL_PHOTOS_QUERYResult[0];
+  item: HOMEPAGE_QUERYResult['gallery']['photos'][0];
   className?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
@@ -48,10 +52,12 @@ export const MasonryGalleryCard = ({
     {item.image && (
       <Image
         fill
-        src={urlFor(item.image).width(1200).url()}
+        src={urlFor(item.image).url()}
         alt={item.name ?? 'Photo'}
         className="size-full object-cover rounded-xl"
         sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, (max-width: 1536px) 33vw, 25vw"
+        quality={75}
+        placeholder="blur"
       />
     )}
   </div>

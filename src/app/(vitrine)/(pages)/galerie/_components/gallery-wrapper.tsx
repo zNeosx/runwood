@@ -4,12 +4,10 @@ import { getAllPhotos } from '@/sanity/queries/gallery';
 import React from 'react';
 
 const GalleryWrapper = async () => {
-  const categories = await getCategories();
-
-  const galleryItems = await getAllPhotos();
-
-  await new Promise((r) => setTimeout(r, 3000));
-
+  const [categories, galleryItems] = await Promise.all([
+    getCategories(),
+    getAllPhotos(),
+  ]);
   return <GalleryContent items={galleryItems} categories={categories} />;
 };
 

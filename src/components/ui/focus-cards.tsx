@@ -4,7 +4,10 @@ import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Badge } from './badge';
 import Image from 'next/image';
-import { ALL_PHOTOS_QUERYResult } from '../../../sanity.types';
+import {
+  ALL_PHOTOS_QUERYResult,
+  internalGroqTypeReferenceTo,
+} from '../../../sanity.types';
 import { urlFor } from '@/sanity/lib/image';
 
 export const Card = React.memo(
@@ -29,10 +32,12 @@ export const Card = React.memo(
     >
       {card.image && (
         <Image
-          src={urlFor(card.image).width(1200).url()}
+          src={urlFor(card.image).width(800).url()}
           alt={card.name!}
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
           className="object-cover absolute inset-0"
+          placeholder="blur"
         />
       )}
       <div
@@ -56,7 +61,7 @@ export function FocusCards({ cards }: { cards: ALL_PHOTOS_QUERYResult }) {
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-7xl mx-auto md:px-8 w-full py-10">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto md:px-8 w-full py-10">
       {cards.map((card, index) => (
         <Card
           key={card._id}

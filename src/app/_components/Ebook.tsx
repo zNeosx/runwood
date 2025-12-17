@@ -105,23 +105,19 @@ const Ebook = async ({ data }: Props) => {
           {/* Image */}
           <div className="relative animate-scale-in flex items-center justify-center">
             <div className="relative z-10 hover-lift w-full aspect-4/5 max-w-md lg:max-w-lg">
-              {data?.cover ? (
-                <Image
-                  src={urlFor(data?.cover).url()}
-                  alt="E-book RunWood"
-                  className="rounded-2xl shadow-strong object-cover"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-              ) : (
-                <Image
-                  src={'/images/ebook-cover.png'}
-                  alt="E-book RunWood"
-                  className="rounded-2xl shadow-strong object-cover"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-              )}
+              <Image
+                src={
+                  data?.cover
+                    ? urlFor(data.cover).url()
+                    : '/images/ebook-cover.png'
+                }
+                alt="E-book RunWood"
+                className="rounded-2xl shadow-strong object-cover"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority={true}
+                quality={80}
+              />
             </div>
             <div className="absolute top-8 right-8 w-64 h-64 bg-highlight/20 rounded-full blur-3xl" />
           </div>

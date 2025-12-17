@@ -13,8 +13,10 @@ import { getEbookPage } from '@/sanity/queries/ebook';
 export const revalidate = 3600; // 1 heure
 
 export default async function EbookPage() {
-  const ebookPage = await getEbookPage();
-  const product = await getEbookProduct();
+  const [ebookPage, product] = await Promise.all([
+    getEbookPage(),
+    getEbookProduct(),
+  ]);
 
   return (
     <>

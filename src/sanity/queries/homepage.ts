@@ -103,7 +103,14 @@ export async function getGallerySection() {
     _id,
     name,
     description,
-    image,
+    "image": image {
+      ...,
+      asset-> {
+        _id,
+        url,
+        metadata
+      }
+    },
     "category": category->{ _id, name, slug }
   }
 }
@@ -111,7 +118,7 @@ export async function getGallerySection() {
 
   const gallery = await sanityFetch({
     query: GALLERY_QUERY,
-    tags: ['gallerySection'], // Tag précis
+    tags: ['gallerySection', 'gallery'],
   });
   return gallery.data;
 }

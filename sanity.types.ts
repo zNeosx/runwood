@@ -352,8 +352,12 @@ export type AllSanitySchemaTypes = Settings | Seo | Gallery | GalleryCategory | 
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/queries/category.ts
 // Variable: CATEGORIES_QUERY
-// Query: *[_type == "category"] | order(name asc) {  _id,  name,  slug}
-export type CATEGORIES_QUERYResult = Array<never>;
+// Query: *[_type == "galleryCategory"] | order(name asc) {  _id,  name,  slug}
+export type CATEGORIES_QUERYResult = Array<{
+  _id: string;
+  name: string | null;
+  slug: Slug | null;
+}>;
 
 // Source: ./src/sanity/queries/ebook.ts
 // Variable: EBOOK_PAGE_QUERY
@@ -553,6 +557,85 @@ export type HOMEPAGE_QUERYResult = {
     ctaLink: string | null;
   } | null;
 };
+// Variable: HERO_QUERY
+// Query: *[_type == "heroSection"][0]{ title, description, image }
+export type HERO_QUERYResult = {
+  title: string | null;
+  description: string | null;
+  image: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+} | null;
+// Variable: ABOUT_QUERY
+// Query: *[_type == "aboutSection"][0]{ title, description, features }
+export type ABOUT_QUERYResult = {
+  title: string | null;
+  description: string | null;
+  features: Array<{
+    icon?: LucideIcon;
+    title?: string;
+    description?: string;
+    _type: "featureItem";
+    _key: string;
+  }> | null;
+} | null;
+// Variable: EBOOK_QUERY
+// Query: *[_type == "ebookSection"][0]{ title, description, cover, ctaText, ctaLink }
+export type EBOOK_QUERYResult = {
+  title: string | null;
+  description: string | null;
+  cover: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  ctaText: string | null;
+  ctaLink: string | null;
+} | null;
+// Variable: GALLERY_QUERY
+// Query: {  "title": *[_type == "gallerySection"][0].title,  "subtitle": *[_type == "gallerySection"][0].subtitle,  "maxPhotos": *[_type == "gallerySection"][0].maxPhotos,  "photos": *[_type == "gallery" && featured == true] | order(order asc) {    _id,    name,    description,    "image": image {      ...,      asset-> {        _id,        url,        metadata      }    },    "category": category->{ _id, name, slug }  }}
+export type GALLERY_QUERYResult = {
+  title: string | null;
+  subtitle: string | null;
+  maxPhotos: number | null;
+  photos: Array<{
+    _id: string;
+    name: string | null;
+    description: string | null;
+    image: {
+      asset: {
+        _id: string;
+        url: string | null;
+        metadata: SanityImageMetadata | null;
+      } | null;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    } | null;
+    category: {
+      _id: string;
+      name: string | null;
+      slug: Slug | null;
+    } | null;
+  }>;
+};
 
 // Source: ./src/sanity/queries/settings.ts
 // Variable: SETTINGS_QUERY
@@ -569,11 +652,15 @@ export type SETTINGS_QUERYResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"category\"] | order(name asc) {\n  _id,\n  name,\n  slug\n}": CATEGORIES_QUERYResult;
+    "*[_type == \"galleryCategory\"] | order(name asc) {\n  _id,\n  name,\n  slug\n}": CATEGORIES_QUERYResult;
     "*[_type == \"ebookPage\"][0]{\n  pageTitle,\n  pageSubtitle,\n  ebookTitle,\n  tagline,\n  coverImage,\n  features[]{\n    _key,\n    text\n  },\n  seo {\n    metaTitle,\n    metaDescription,\n    openGraphImage\n  }\n}": EBOOK_PAGE_QUERYResult;
     "{\n  \"section\": *[_type == \"gallerySection\"][0]{ title, subtitle, maxPhotos },\n  \"photos\": *[_type == \"gallery\" && featured == true] | order(order asc) {\n    _id,\n    name,\n    description,\n    image,\n    \"category\": category->{ name, slug }\n  }\n}": GALLERY_SECTION_QUERYResult;
     "*[_type == \"gallery\"] | order(order asc) {\n  _id,\n  name,\n  description,\n  image,\n  \"category\": category->{ _id, name, slug }\n}": ALL_PHOTOS_QUERYResult;
     "{\n  \"hero\": *[_type == \"heroSection\"][0]{ title, description, image },\n  \"about\": *[_type == \"aboutSection\"][0]{ title, description, features },\n  \"gallery\": {\n    \"title\": *[_type == \"gallerySection\"][0].title,\n    \"subtitle\": *[_type == \"gallerySection\"][0].subtitle,\n    \"maxPhotos\": *[_type == \"gallerySection\"][0].maxPhotos,\n    \"photos\": *[_type == \"gallery\" && featured == true] | order(order asc) {\n      _id,\n      name,\n      description,\n      image,\n      \"category\": category->{ _id, name, slug }\n    }\n  },\n  \"testimonials\": *[_type == \"testimonialsSection\"][0]{ title, items },\n  \"ebook\": *[_type == \"ebookSection\"][0]{ title, description, cover, ctaText, ctaLink }\n}": HOMEPAGE_QUERYResult;
+    "*[_type == \"heroSection\"][0]{ title, description, image }": HERO_QUERYResult;
+    "*[_type == \"aboutSection\"][0]{ title, description, features }": ABOUT_QUERYResult;
+    "*[_type == \"ebookSection\"][0]{ title, description, cover, ctaText, ctaLink }": EBOOK_QUERYResult;
+    "\n{\n  \"title\": *[_type == \"gallerySection\"][0].title,\n  \"subtitle\": *[_type == \"gallerySection\"][0].subtitle,\n  \"maxPhotos\": *[_type == \"gallerySection\"][0].maxPhotos,\n  \"photos\": *[_type == \"gallery\" && featured == true] | order(order asc) {\n    _id,\n    name,\n    description,\n    \"image\": image {\n      ...,\n      asset-> {\n        _id,\n        url,\n        metadata\n      }\n    },\n    \"category\": category->{ _id, name, slug }\n  }\n}\n": GALLERY_QUERYResult;
     "*[_type == \"settings\"][0]{\n  email,\n  phone,\n  address,\n  instagram,\n  tiktok\n}": SETTINGS_QUERYResult;
   }
 }
